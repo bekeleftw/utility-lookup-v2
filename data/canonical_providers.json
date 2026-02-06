@@ -1,0 +1,3250 @@
+{
+  "AEP Energy": {
+    "display_name": "AEP Energy",
+    "aliases": []
+  },
+  "AEP Ohio": {
+    "display_name": "AEP Ohio",
+    "aliases": [
+      "AEP (OHIO)",
+      "AEP (OHIO), SOPEC",
+      "american electric power",
+      "American Electric Power Ohio",
+      "Columbus Division Of Power",
+      "SOPEC, AEP (OHIO)"
+    ],
+    "eia_id": 1618
+  },
+  "AEP Texas": {
+    "display_name": "AEP Texas",
+    "aliases": [
+      "AEP Texas Central",
+      "AEP Texas Inc.",
+      "AEP Texas North"
+    ],
+    "eia_id": 3278
+  },
+  "AES Ohio": {
+    "display_name": "AES Ohio",
+    "aliases": [
+      "Dayton Power and Light",
+      "Dayton Power & Light",
+      "DP&L",
+      "DPL",
+      "AES Dayton"
+    ],
+    "eia_id": 230
+  },
+  "Alabama Gas Corporation": {
+    "display_name": "Alabama Gas Corporation",
+    "aliases": [
+      "Alabama Gas",
+      "North Alabama Gas District"
+    ],
+    "eia_id": 1640
+  },
+  "Alabama Power": {
+    "display_name": "Alabama Power",
+    "aliases": [
+      "Alabama Power - AL",
+      "Alabama Power Co.",
+      "Alabama Power Company"
+    ],
+    "parent_company": "Southern Company",
+    "eia_id": 195
+  },
+  "Alliant Energy": {
+    "display_name": "Alliant Energy",
+    "aliases": [
+      "Alliant Energy Iowa",
+      "Alliant Energy Wisconsin",
+      "Interstate Power & Light",
+      "Interstate Power and Light",
+      "Interstate Pwr&light Co.",
+      "Interstate Pwr&light Co. (alliant Energy)",
+      "IPL Iowa"
+    ],
+    "parent_company": "Alliant Energy",
+    "eia_id": 6782
+  },
+  "Alpena Power Company - MI": {
+    "display_name": "Alpena Power Company - MI",
+    "aliases": [
+      "Alpena Power Company"
+    ],
+    "eia_id": 392
+  },
+  "Ameren Missouri": {
+    "display_name": "Ameren Missouri",
+    "aliases": [
+      "ameren",
+      "Ameren Corporation",
+      "Ameren IL",
+      "ameren illinois",
+      "Ameren Illinois Company",
+      "Ameren MO",
+      "Ameren MO, Spire",
+      "Spire, Ameren Illinois",
+      "union electric",
+      "Union Electric Co. - (mo)"
+    ],
+    "eia_id": 56697
+  },
+  "Amicalola EMC": {
+    "display_name": "Amicalola EMC",
+    "aliases": [
+      "Amicalola Electric Membership Corp"
+    ],
+    "utility_type": "electric"
+  },
+  "Anchorage Municipal Light": {
+    "display_name": "Anchorage Municipal Light",
+    "aliases": [
+      "chugach",
+      "chugach electric",
+      "ml&p"
+    ],
+    "eia_id": 599
+  },
+  "Anderson Municipal Light and Power": {
+    "display_name": "Anderson Municipal Light and Power",
+    "aliases": [
+      "Anderson Municipal Light & Power"
+    ],
+    "eia_id": 287
+  },
+  "Appalachian Electric Coop": {
+    "display_name": "Appalachian Electric Coop",
+    "eia_id": 727,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Appalachian Power Company": {
+    "display_name": "Appalachian Power Company",
+    "aliases": [
+      "Appalachian Power",
+      "Appalachian Power Co."
+    ],
+    "eia_id": 733
+  },
+  "APS": {
+    "display_name": "APS",
+    "aliases": [
+      "Arizona Public Service",
+      "Arizona Public Service (APS)",
+      "Arizona Public Service Co."
+    ],
+    "eia_id": 803
+  },
+  "Atmos Energy": {
+    "display_name": "Atmos Energy",
+    "aliases": [
+      "atmos",
+      "Atmos Energy - Lousiana Division",
+      "Atmos Energy - Texas",
+      "Atmos Energy Corporation"
+    ]
+  },
+  "Austin Energy": {
+    "display_name": "Austin Energy",
+    "aliases": [
+      "Austin Utilities",
+      "City Of Austin",
+      "City of Austin Utilities"
+    ],
+    "eia_id": 993
+  },
+  "Avista": {
+    "display_name": "Avista",
+    "aliases": [
+      "Avista Corp",
+      "Avista Energy",
+      "Avista Utilities"
+    ],
+    "eia_id": 20169
+  },
+  "Baltimore Gas & Electric": {
+    "display_name": "Baltimore Gas & Electric",
+    "aliases": [
+      "Baltimore Gas & Electric Co.",
+      "baltimore gas and electric",
+      "Baltimore Gas and Electric CO",
+      "BGE"
+    ],
+    "eia_id": 97
+  },
+  "Bandera Electric Cooperative, Inc.": {
+    "display_name": "Bandera Electric Cooperative, Inc.",
+    "aliases": [
+      "Bandera Electric Cooperative"
+    ],
+    "eia_id": 40220
+  },
+  "Bangor Natural Gas (ME)": {
+    "display_name": "Bangor Natural Gas (ME)",
+    "aliases": [
+      "Bangor Gas Co."
+    ],
+    "eia_id": 1179
+  },
+  "Bartlett Electric Cooperative, Inc.": {
+    "display_name": "Bartlett Electric Cooperative, Inc.",
+    "aliases": [],
+    "eia_id": 1273
+  },
+  "Basin Electric Power Coop": {
+    "display_name": "Basin Electric Power Coop",
+    "aliases": []
+  },
+  "Bath Gas and Electric": {
+    "display_name": "Bath Gas and Electric",
+    "aliases": [
+      "Bath Gas & Electric"
+    ]
+  },
+  "Bay City Electric Light and Power (BCELP) - MI": {
+    "display_name": "Bay City Electric Light and Power (BCELP) - MI",
+    "aliases": [
+      "Bay City Electric Light & Power"
+    ],
+    "eia_id": 3208
+  },
+  "Beaches Energy Services": {
+    "display_name": "Beaches Energy Services",
+    "eia_id": 9616,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Bear Valley Electric Service": {
+    "display_name": "Bear Valley Electric Service",
+    "eia_id": 17612,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Belmont Municipal Light Department": {
+    "display_name": "Belmont Municipal Light Department",
+    "aliases": [
+      "Belmont Light - MA"
+    ],
+    "eia_id": 1522
+  },
+  "Beltrami Electric Cooperative Incorporated": {
+    "display_name": "Beltrami Electric Cooperative Incorporated",
+    "aliases": [
+      "Beltrami Electric Coop"
+    ],
+    "eia_id": 1529
+  },
+  "Berkshire Gas Company": {
+    "display_name": "Berkshire Gas Company",
+    "aliases": [
+      "Berkshire Gas Co."
+    ]
+  },
+  "Black River Electric Cooperative - MO": {
+    "display_name": "Black River Electric Cooperative - MO",
+    "aliases": [
+      "Black River Electric Coop - (mo)"
+    ],
+    "eia_id": 1775
+  },
+  "Blue Grass Energy Cooperative Corp.": {
+    "display_name": "Blue Grass Energy Cooperative Corp.",
+    "aliases": [
+      "Blue Grass Energy Cooperative"
+    ],
+    "eia_id": 1886
+  },
+  "Bluebonnet Electric": {
+    "display_name": "Bluebonnet Electric",
+    "aliases": [
+      "bluebonnet",
+      "Bluebonnet Electric Cooperative",
+      "Bluebonnet Electric Cooperative, Inc."
+    ],
+    "eia_id": 1892
+  },
+  "Bolivar Energy Authority": {
+    "display_name": "Bolivar Energy Authority",
+    "eia_id": 1936,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Bowling Green Municipal Utilities (BGMU)": {
+    "display_name": "Bowling Green Municipal Utilities (BGMU)",
+    "aliases": [
+      "Bowling Green Municipal"
+    ],
+    "eia_id": 3203
+  },
+  "Brigham City Public Power": {
+    "display_name": "Brigham City Public Power",
+    "aliases": []
+  },
+  "Brightridge": {
+    "display_name": "Brightridge",
+    "aliases": [
+      "BrightRidge",
+      "Johnson City Power Board"
+    ],
+    "utility_type": "electric"
+  },
+  "Brunswick Electric Membership Corporation": {
+    "display_name": "Brunswick Electric Membership Corporation",
+    "aliases": [
+      "Brunswick Electric Member"
+    ],
+    "eia_id": 24889
+  },
+  "Bryan Texas Utilities": {
+    "display_name": "Bryan Texas Utilities",
+    "aliases": [
+      "BTU",
+      "Bryan TX Utilities",
+      "City of Bryan Utilities"
+    ],
+    "utility_type": "electric"
+  },
+  "Burlington Electric Department": {
+    "display_name": "Burlington Electric Department",
+    "aliases": [
+      "bed",
+      "burlington electric",
+      "Burlington Electric Department (BED) - VT",
+      "burlington electric dept"
+    ]
+  },
+  "Canoochee EMC": {
+    "display_name": "Canoochee EMC",
+    "aliases": [
+      "Canoochee Electric Membership Corp",
+      "Canoochee Electric Member Corp"
+    ],
+    "utility_type": "electric"
+  },
+  "Cartersville Gas System": {
+    "display_name": "Cartersville Gas System",
+    "aliases": []
+  },
+  "Cascade Natural Gas": {
+    "display_name": "Cascade Natural Gas",
+    "aliases": [
+      "Cascade Natural Gas Corp.",
+      "Cascade Natural Gas Corporation"
+    ]
+  },
+  "CDE Lightband": {
+    "display_name": "CDE Lightband",
+    "aliases": [
+      "CDE",
+      "Clarksville Department of Electricity",
+      "Clarksville Lightband"
+    ],
+    "utility_type": "electric"
+  },
+  "CenterPoint Energy": {
+    "display_name": "CenterPoint Energy",
+    "aliases": [
+      "center point",
+      "Centerpoint Energy - Arkla",
+      "Centerpoint Energy - TX",
+      "CenterPoint Energy Houston Electric",
+      "Centerpoint Energy, Spire",
+      "CNP",
+      "entex",
+      "vectren"
+    ],
+    "eia_id": 8901
+  },
+  "CenterPoint Energy Minnesota": {
+    "display_name": "CenterPoint Energy Minnesota",
+    "aliases": [
+      "CenterPoint Energy Minnegasco"
+    ]
+  },
+  "Central Alabama Electric Cooperative": {
+    "display_name": "Central Alabama Electric Cooperative",
+    "aliases": [
+      "Central Alabama Electric Coop"
+    ],
+    "eia_id": 3222
+  },
+  "Central Electric Cooperative, Inc": {
+    "display_name": "Central Electric Cooperative, Inc",
+    "aliases": [
+      "Central Electric Cooperative"
+    ],
+    "eia_id": 3240
+  },
+  "Central Electric Membership Corp. - (nc)": {
+    "display_name": "Central Electric Membership Corp. - (nc)",
+    "aliases": [
+      "Central Electric Membership Corporation"
+    ],
+    "eia_id": 3250
+  },
+  "Central Georgia EMC": {
+    "display_name": "Central Georgia EMC",
+    "aliases": []
+  },
+  "Central Hudson Gas & Electric - NY": {
+    "display_name": "Central Hudson Gas & Electric - NY",
+    "aliases": [
+      "Central Hudson",
+      "Central Hudson Gas and Electric"
+    ],
+    "eia_id": 3249
+  },
+  "Central Maine Power": {
+    "display_name": "Central Maine Power",
+    "aliases": [
+      "Central Maine Power Co.",
+      "versant",
+      "versant power"
+    ],
+    "eia_id": 3266
+  },
+  "Central Rural Electric Cooperative": {
+    "display_name": "Central Rural Electric Cooperative",
+    "aliases": [],
+    "eia_id": 24753
+  },
+  "Central Virginia Electric Cooperative": {
+    "display_name": "Central Virginia Electric Cooperative",
+    "aliases": [
+      "Central Virginia Electric Coop"
+    ],
+    "eia_id": 84
+  },
+  "Chattanooga Gas Company": {
+    "display_name": "Chattanooga Gas Company",
+    "aliases": [
+      "Chattanooga Gas"
+    ]
+  },
+  "Cheyenne Light Fuel & Power": {
+    "display_name": "Cheyenne Light Fuel & Power",
+    "aliases": [
+      "black hills",
+      "black hills energy"
+    ],
+    "eia_id": 1769
+  },
+  "Choctawhatchee Electric Cooperative": {
+    "display_name": "Chelco",
+    "aliases": [
+      "Chelco",
+      "Choctawhatchee Electric Coop"
+    ],
+    "utility_type": "electric"
+  },
+  "Choptank Electric Corp": {
+    "display_name": "Choptank Electric Corp",
+    "aliases": [],
+    "eia_id": 3503
+  },
+  "Chugach Electric Association, Inc.": {
+    "display_name": "Chugach Electric Association, Inc.",
+    "aliases": [
+      "Chugach Electric Association"
+    ],
+    "eia_id": 10066
+  },
+  "Citizens Electric Corporation - (mo)": {
+    "display_name": "Citizens Electric Corporation - (mo)",
+    "aliases": [],
+    "eia_id": 3597
+  },
+  "Citizens Energy Group": {
+    "display_name": "Citizens Energy Group",
+    "aliases": [
+      "citizens energy",
+      "citizens gas"
+    ]
+  },
+  "Citizens Gas Fuel Company - MI": {
+    "display_name": "Citizens Gas Fuel Company - MI",
+    "aliases": [
+      "Citizens Gas & Fuel"
+    ]
+  },
+  "City of Anaheim Public Utilities Department": {
+    "display_name": "City of Anaheim Public Utilities Department",
+    "aliases": [
+      "Anaheim Public Utilities"
+    ],
+    "eia_id": 588
+  },
+  "City of Blaine - WA": {
+    "display_name": "City of Blaine - WA",
+    "aliases": [
+      "Blaine"
+    ],
+    "eia_id": 1818
+  },
+  "City of Cartersville - (ga)": {
+    "display_name": "City of Cartersville - (ga)",
+    "aliases": [
+      "City of Cartersville"
+    ],
+    "eia_id": 1232
+  },
+  "City of Cheney (WA)": {
+    "display_name": "City of Cheney (WA)",
+    "aliases": [
+      "Cheney"
+    ],
+    "eia_id": 3420
+  },
+  "City of Cuero Electric Department": {
+    "display_name": "City of Cuero Electric Department",
+    "aliases": [],
+    "eia_id": 4610
+  },
+  "City of Dunlap Natural Gas System": {
+    "display_name": "City of Dunlap Natural Gas System",
+    "aliases": []
+  },
+  "CITY OF EDMOND - (OK)": {
+    "display_name": "CITY OF EDMOND - (OK)",
+    "aliases": [],
+    "eia_id": 5661
+  },
+  "City of Ellensburg": {
+    "display_name": "City of Ellensburg",
+    "aliases": [
+      "Ellensburg"
+    ],
+    "eia_id": 6149
+  },
+  "CITY OF FAIRBURN - (GA)": {
+    "display_name": "CITY OF FAIRBURN - (GA)",
+    "aliases": [],
+    "eia_id": 6130
+  },
+  "CITY OF FLANDREAU SD": {
+    "display_name": "CITY OF FLANDREAU SD",
+    "aliases": [
+      "City of Flandreau"
+    ],
+    "eia_id": 6390
+  },
+  "City of Fountain Electric": {
+    "display_name": "City of Fountain Electric",
+    "aliases": [],
+    "eia_id": 6638
+  },
+  "City of Griffin - (ga)": {
+    "display_name": "City of Griffin - (ga)",
+    "aliases": [
+      "City of Griffin"
+    ],
+    "eia_id": 7679
+  },
+  "City of Harrisonville - (mo)": {
+    "display_name": "City of Harrisonville - (mo)",
+    "aliases": [
+      "City of Harrisonville"
+    ],
+    "eia_id": 8199
+  },
+  "City of Idaho Falls - (id)": {
+    "display_name": "City of Idaho Falls - (id)",
+    "aliases": [
+      "City of Idaho Falls"
+    ],
+    "eia_id": 6175
+  },
+  "City of Irving": {
+    "display_name": "City of Irving",
+    "aliases": [
+      "Irving",
+      "Irving TX",
+      "City of Irving - TX"
+    ],
+    "utility_type": "electric"
+  },
+  "City of Jasper - IN": {
+    "display_name": "City of Jasper - IN",
+    "aliases": [
+      "City of Jasper"
+    ],
+    "eia_id": 918
+  },
+  "City of Lafayette - TN": {
+    "display_name": "City of Lafayette - TN",
+    "aliases": [
+      "City of Lafayette"
+    ],
+    "eia_id": 6231
+  },
+  "City of LaGrange": {
+    "display_name": "City of LaGrange",
+    "aliases": [
+      "City of Lagrange GA"
+    ],
+    "eia_id": 10585
+  },
+  "CITY OF LEESBURG": {
+    "display_name": "CITY OF LEESBURG",
+    "aliases": [],
+    "eia_id": 9928
+  },
+  "City of Live Oak - FL": {
+    "display_name": "City of Live Oak - FL",
+    "aliases": [
+      "City of Live Oak"
+    ]
+  },
+  "City of Loveland Water and Power": {
+    "display_name": "City of Loveland Water and Power",
+    "aliases": [],
+    "eia_id": 11256
+  },
+  "City of Marianna - FL": {
+    "display_name": "City of Marianna - FL",
+    "aliases": [
+      "City of Marianna"
+    ],
+    "eia_id": 11658
+  },
+  "City of Milford Public Works": {
+    "display_name": "City of Milford Public Works",
+    "aliases": [
+      "City of Milford"
+    ],
+    "eia_id": 12265
+  },
+  "City of Milton Gas": {
+    "display_name": "City of Milton Gas",
+    "aliases": [
+      "City of Milton"
+    ],
+    "eia_id": 198
+  },
+  "City of Monroe - NC": {
+    "display_name": "City of Monroe - NC",
+    "aliases": [
+      "City of Monroe"
+    ],
+    "eia_id": 12782
+  },
+  "City of Naperville": {
+    "display_name": "City of Naperville",
+    "aliases": [
+      "Naperville IL",
+      "Naperville Electric",
+      "City of Naperville - IL"
+    ],
+    "utility_type": "electric",
+    "eia_id": 13208
+  },
+  "CITY OF NEWARK - (DE)": {
+    "display_name": "CITY OF NEWARK - (DE)",
+    "aliases": [
+      "City of Newark"
+    ],
+    "eia_id": 13519
+  },
+  "City of Oak Ridge, TN": {
+    "display_name": "City of Oak Ridge, TN",
+    "aliases": [
+      "City of Oak Ridge"
+    ],
+    "eia_id": 13933
+  },
+  "City of Palo Alto Gas Department": {
+    "display_name": "City of Palo Alto Gas Department",
+    "aliases": [
+      "City of Palo Alto"
+    ],
+    "eia_id": 14401
+  },
+  "City of Pascagoula - MS": {
+    "display_name": "City of Pascagoula - MS",
+    "aliases": [
+      "City of Pascagoula"
+    ]
+  },
+  "City of Pikeville GAS - KY": {
+    "display_name": "City of Pikeville GAS - KY",
+    "aliases": [
+      "City of Pikeville"
+    ],
+    "eia_id": 4294
+  },
+  "City of Stillwater Utilities Authority - OK": {
+    "display_name": "City of Stillwater Utilities Authority - OK",
+    "aliases": [
+      "Stillwater Utilities Authority"
+    ],
+    "eia_id": 7490
+  },
+  "City of Tallahassee Utilities": {
+    "display_name": "City of Tallahassee Utilities",
+    "aliases": [
+      "Tallahassee Utilities",
+      "City of Tallahassee",
+      "Tallahassee Electric"
+    ],
+    "utility_type": "multi"
+  },
+  "City of Three Rivers - TX": {
+    "display_name": "City of Three Rivers - TX",
+    "aliases": [
+      "City of Three Rivers"
+    ]
+  },
+  "City of Trinidad - CO": {
+    "display_name": "City of Trinidad - CO",
+    "aliases": [
+      "City of Trinidad"
+    ],
+    "eia_id": 19204
+  },
+  "City of Troy - (al)": {
+    "display_name": "City of Troy - (al)",
+    "aliases": [
+      "City of Troy"
+    ],
+    "eia_id": 5834
+  },
+  "City of Waynesville": {
+    "display_name": "City of Waynesville",
+    "aliases": [
+      "Waynesville MO",
+      "City of Waynesville - MO"
+    ],
+    "utility_type": "multi",
+    "eia_id": 20224
+  },
+  "City of Winter Park Electric Utility Department": {
+    "display_name": "City of Winter Park Electric Utility Department",
+    "aliases": [
+      "Winter Park"
+    ],
+    "eia_id": 307
+  },
+  "City Utilities of Springfield": {
+    "display_name": "City Utilities of Springfield",
+    "aliases": [
+      "City Utilities of Springfield MO",
+      "City Utilities Springfield"
+    ],
+    "eia_id": 17833
+  },
+  "Ckenergy Electric Cooperative": {
+    "display_name": "Ckenergy Electric Cooperative",
+    "aliases": []
+  },
+  "Clarksville Gas & Water (Clarksville, TN)": {
+    "display_name": "Clarksville Gas & Water (Clarksville, TN)",
+    "aliases": [
+      "Clarksville Gas Dept."
+    ]
+  },
+  "Clearwater Gas System": {
+    "display_name": "Clearwater Gas System",
+    "aliases": [
+      "Clearwater Gas - FL"
+    ]
+  },
+  "CLECO (Central Louisiana Electric Company)": {
+    "display_name": "CLECO (Central Louisiana Electric Company)",
+    "aliases": [],
+    "eia_id": 17684
+  },
+  "Cleveland Public Power": {
+    "display_name": "Cleveland Public Power",
+    "aliases": [
+      "Cleveland Public Power - OH",
+      "CPP"
+    ]
+  },
+  "Colorado Springs Utilities - CO": {
+    "display_name": "Colorado Springs Utilities - CO",
+    "aliases": [
+      "Colorado Springs Utilities"
+    ]
+  },
+  "Columbia Gas KY": {
+    "display_name": "Columbia Gas KY",
+    "aliases": [
+      "Columbia Gas Kentucky",
+      "Columbia Gas of Kentucky"
+    ],
+    "eia_id": 4005
+  },
+  "Columbia Gas of Massachusetts": {
+    "display_name": "Columbia Gas of Massachusetts",
+    "aliases": [
+      "Columbia Gas MA",
+      "Columbia Gas Massachusetts"
+    ]
+  },
+  "Columbia Gas of Washington/maryland": {
+    "display_name": "Columbia Gas of Washington/maryland",
+    "aliases": [
+      "Columbia Gas of Maryland"
+    ]
+  },
+  "Columbia Gas PA": {
+    "display_name": "Columbia Gas PA",
+    "aliases": [
+      "Columbia Gas of Pennsylvania",
+      "Columbia Gas Pennsylvania"
+    ]
+  },
+  "Columbia Gas VA": {
+    "display_name": "Columbia Gas VA",
+    "aliases": [
+      "Columbia Gas of Virginia",
+      "Columbia Gas Virginia"
+    ]
+  },
+  "Columbia Power & Water - TN": {
+    "display_name": "Columbia Power & Water - TN",
+    "aliases": [
+      "Columbia Power System"
+    ],
+    "eia_id": 3855
+  },
+  "ComEd": {
+    "display_name": "ComEd",
+    "aliases": [
+      "com ed",
+      "Commonwealth Edison",
+      "Commonwealth Edison (ComEd)",
+      "Commonwealth Edison (ComEd), Comed",
+      "Commonwealth Edison Co."
+    ],
+    "eia_id": 4110
+  },
+  "Con Edison": {
+    "display_name": "Con Edison",
+    "aliases": [
+      "Consolidated Edison",
+      "Consolidated Edison Co-ny",
+      "Consolidated Edison Company of New York"
+    ],
+    "eia_id": 4226
+  },
+  "Connecticut Natural Gas": {
+    "display_name": "Connecticut Natural Gas",
+    "aliases": [
+      "cng",
+      "Connecticut Natural Gas (CNG) ,CT",
+      "conneticut natural gas"
+    ]
+  },
+  "Connexus Energy": {
+    "display_name": "Connexus Energy",
+    "aliases": [],
+    "eia_id": 689
+  },
+  "Constellation Energy": {
+    "display_name": "Constellation Energy",
+    "aliases": [
+      "Constellation",
+      "Constellation NewEnergy"
+    ],
+    "utility_type": "electric"
+  },
+  "Consumers Energy": {
+    "display_name": "Consumers Energy",
+    "aliases": [
+      "consumers",
+      "Consumers Energy Company",
+      "Consumers Power"
+    ],
+    "eia_id": 11788
+  },
+  "Cookeville Gas Department - TN": {
+    "display_name": "Cookeville Gas Department - TN",
+    "aliases": [
+      "Cookeville Gas Department"
+    ]
+  },
+  "CoServ Electric Cooperative, Inc.": {
+    "display_name": "CoServ Electric Cooperative, Inc.",
+    "aliases": [
+      "Coserv",
+      "CoServ Gas"
+    ]
+  },
+  "CPS Energy": {
+    "display_name": "CPS Energy",
+    "aliases": [
+      "City of San Antonio",
+      "CITY OF SAN ANTONIO - (TX)",
+      "City Public Service",
+      "cps",
+      "San Antonio Pub Svc Board (cps Energy)"
+    ],
+    "eia_id": 4632
+  },
+  "Crow Wing Cooperative Power and Light Company": {
+    "display_name": "Crow Wing Cooperative Power and Light Company",
+    "aliases": [
+      "Crow Wing Power - MN"
+    ],
+    "eia_id": 4346
+  },
+  "Cuivre River Electric Cooperative": {
+    "display_name": "Cuivre River Electric Cooperative",
+    "aliases": [
+      "Cuivre River Electric Coop"
+    ],
+    "eia_id": 4675
+  },
+  "Dakota Electric Association": {
+    "display_name": "Dakota Electric Association",
+    "aliases": [
+      "Dakota Electric - MN"
+    ],
+    "eia_id": 25177
+  },
+  "Dalton Utilities - GA": {
+    "display_name": "Dalton Utilities - GA",
+    "aliases": [
+      "Dalton Utilities"
+    ],
+    "eia_id": 2964
+  },
+  "Deep East Texas Electric Cooperative, Inc.": {
+    "display_name": "Deep East Texas Electric Cooperative, Inc.",
+    "aliases": []
+  },
+  "Del Rio Gas System": {
+    "display_name": "Del Rio Gas System",
+    "aliases": []
+  },
+  "Delmarva Power and Light": {
+    "display_name": "Delmarva Power and Light",
+    "aliases": [
+      "Delmarva Power",
+      "Delmarva Power - DE"
+    ],
+    "eia_id": 5027
+  },
+  "Delta Natural Gas Co.": {
+    "display_name": "Delta Natural Gas Co.",
+    "aliases": [
+      "Delta Natural Gas"
+    ]
+  },
+  "Department of Public Utilities Orangeburg": {
+    "display_name": "DPU Orangeburg",
+    "aliases": [
+      "DPU",
+      "DPU Orangeburg",
+      "Orangeburg DPU",
+      "City of Orangeburg Utilities"
+    ],
+    "utility_type": "multi"
+  },
+  "Dixie Electric Membership Corporation": {
+    "display_name": "DEMCO",
+    "aliases": [
+      "DEMCO",
+      "Dixie Electric Membership Corp",
+      "Dixie Electric"
+    ],
+    "utility_type": "electric",
+    "eia_id": 5202
+  },
+  "Dominion Energy": {
+    "display_name": "Dominion Energy",
+    "aliases": [
+      "dominion",
+      "Dominion Energy Virginia",
+      "Dominion Virginia Power",
+      "Dominion Virginia Power - VA",
+      "Virginia Electric and Power",
+      "virginia natural gas",
+      "vng"
+    ],
+    "eia_id": "10171.0"
+  },
+  "Dominion Energy NC": {
+    "display_name": "Dominion Energy NC",
+    "aliases": [
+      "Dominion NC",
+      "Dominion North Carolina Power"
+    ]
+  },
+  "Dominion Energy South Carolina": {
+    "display_name": "Dominion Energy South Carolina",
+    "aliases": [
+      "Dominion Energy - SC",
+      "sce&g",
+      "south carolina electric & gas",
+      "South Carolina Electric & Gas (Dominion Energy - SC)"
+    ],
+    "parent_company": "Dominion Energy",
+    "eia_id": 17539
+  },
+  "Dominion Energy Utah": {
+    "display_name": "Dominion Energy Utah",
+    "aliases": [
+      "Dominion Energy Questar",
+      "Enbridge Gas UT",
+      "questar",
+      "Questar Gas"
+    ]
+  },
+  "Dominion Hope Gas": {
+    "display_name": "Dominion Hope Gas",
+    "aliases": []
+  },
+  "DTE": {
+    "display_name": "DTE",
+    "aliases": [
+      "Detroit Edison",
+      "DTE Electric",
+      "DTE Electric Company",
+      "DTE Energy",
+      "DTE Gas",
+      "DTE Gas Company"
+    ],
+    "eia_id": 5109
+  },
+  "Dublin Natural Gas System": {
+    "display_name": "Dublin Natural Gas System",
+    "aliases": []
+  },
+  "DUCK RIVER ELEC MEMBER CORP": {
+    "display_name": "DUCK RIVER ELEC MEMBER CORP",
+    "aliases": [
+      "Duck River Elec Member"
+    ],
+    "eia_id": 5399
+  },
+  "Duke Energy": {
+    "display_name": "Duke Energy",
+    "aliases": [
+      "duke",
+      "Duke Energy - FL",
+      "Duke Energy Carolinas",
+      "Duke Energy Florida",
+      "Duke Energy Kentucky, Inc.",
+      "duke energy progress",
+      "Duke Energy Progress - (nc)"
+    ],
+    "eia_id": 5416
+  },
+  "Duke Energy Indiana": {
+    "display_name": "Duke Energy Indiana",
+    "aliases": [
+      "Duke Energy - IN"
+    ],
+    "parent_company": "Duke Energy",
+    "eia_id": 15470
+  },
+  "Duquesne Light": {
+    "display_name": "Duquesne Light",
+    "aliases": [
+      "Duquesne Light Co.",
+      "Duquesne Light Company",
+      "Duquesne Light Company - PA"
+    ],
+    "eia_id": 5487
+  },
+  "East Mississippi Electric Power Association": {
+    "display_name": "East Mississippi Electric Power Association",
+    "aliases": []
+  },
+  "East Ohio Gas Co/dominion": {
+    "display_name": "East Ohio Gas Co/dominion",
+    "aliases": []
+  },
+  "Eastern Maine Electric Cooperative (EMEC)": {
+    "display_name": "Eastern Maine Electric Cooperative (EMEC)",
+    "aliases": [
+      "Eastern Maine Electric Cooperative"
+    ]
+  },
+  "El Paso Electric Company": {
+    "display_name": "El Paso Electric Company",
+    "aliases": [
+      "El Paso Electric",
+      "El Paso Electric Co."
+    ],
+    "eia_id": 329
+  },
+  "Electric Power Board (EPB) - TN": {
+    "display_name": "Electric Power Board (EPB) - TN",
+    "aliases": [
+      "EPB",
+      "City Of Chattanooga",
+      "City Of Chattanooga - (TN)",
+      "Chattanooga Electric"
+    ]
+  },
+  "Elizabethtown Gas Co.": {
+    "display_name": "Elizabethtown Gas Co.",
+    "aliases": [
+      "Elizabethtown Gas",
+      "Elizabethtown Gas Company - NJ"
+    ]
+  },
+  "Ellensburg Natural Gas Dept.": {
+    "display_name": "Ellensburg Natural Gas Dept.",
+    "aliases": []
+  },
+  "Elmhurst Mutual Power & Light Company": {
+    "display_name": "Elmhurst Mutual Power & Light Company",
+    "aliases": [
+      "Elmhurst Mutual"
+    ],
+    "eia_id": 5832
+  },
+  "Enbridge Gas North Carolina": {
+    "display_name": "Enbridge Gas North Carolina",
+    "aliases": [
+      "Embridge",
+      "Enbridge Gas NC"
+    ]
+  },
+  "Enbridge Gas Ohio": {
+    "display_name": "Enbridge Gas Ohio",
+    "aliases": []
+  },
+  "Energy Services of Pensacola": {
+    "display_name": "Energy Services of Pensacola",
+    "aliases": [
+      "Pensacola Energy"
+    ]
+  },
+  "Energy United": {
+    "display_name": "Energy United",
+    "aliases": [
+      "Energy United EMC",
+      "EnergyUnited"
+    ],
+    "eia_id": 21632
+  },
+  "Energy West (gas Natural, Inc.)": {
+    "display_name": "Energy West (gas Natural, Inc.)",
+    "aliases": [
+      "Energy West"
+    ],
+    "eia_id": 27058
+  },
+  "Energy West Wyoming": {
+    "display_name": "Energy West Wyoming",
+    "aliases": []
+  },
+  "Enstar Natural Gas Company": {
+    "display_name": "Enstar Natural Gas Company",
+    "aliases": [
+      "ENSTAR Natural Gas",
+      "Enstar Natural Gas Co."
+    ]
+  },
+  "Eugene Water & Electric Board EWEB - OR": {
+    "display_name": "Eugene Water & Electric Board EWEB - OR",
+    "aliases": [
+      "Eugene Water & Electric Board"
+    ]
+  },
+  "Evergy": {
+    "display_name": "Evergy",
+    "aliases": [
+      "Evergy Kansas Central",
+      "Evergy Kansas Central, Inc.",
+      "Evergy Kansas Metro",
+      "Evergy Kansas Metro, Inc.",
+      "Evergy Kansas South, Inc.",
+      "Evergy Metro",
+      "Evergy Missouri West",
+      "Kansas City Power & Light",
+      "KCP&L",
+      "Westar Energy"
+    ],
+    "eia_id": 10000
+  },
+  "Eversource CT": {
+    "display_name": "Eversource CT",
+    "aliases": [
+      "Connecticut Light & Power",
+      "Connecticut Light & Power Co.",
+      "Eversource, CT",
+      "YANKEE GAS SERVICE CO (EVERSOURCE)",
+      "Yankee Gas Service Co."
+    ],
+    "eia_id": 4176
+  },
+  "Eversource MA": {
+    "display_name": "Eversource MA",
+    "aliases": [
+      "Eversource Energy (NSTAR Electric)",
+      "nstar",
+      "NSTAR Electric"
+    ],
+    "eia_id": 54913
+  },
+  "Expand Energy": {
+    "display_name": "Expand Energy",
+    "aliases": [
+      "chesapeake energy",
+      "chesapeake utilities",
+      "southwestern energy"
+    ]
+  },
+  "Farmers Electric Cooperative, Inc.": {
+    "display_name": "Farmers Electric Cooperative, Inc.",
+    "aliases": [],
+    "eia_id": 6168
+  },
+  "Fayetteville Public Works Commission": {
+    "display_name": "Fayetteville Public Works Commission",
+    "aliases": [
+      "Fayetteville PWC",
+      "Fayetteville PWC (NC)",
+      "PWC Fayetteville"
+    ]
+  },
+  "FirstEnergy": {
+    "display_name": "FirstEnergy",
+    "aliases": [
+      "First Energy",
+      "FirstEnergy Ohio",
+      "Ohio Edison",
+      "Ohio Edison Co.",
+      "The Illuminating Company",
+      "The Toledo Edison Co.",
+      "Toledo Edison"
+    ],
+    "eia_id": 13998
+  },
+  "Fitchburg Gas & Elec Lt Co.": {
+    "display_name": "Fitchburg Gas & Elec Lt Co.",
+    "aliases": []
+  },
+  "Flathead Electric Cooperative": {
+    "display_name": "Flathead Electric Cooperative",
+    "aliases": [
+      "Flathead Electric Coop"
+    ],
+    "eia_id": 6395
+  },
+  "Flint Energies": {
+    "display_name": "Flint Energies",
+    "aliases": [
+      "Flint Electric Membership Corp",
+      "Flint EMC"
+    ],
+    "utility_type": "electric"
+  },
+  "Florence Utilities Department": {
+    "display_name": "Florence Utilities",
+    "aliases": [
+      "Florence Utilities Department",
+      "Florence Utilities - AL",
+      "City of Florence Utilities"
+    ],
+    "utility_type": "multi"
+  },
+  "Floresville Electric Light & Power System (FELPS)": {
+    "display_name": "Floresville Electric Light & Power System (FELPS)",
+    "aliases": [
+      "Floresville Electric Light & Power System"
+    ]
+  },
+  "Florida City Gas Company": {
+    "display_name": "Florida City Gas Company",
+    "aliases": [
+      "Florida City Gas"
+    ]
+  },
+  "Florida Public Utilities Co.": {
+    "display_name": "Florida Public Utilities Co.",
+    "aliases": [
+      "Florida Public Utilities"
+    ],
+    "eia_id": 6457
+  },
+  "Fort Hill Natural Gas Authority": {
+    "display_name": "Fort Hill Natural Gas Authority",
+    "aliases": [
+      "Fort Hill Natural Gas"
+    ]
+  },
+  "Fort Valley Utility Commission - GA": {
+    "display_name": "Fort Valley Utility Commission - GA",
+    "aliases": [
+      "Fort Valley Utility Comm"
+    ],
+    "eia_id": 6617
+  },
+  "Fountain Inn Natural Gas System": {
+    "display_name": "Fountain Inn Natural Gas System",
+    "aliases": [
+      "Fountain Inn Natural Gas"
+    ]
+  },
+  "FPL": {
+    "display_name": "FPL",
+    "aliases": [
+      "florida power",
+      "Florida Power & Light",
+      "Florida Power & Light Co.",
+      "Florida Power & Light Company",
+      "Florida Power and Light",
+      "FP&L"
+    ],
+    "eia_id": 6452
+  },
+  "Franklin Electric Plant Board": {
+    "display_name": "Franklin Electric Plant Board",
+    "aliases": [
+      "Franklin Electric Plant"
+    ]
+  },
+  "Freeborn Mower Electric Cooperative": {
+    "display_name": "Freeborn Mower Electric Cooperative",
+    "aliases": [
+      "Freeborn Mower Electric Co"
+    ]
+  },
+  "Frontier Natural Gas": {
+    "display_name": "Frontier Natural Gas",
+    "aliases": []
+  },
+  "Gainesville Regional Utilities": {
+    "display_name": "Gainesville Regional Utilities",
+    "eia_id": 6909,
+    "aliases": [],
+    "utility_type": "multi"
+  },
+  "Garland Power & Light System": {
+    "display_name": "Garland Power & Light System",
+    "aliases": [
+      "Garland Power & Light"
+    ],
+    "eia_id": 6950
+  },
+  "Gas South": {
+    "display_name": "Gas South",
+    "aliases": [
+      "Gas South Avalon"
+    ]
+  },
+  "Gascosage Electric Coop": {
+    "display_name": "Gascosage Electric Coop",
+    "eia_id": 7024,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Georgia Power": {
+    "display_name": "Georgia Power",
+    "aliases": [
+      "GA Power",
+      "Georgia Power Co.",
+      "Georgia Power Company"
+    ],
+    "parent_company": "Southern Company",
+    "eia_id": 7140
+  },
+  "GEUS (Greenville Electric Utility System)": {
+    "display_name": "GEUS (Greenville Electric Utility System)",
+    "aliases": [
+      "Greenville Electric Utility System"
+    ]
+  },
+  "Gibson County Utility District - TN": {
+    "display_name": "Gibson County Utility District - TN",
+    "aliases": [
+      "Gibson County Utility District"
+    ],
+    "eia_id": 1578
+  },
+  "Glendale Water and Power (GWP)": {
+    "display_name": "Glendale Water and Power (GWP)",
+    "aliases": [
+      "Glendale Water & Power"
+    ]
+  },
+  "Glenwood Energy of Oxford Inc.": {
+    "display_name": "Glenwood Energy of Oxford Inc.",
+    "aliases": []
+  },
+  "Golden Valley Electric Association, Inc.": {
+    "display_name": "Golden Valley Electric Association, Inc.",
+    "aliases": [
+      "Valley Electric Assn",
+      "Valley Electric Association"
+    ],
+    "eia_id": 3470
+  },
+  "Grays Harbor Co. Pud #1": {
+    "display_name": "Grays Harbor Co. Pud #1",
+    "aliases": [
+      "Grays Harbor PUD"
+    ],
+    "eia_id": 13788
+  },
+  "Grayson-Collin Electric Cooperative": {
+    "display_name": "Grayson-Collin Electric Cooperative",
+    "aliases": [
+      "GRAYSON-COLLIN ELEC COOP",
+      "Grayson Collin Electric",
+      "GCEC"
+    ],
+    "utility_type": "electric"
+  },
+  "Grayson-Collin Electric Cooperative, Inc.": {
+    "display_name": "Grayson-Collin Electric Cooperative, Inc.",
+    "aliases": []
+  },
+  "Great Lakes Energy Cooperative": {
+    "display_name": "Great Lakes Energy Cooperative",
+    "aliases": [],
+    "eia_id": 38084
+  },
+  "Green Mountain Power Corp": {
+    "display_name": "Green Mountain Power Corp",
+    "aliases": [
+      "gmp",
+      "green mountain power",
+      "Green Mountain Power - VT"
+    ],
+    "eia_id": 7601
+  },
+  "Greenville Utilities Commission": {
+    "display_name": "Greenville Utilities Commission",
+    "aliases": [
+      "Greenville Utilities Commission (GUC) - NC",
+      "GUC"
+    ],
+    "eia_id": 7639
+  },
+  "GreyStone Power Corporation": {
+    "display_name": "GreyStone Power Corporation",
+    "aliases": [],
+    "eia_id": 7090
+  },
+  "GROTON DEPT OF UTILITIES - (CT)": {
+    "display_name": "GROTON DEPT OF UTILITIES - (CT)",
+    "aliases": [],
+    "eia_id": 7716
+  },
+  "Groveland Municipal Light Department": {
+    "display_name": "Groveland Municipal Light Department",
+    "aliases": [
+      "Groveland Municipal Light - MA"
+    ]
+  },
+  "Guadalupe Valley Electric Cooperative, Inc.": {
+    "display_name": "Guadalupe Valley Electric Cooperative, Inc.",
+    "aliases": [
+      "Guadalupe Valley Electric Cooperative - TX",
+      "GVEC"
+    ]
+  },
+  "Gulf Power Company (now FPL) - FL": {
+    "display_name": "Gulf Power Company (now FPL) - FL",
+    "aliases": [
+      "Gulf Power Co."
+    ],
+    "eia_id": 7801
+  },
+  "Hagerstown Light Department": {
+    "display_name": "Hagerstown Light Department",
+    "aliases": [
+      "Hagerstown Light Division"
+    ],
+    "eia_id": 7908
+  },
+  "Harrisonburg Electric Comission": {
+    "display_name": "Harrisonburg Electric Comission",
+    "aliases": [
+      "Harrisonburg Electric"
+    ]
+  },
+  "Hawaii Electric Light Company (HELCO)": {
+    "display_name": "Hawaii Electric Light Company (HELCO)",
+    "aliases": []
+  },
+  "Hawaiian Electric Company (HECO)": {
+    "display_name": "Hawaiian Electric Company (HECO)",
+    "aliases": [
+      "Hawaiian Electric Company"
+    ],
+    "eia_id": 19547
+  },
+  "Haywood Electric Membership Corporation": {
+    "display_name": "Haywood Electric Membership Corporation",
+    "aliases": [
+      "Haywood Electric Member"
+    ],
+    "eia_id": 8333
+  },
+  "Heart of Texas Electric Coop": {
+    "display_name": "Heart of Texas Electric Coop",
+    "eia_id": 55982,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Heber Light & Power - UT": {
+    "display_name": "Heber Light & Power - UT",
+    "aliases": [],
+    "eia_id": 8366
+  },
+  "Hendricks Power Cooperative": {
+    "display_name": "Hendricks Power Cooperative",
+    "aliases": [
+      "Hendricks Power - IN"
+    ],
+    "eia_id": 8447
+  },
+  "Hermiston Energy Services - OR": {
+    "display_name": "Hermiston Energy Services - OR",
+    "aliases": [
+      "Hermiston"
+    ],
+    "eia_id": 8515
+  },
+  "Hilco Electric Cooperative, Inc.": {
+    "display_name": "Hilco Electric Cooperative, Inc.",
+    "aliases": [],
+    "eia_id": 8620
+  },
+  "Hohokam Irr & Drain Dist": {
+    "display_name": "Hohokam Irr & Drain Dist",
+    "eia_id": 8700,
+    "aliases": [],
+    "utility_type": "multi"
+  },
+  "Holyoke Gas & Electric (HG&E)": {
+    "display_name": "Holyoke Gas & Electric (HG&E)",
+    "aliases": [
+      "Holyoke Gas & Elec Dep",
+      "Holyoke Gas & Electric (HG&E), MA",
+      "Holyoke Gas & Electric Department"
+    ],
+    "eia_id": 5588
+  },
+  "Homer Electric Association, Inc.": {
+    "display_name": "Homer Electric Association, Inc.",
+    "aliases": [
+      "Homer Electric Association"
+    ],
+    "eia_id": 19558
+  },
+  "Huntsville Utilities": {
+    "display_name": "Huntsville Utilities",
+    "aliases": [
+      "Huntsville Utilities - AL"
+    ]
+  },
+  "Idaho Power Co.": {
+    "display_name": "Idaho Power Co.",
+    "aliases": [
+      "Idaho Power",
+      "Idaho Power - ID"
+    ],
+    "eia_id": 9186
+  },
+  "Indiana Michigan Power Company": {
+    "display_name": "Indiana Michigan Power Company",
+    "aliases": [
+      "INDIANA MICHIGAN POWER CO"
+    ],
+    "eia_id": 9324
+  },
+  "Indiana Natural Gas Co - IN": {
+    "display_name": "Indiana Natural Gas Co - IN",
+    "aliases": [
+      "Indiana Gas and Electric"
+    ]
+  },
+  "Indianapolis Power & Light": {
+    "display_name": "Indianapolis Power & Light",
+    "aliases": [
+      "AES Indiana",
+      "Indianapolis Power & Light Company",
+      "Indianapolis Power And Light",
+      "indianapolis power light co",
+      "IPL"
+    ],
+    "eia_id": 9273
+  },
+  "INTERIOR ALASKA NATURAL GAS": {
+    "display_name": "INTERIOR ALASKA NATURAL GAS",
+    "aliases": []
+  },
+  "Intermountain Gas": {
+    "display_name": "Intermountain Gas",
+    "aliases": [
+      "Intermountain Gas Co."
+    ],
+    "eia_id": 9336
+  },
+  "Intermountain Rural Electric Association": {
+    "display_name": "Intermountain Rural Electric Association",
+    "aliases": [],
+    "eia_id": 40221
+  },
+  "Jackson EMC": {
+    "display_name": "Jackson EMC",
+    "aliases": [
+      "Jackson Electric Membership Corporation",
+      "Jackson EMC - GA"
+    ]
+  },
+  "JEA": {
+    "display_name": "JEA",
+    "aliases": [
+      "Jacksonville Electric Authority",
+      "JEA - FL"
+    ],
+    "eia_id": 9617
+  },
+  "Jersey Central Power & Light (JCP&L)": {
+    "display_name": "Jersey Central Power & Light (JCP&L)",
+    "aliases": [
+      "Jersey Central Power & Light"
+    ]
+  },
+  "Jo-Carroll Energy Cooperative": {
+    "display_name": "Jo-Carroll Energy Cooperative",
+    "aliases": []
+  },
+  "Joe Wheeler EMC": {
+    "display_name": "Joe Wheeler EMC",
+    "aliases": [
+      "Joe Wheeler Electric Membership Corp"
+    ],
+    "utility_type": "electric"
+  },
+  "Jones-Onslow Electric Membership Corporation": {
+    "display_name": "Jones-Onslow EMC",
+    "aliases": [
+      "JOEMC",
+      "Jones-Onslow EMC",
+      "Jones Onslow Electric"
+    ],
+    "utility_type": "electric",
+    "eia_id": 9837
+  },
+  "Jonesboro City Water & Light": {
+    "display_name": "Jonesboro City Water & Light",
+    "aliases": [
+      "Jonesboro"
+    ]
+  },
+  "Kansas Gas Service": {
+    "display_name": "Kansas Gas Service",
+    "aliases": [
+      "kansas gas",
+      "Kansas Gas Service Co.",
+      "one gas kansas"
+    ]
+  },
+  "Karnes Electric Coop": {
+    "display_name": "Karnes Electric Coop",
+    "eia_id": 10009,
+    "aliases": [
+      "Karnes Electric Coop Inc"
+    ],
+    "utility_type": "electric"
+  },
+  "Kentucky Power": {
+    "display_name": "Kentucky Power",
+    "aliases": [
+      "Kentucky Power (AEP)",
+      "Kentucky Power Company"
+    ],
+    "eia_id": 5580
+  },
+  "Kerrville Public Utility Board": {
+    "display_name": "Kerrville Public Utility Board",
+    "eia_id": 28604,
+    "aliases": [],
+    "utility_type": "multi"
+  },
+  "Kingsport Power Co.": {
+    "display_name": "Kingsport Power Co.",
+    "aliases": [],
+    "eia_id": 10331
+  },
+  "Kissimmee Utility Authority": {
+    "display_name": "Kissimmee Utility Authority",
+    "eia_id": 10376,
+    "aliases": [],
+    "utility_type": "multi"
+  },
+  "Knox Energy Cooperative": {
+    "display_name": "Knox Energy Cooperative",
+    "aliases": [
+      "Knox Energy"
+    ],
+    "eia_id": 16196
+  },
+  "Knoxville Utilities Board": {
+    "display_name": "Knoxville Utilities Board",
+    "aliases": [
+      "KUB"
+    ],
+    "eia_id": 10421
+  },
+  "Kootenai Electric Cooperative": {
+    "display_name": "Kootenai Electric Cooperative",
+    "eia_id": 10454,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "La Plata Electric Association (LPEA)": {
+    "display_name": "La Plata Electric Association (LPEA)",
+    "aliases": [
+      "La Plata Electric Association, Inc."
+    ],
+    "eia_id": 10539
+  },
+  "Laclede Electric Cooperative": {
+    "display_name": "Laclede Electric Cooperative",
+    "aliases": [
+      "Laclede Electric Coop"
+    ],
+    "eia_id": 7262
+  },
+  "Lake Apopka Natual Gas Dist.": {
+    "display_name": "Lake Apopka Natual Gas Dist.",
+    "aliases": [
+      "Lake Apopka Natural Gas"
+    ]
+  },
+  "Lakeview Light & Power": {
+    "display_name": "Lakeview Light & Power",
+    "eia_id": 10627,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Lancaster County Natural Gas - SC": {
+    "display_name": "Lancaster County Natural Gas - SC",
+    "aliases": []
+  },
+  "Lansing Board of Water and Light": {
+    "display_name": "Lansing Board of Water and Light",
+    "aliases": [
+      "Lansing Board of Water & Light"
+    ]
+  },
+  "LATHROP IRRIGATION DISTRICT": {
+    "display_name": "LATHROP IRRIGATION DISTRICT",
+    "aliases": []
+  },
+  "Lee County Electric Cooperative": {
+    "display_name": "Lee County Electric Cooperative",
+    "aliases": [
+      "LCEC",
+      "Lee County Electric Coop"
+    ],
+    "eia_id": 1591
+  },
+  "Lehi City Power": {
+    "display_name": "Lehi City Power",
+    "aliases": [
+      "Lehi City"
+    ],
+    "eia_id": 10879
+  },
+  "LG&E/KU": {
+    "display_name": "LG&E/KU",
+    "aliases": [
+      "Kentucky Utilities",
+      "Kentucky Utilities Company",
+      "LG&E",
+      "LG&E Kentucky Utilities",
+      "Louisville Gas & Electric",
+      "Louisville Gas And Electric",
+      "Louisville Gas and Electric - KY",
+      "Louisville Gas and Electric Company",
+      "louisville gas electric co"
+    ],
+    "eia_id": 690
+  },
+  "Liberty Utilities (MA)": {
+    "display_name": "Liberty Utilities (MA)",
+    "aliases": [
+      "Liberty Utilities",
+      "Liberty Utilities - NH"
+    ]
+  },
+  "Liberty Utilities Natural Gas": {
+    "display_name": "Liberty Utilities Natural Gas",
+    "aliases": [
+      "Liberty Gas"
+    ]
+  },
+  "Lincoln Electric System": {
+    "display_name": "Lincoln Electric System",
+    "eia_id": 11018,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Little Rock Pine Bluff": {
+    "display_name": "Little Rock Pine Bluff",
+    "aliases": [
+      "entergy",
+      "Entergy - Gulf States",
+      "entergy arkansas",
+      "Entergy Gulf States - LA",
+      "entergy louisiana",
+      "Entergy Mississippi",
+      "Entergy Mississippi, Inc.",
+      "Entergy New Orleans",
+      "entergy texas",
+      "Entergy Texas, Inc."
+    ],
+    "eia_id": 814
+  },
+  "Los Angeles Department Of Water And Power": {
+    "display_name": "LADWP",
+    "aliases": [
+      "la dwp",
+      "LADWP",
+      "LOS ANGELES DEPARTMENT OF WATER & POWER",
+      "Los Angeles Department of Water & Power (CA)"
+    ],
+    "eia_id": 2469
+  },
+  "Lowell Power and Light - MI": {
+    "display_name": "Lowell Power and Light - MI",
+    "aliases": [
+      "Lowell Light & Power"
+    ]
+  },
+  "Lubbock Power & Light System": {
+    "display_name": "Lubbock Power & Light System",
+    "aliases": []
+  },
+  "Madison Gas & Electric Co.": {
+    "display_name": "Madison Gas & Electric Co.",
+    "aliases": [
+      "Madison Gas & Electric Company",
+      "Madison Gas and Electric"
+    ],
+    "eia_id": 11479
+  },
+  "Magic Valley Electric Cooperative, Inc.": {
+    "display_name": "Magic Valley Electric Cooperative, Inc.",
+    "aliases": [
+      "Magic Valley Electric Coop - TX"
+    ],
+    "eia_id": 11501
+  },
+  "Manitowoc Public Utilities - WI": {
+    "display_name": "Manitowoc Public Utilities - WI",
+    "aliases": [
+      "Manitowoc Public Utilities"
+    ],
+    "eia_id": 11571
+  },
+  "Matanuska Electric Association, Inc.": {
+    "display_name": "Matanuska Electric Association, Inc.",
+    "aliases": [
+      "Matanuska Electric Association"
+    ],
+    "eia_id": 11824
+  },
+  "Maui Electric Company (MECO)": {
+    "display_name": "Maui Electric Company (MECO)",
+    "aliases": [
+      "Maui Electric - HI"
+    ]
+  },
+  "McMinnville Electric System - TN": {
+    "display_name": "McMinnville Electric System - TN",
+    "aliases": [
+      "Mcminnville Electric System"
+    ],
+    "eia_id": 12186
+  },
+  "McMinnville Water & Light (MW&L) - OR": {
+    "display_name": "McMinnville Water & Light (MW&L) - OR",
+    "aliases": [
+      "McMinnville Water & Light"
+    ]
+  },
+  "Memphis Light Gas & Water": {
+    "display_name": "Memphis Light Gas & Water",
+    "aliases": [
+      "City of Memphis - (tn)",
+      "Memphis Light Gas & Water Div",
+      "Memphis Light, Gas and Water",
+      "Memphis Light, Gas, and Water (MLGW)",
+      "MLGW"
+    ],
+    "eia_id": 12294
+  },
+  "Meriwether Lewis Electric Cooperative": {
+    "display_name": "Meriwether Lewis Electric Cooperative",
+    "aliases": [
+      "Meriwether Lewis Electric Coop"
+    ],
+    "eia_id": 12330
+  },
+  "Met-Ed": {
+    "display_name": "Met-Ed",
+    "aliases": [
+      "FirstEnergy Met-Ed",
+      "METROPOLITAN EDISON CO",
+      "Metropolitan Edison Company"
+    ],
+    "eia_id": 12390
+  },
+  "Metropolitan Utilities District Of Omaha": {
+    "display_name": "Metropolitan Utilities District Of Omaha",
+    "aliases": [
+      "metropolitan utilities",
+      "Metropolitan Utilities District",
+      "metropolitan utilities omaha",
+      "MUD",
+      "mud omaha"
+    ],
+    "eia_id": 737
+  },
+  "Michigan Gas Utilities (WEC Energy)": {
+    "display_name": "Michigan Gas Utilities (WEC Energy)",
+    "aliases": [
+      "michigan gas utilities",
+      "Michigan Gas Utilities Company"
+    ]
+  },
+  "Mid-South Electric Cooperative Association": {
+    "display_name": "Mid-South Electric Cooperative Association",
+    "aliases": [
+      "MidSouth Electric Coop - TX"
+    ],
+    "eia_id": 12452
+  },
+  "MidAmerican Energy": {
+    "display_name": "MidAmerican Energy",
+    "aliases": [
+      "Midamerica Energy Company",
+      "MidAmerican",
+      "Midamerican Energy Company"
+    ],
+    "parent_company": "Berkshire Hathaway Energy",
+    "eia_id": 12341
+  },
+  "MIDDLE TENNESSEE E M C": {
+    "display_name": "MIDDLE TENNESSEE E M C",
+    "aliases": [],
+    "eia_id": 577
+  },
+  "Middle Tennessee Electric": {
+    "display_name": "Middle Tennessee Electric",
+    "aliases": [
+      "Middle Tennessee EMC",
+      "Middle Tennessee Electric Membership Corp",
+      "MTEMC"
+    ],
+    "utility_type": "electric"
+  },
+  "Middle Tennessee Natural Gas": {
+    "display_name": "Middle Tennessee Natural Gas",
+    "aliases": []
+  },
+  "Midwest Energy - KS": {
+    "display_name": "Midwest Energy - KS",
+    "aliases": [
+      "Midwest Energy Inc."
+    ],
+    "eia_id": 12524
+  },
+  "Mille Lacs Energy Cooperative": {
+    "display_name": "Mille Lacs Energy Cooperative",
+    "eia_id": 12546,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Millenium Energy": {
+    "display_name": "Millenium Energy",
+    "aliases": []
+  },
+  "Minnesota Energy Resources (WEC Energy)": {
+    "display_name": "Minnesota Energy Resources (WEC Energy)",
+    "aliases": [
+      "minnesota energy resources"
+    ]
+  },
+  "Mississippi Power (Gulfport)": {
+    "display_name": "Mississippi Power (Gulfport)",
+    "aliases": [
+      "Mississippi Power Company"
+    ],
+    "eia_id": 12686
+  },
+  "Modern Electric Water": {
+    "display_name": "Modern Electric Water",
+    "eia_id": 12744,
+    "aliases": [
+      "Modern Electric Water Company"
+    ],
+    "utility_type": "water"
+  },
+  "Mohave Electric Cooperative (AZ)": {
+    "display_name": "Mohave Electric Cooperative (AZ)",
+    "aliases": [
+      "Mohave Electric Cooperative, I"
+    ],
+    "eia_id": 21538
+  },
+  "Monongahela Power Co.": {
+    "display_name": "Monongahela Power Co.",
+    "aliases": [],
+    "eia_id": 12796
+  },
+  "Montana-Dakota Utilities": {
+    "display_name": "Montana-Dakota Utilities",
+    "aliases": [
+      "MDU",
+      "MDU (Montana-Dakota Utilities)",
+      "montana dakota",
+      "montana dakota utilities",
+      "montana-dakota"
+    ],
+    "eia_id": 12199
+  },
+  "Moon Lake Electric Association": {
+    "display_name": "Moon Lake Electric Association",
+    "aliases": [
+      "Moon Lake Electric - UT"
+    ],
+    "eia_id": 10610
+  },
+  "Moorhead Public Service-MN": {
+    "display_name": "Moorhead Public Service-MN",
+    "aliases": [
+      "Moorhead Public Service"
+    ]
+  },
+  "MOUNTAINEER GAS CO - WV": {
+    "display_name": "MOUNTAINEER GAS CO - WV",
+    "aliases": [
+      "Mountaineer Gas",
+      "Mountaineer Gas Co."
+    ]
+  },
+  "Nashville Electric Service": {
+    "display_name": "Nashville Electric Service",
+    "aliases": [
+      "Nashville Electric Service - TN"
+    ],
+    "eia_id": 13216
+  },
+  "National Fuel": {
+    "display_name": "National Fuel",
+    "aliases": [
+      "national fuel gas",
+      "National Fuel Gas Company - PA",
+      "National Fuel Gas Distribution",
+      "NATIONAL FUEL GAS DISTRIBUTION - NY"
+    ]
+  },
+  "National Grid MA": {
+    "display_name": "National Grid MA",
+    "aliases": [
+      "National Grid (MA)",
+      "National Grid (Massachusetts Electric)",
+      "National Grid - MA"
+    ],
+    "eia_id": 11804
+  },
+  "National Grid NY": {
+    "display_name": "National Grid NY",
+    "aliases": [
+      "KeySpan",
+      "National Grid",
+      "National Grid - NY",
+      "National Grid USA",
+      "nationalgrid",
+      "Niagara Mohawk",
+      "Niagara Mohawk Power"
+    ],
+    "eia_id": 13573
+  },
+  "Navopache Electric Co": {
+    "display_name": "Navopache Electric Co",
+    "aliases": [],
+    "eia_id": 13318
+  },
+  "Nebraska Public Power District": {
+    "display_name": "Nebraska Public Power District",
+    "eia_id": 13337,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "New Braunfels Utilities": {
+    "display_name": "New Braunfels Utilities",
+    "aliases": [
+      "NBU",
+      "New Braunfels Utilities - TX"
+    ]
+  },
+  "New Hope Gas Company": {
+    "display_name": "New Hope Gas Company",
+    "aliases": []
+  },
+  "New Jersey Natural Gas": {
+    "display_name": "New Jersey Natural Gas",
+    "aliases": [
+      "NJ Natural Gas",
+      "NJNG"
+    ]
+  },
+  "NEW MEXICO GAS COMPANY": {
+    "display_name": "NEW MEXICO GAS COMPANY",
+    "aliases": []
+  },
+  "Nicor Gas": {
+    "display_name": "Nicor Gas",
+    "aliases": [
+      "Atlanta Gas Light",
+      "Atlanta Gas Light Co - GA",
+      "Atlanta Gas Light Co.",
+      "Georgia Natural Gas",
+      "Georgia Natural Gas-Atlanta Area PM"
+    ]
+  },
+  "NIPSCO": {
+    "display_name": "NIPSCO",
+    "aliases": [
+      "Colombia Gas of Ohio",
+      "COLUMBIA GAS OF OHIO",
+      "Columbia Gas OH",
+      "Columbia Gas Ohio",
+      "Northern Indiana Pub Svc Co.",
+      "Northern Indiana Public Service",
+      "Northern Indiana Public Service Company"
+    ],
+    "eia_id": 13756
+  },
+  "North Baldwin Utilities (NBU)": {
+    "display_name": "North Baldwin Utilities (NBU)",
+    "aliases": [
+      "North Baldwin Utilities"
+    ]
+  },
+  "North Georgia Electric Membership Corporation (NGEMC) - GA": {
+    "display_name": "North Georgia Electric Membership Corporation (NGEMC) - GA",
+    "aliases": [
+      "NGEMC"
+    ]
+  },
+  "North Shore Gas (WEC Energy)": {
+    "display_name": "North Shore Gas (WEC Energy)",
+    "aliases": [
+      "north shore gas",
+      "NORTH SHORE GAS CO"
+    ]
+  },
+  "Northeast Ohio Natural Gas": {
+    "display_name": "Northeast Ohio Natural Gas",
+    "aliases": []
+  },
+  "Northeast Oklahoma Public Facilities Authority": {
+    "display_name": "Northeast Oklahoma Public Facilities Authority",
+    "aliases": [
+      "Northeast Oklahoma Public Fac"
+    ],
+    "eia_id": 13739
+  },
+  "Northeastern REMC": {
+    "display_name": "Northeastern REMC",
+    "aliases": [
+      "Northeastern Rural Electric Membership Corp"
+    ],
+    "utility_type": "electric"
+  },
+  "Northern Utilities Inc. (unitil)": {
+    "display_name": "Northern Utilities Inc. (unitil)",
+    "aliases": [
+      "UNITIL",
+      "Unitil (Fitchburg Gas & Electric)"
+    ],
+    "eia_id": 24590
+  },
+  "Northern Virginia Electric Cooperative": {
+    "display_name": "NOVEC",
+    "aliases": [
+      "NOVEC",
+      "NOVEC - VA",
+      "Northern Virginia Electric Coop"
+    ],
+    "utility_type": "electric"
+  },
+  "Northwest Electric Power Co-Op": {
+    "display_name": "Northwest Electric Power Co-Op",
+    "aliases": []
+  },
+  "Northwest Natural Gas": {
+    "display_name": "Northwest Natural Gas",
+    "aliases": [
+      "northwest natural",
+      "Northwest Natural Gas Co.",
+      "nw natural"
+    ],
+    "eia_id": 13805
+  },
+  "Northwestern Electric Coop Inc. - (ok)": {
+    "display_name": "Northwestern Electric Coop Inc. - (ok)",
+    "aliases": [],
+    "eia_id": 1276
+  },
+  "Northwestern Energy": {
+    "display_name": "Northwestern Energy",
+    "aliases": [
+      "northwestern",
+      "NorthWestern Energy (MT)",
+      "Northwestern Energy (SD)",
+      "Northwestern Energy Llc. - (mt)"
+    ],
+    "eia_id": 12825
+  },
+  "NORWICH PUB UTILITIES": {
+    "display_name": "NORWICH PUB UTILITIES",
+    "aliases": []
+  },
+  "NV Energy": {
+    "display_name": "NV Energy",
+    "aliases": [
+      "Nevada Power",
+      "Nevada Power Co.",
+      "Sierra Pacific Power"
+    ],
+    "parent_company": "Berkshire Hathaway Energy",
+    "eia_id": 13407
+  },
+  "Nw Alabama Gas Dist/freebird": {
+    "display_name": "Nw Alabama Gas Dist/freebird",
+    "aliases": []
+  },
+  "NYSEG": {
+    "display_name": "NYSEG",
+    "aliases": [
+      "New York State Electric & Gas",
+      "New York State Electric & Gas (NYSEG)",
+      "New York State Electric and Gas",
+      "New York State Electric and Gas - NYSEG",
+      "Nys Electric and Gas"
+    ]
+  },
+  "OG&E": {
+    "display_name": "OG&E",
+    "aliases": [
+      "OGE",
+      "Oklahoma Electric Coop",
+      "Oklahoma Electric Cooperative",
+      "Oklahoma Gas & Electric",
+      "Oklahoma Gas and Electric",
+      "Oklahoma Gas and Electric, RG&E",
+      "oklahoma gas electric co",
+      "RG&E, Oklahoma Gas and Electric"
+    ],
+    "eia_id": 13734
+  },
+  "Ohio Cumberland Gas Co.": {
+    "display_name": "Ohio Cumberland Gas Co.",
+    "aliases": []
+  },
+  "Ohio Gas Company": {
+    "display_name": "Ohio Gas Company",
+    "aliases": [
+      "Ohio Gas Co."
+    ]
+  },
+  "Ohio Valley Gas Corporation - IN": {
+    "display_name": "Ohio Valley Gas Corporation - IN",
+    "aliases": [
+      "Ohio Valley Gas Corp."
+    ]
+  },
+  "Okaloosa County Gas District": {
+    "display_name": "Okaloosa County Gas District",
+    "aliases": [
+      "OKALOOSA GAS DISTRICT"
+    ]
+  },
+  "Okefenoke REMC": {
+    "display_name": "Okefenoke REMC",
+    "aliases": [
+      "Okefenokee REMC",
+      "Okefenoke Rural Electric"
+    ],
+    "utility_type": "electric"
+  },
+  "Oklahoma Natural Gas": {
+    "display_name": "Oklahoma Natural Gas",
+    "aliases": [
+      "Oklahoma Natural Gas - OK",
+      "Oklahoma Natural Gas Co."
+    ]
+  },
+  "Omaha Public Power District": {
+    "display_name": "Omaha Public Power District",
+    "eia_id": 14127,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Oncor": {
+    "display_name": "Oncor",
+    "aliases": [
+      "oncor delivery",
+      "oncor electric",
+      "Oncor Electric Delivery",
+      "Oncor Electric Delivery Company",
+      "Oncor Electric Delivery Company LLC",
+      "Oncor Electric-TX"
+    ],
+    "eia_id": 4150
+  },
+  "Oregon Trail Electric Cooperative": {
+    "display_name": "Oregon Trail Electric Cooperative",
+    "aliases": [
+      "Oregon Trail Electric Co-Op"
+    ]
+  },
+  "Orlando Utilities Commission": {
+    "display_name": "Orlando Utilities Commission",
+    "aliases": [
+      "Orlando Utilites Commision",
+      "Orlando Utilities",
+      "Orlando Utilities Commission (OUC)",
+      "OUC"
+    ],
+    "eia_id": 14610
+  },
+  "Otero County Electric Coop": {
+    "display_name": "Otero County Electric Coop",
+    "aliases": [
+      "Otero County Electric NM"
+    ],
+    "eia_id": 14224
+  },
+  "Otter Tail Power Company": {
+    "display_name": "Otter Tail Power Company",
+    "aliases": [
+      "Otter Tail Power"
+    ],
+    "eia_id": 14232
+  },
+  "Owen Electric Cooperative, Inc.": {
+    "display_name": "Owen Electric Cooperative, Inc.",
+    "aliases": [
+      "Owen Electric Cooperative - KY"
+    ],
+    "eia_id": 14251
+  },
+  "Ozark Electric Coop Inc. - (mo)": {
+    "display_name": "Ozark Electric Coop Inc. - (mo)",
+    "aliases": [
+      "Ozark Electric Cooperative"
+    ],
+    "eia_id": 7870
+  },
+  "Pasadena Power and Water": {
+    "display_name": "Pasadena Power and Water",
+    "aliases": [
+      "Pasadena Water & Power"
+    ]
+  },
+  "PASCOAG UTILITY DISTRICT": {
+    "display_name": "PASCOAG UTILITY DISTRICT",
+    "aliases": [],
+    "eia_id": 14537
+  },
+  "PEA River Electric Cooperative AL": {
+    "display_name": "PEA River Electric Cooperative AL",
+    "aliases": [
+      "Pea River Electric Coop"
+    ],
+    "eia_id": 2212
+  },
+  "Peabody Municipal Light Plant - MA": {
+    "display_name": "Peabody Municipal Light Plant - MA",
+    "aliases": [
+      "Peabody Municipal Light Plant"
+    ]
+  },
+  "PECO": {
+    "display_name": "PECO",
+    "aliases": [
+      "PECO Electric",
+      "PECO Energy",
+      "Peco Energy Co.",
+      "PECO Energy Company",
+      "PECO Gas"
+    ],
+    "eia_id": 14940
+  },
+  "Pedernales Electric Cooperative": {
+    "display_name": "Pedernales Electric Cooperative",
+    "aliases": [
+      "pec",
+      "pedernales",
+      "Pedernales Electric",
+      "Pedernales Electric Cooperative, Inc."
+    ],
+    "eia_id": 14626
+  },
+  "Peninsula Power & Light": {
+    "display_name": "Peninsula Power & Light",
+    "aliases": [
+      "Peninsula Light Co"
+    ],
+    "eia_id": 14668
+  },
+  "Pennsylvania Electric Company - PENELEC": {
+    "display_name": "Pennsylvania Electric Company - PENELEC",
+    "aliases": [
+      "Pennsylvania Electric Company"
+    ],
+    "eia_id": 14711
+  },
+  "Pennsylvania Power Company": {
+    "display_name": "Pennsylvania Power Company",
+    "aliases": [],
+    "eia_id": 14716
+  },
+  "Peoples Gas (WEC Energy)": {
+    "display_name": "Peoples Gas (WEC Energy)",
+    "aliases": [
+      "equitable gas",
+      "Equitable Gas Co. (peoples Natural Gas",
+      "Peoples Gas - IL",
+      "Peoples Gas - PA",
+      "Peoples Gas IL",
+      "peoples gas light and coke",
+      "Peoples Gas Lt & Coke",
+      "Peoples Gas Lt & Coke Co.",
+      "Peoples Gas PA",
+      "Peoples Natural Gas",
+      "Peoples Natural Gas Co."
+    ],
+    "eia_id": 28541
+  },
+  "Peoples Gas Florida": {
+    "display_name": "Peoples Gas Florida",
+    "aliases": [
+      "Peoples Gas FL",
+      "Peoples Gas Systems",
+      "TECO Peoples Gas"
+    ]
+  },
+  "PG&E": {
+    "display_name": "PG&E",
+    "aliases": [
+      "pacific gas",
+      "Pacific Gas & Electric",
+      "Pacific Gas & Electric Co.",
+      "Pacific Gas & Electric Company",
+      "Pacific Gas & Electric, PG&E",
+      "Pacific Gas and Electric",
+      "Pacific Gas and Electric Company",
+      "pg e",
+      "PG&E Corporation",
+      "PG&E, Pacific Gas & Electric"
+    ],
+    "eia_id": 1283
+  },
+  "Philadelphia Gas Works": {
+    "display_name": "Philadelphia Gas Works",
+    "aliases": [
+      "PGW",
+      "PGW, Philadelphia Gas Works",
+      "Philadelphia Gas Works, PGW"
+    ]
+  },
+  "Piedmont Electric Membership Corporation": {
+    "display_name": "Piedmont Electric Membership Corporation",
+    "aliases": [
+      "Piedmont Electric Member"
+    ],
+    "eia_id": 15023
+  },
+  "Piedmont Natural Gas": {
+    "display_name": "Piedmont Natural Gas",
+    "aliases": [
+      "piedmont",
+      "Piedmont Gas",
+      "Piedmont Natural Gas Co.",
+      "piedmont ng"
+    ],
+    "parent_company": "Duke Energy",
+    "eia_id": 15022
+  },
+  "Port Angeles Electric Division": {
+    "display_name": "Port Angeles Electric Division",
+    "aliases": [
+      "Port Angeles"
+    ],
+    "eia_id": 15231
+  },
+  "Portland General Electric": {
+    "display_name": "Portland General Electric",
+    "aliases": [
+      "PGE",
+      "Portland General Electric - PGE",
+      "Portland General Electric Co.",
+      "Portland General Electric Company"
+    ],
+    "eia_id": 15248
+  },
+  "Potomac Electric Power": {
+    "display_name": "PEPCO",
+    "aliases": [
+      "PEPCO",
+      "Potomac Electric Power Co.",
+      "Potomac Electric Power Company"
+    ],
+    "eia_id": 14405
+  },
+  "Poudre Valley REA, Inc.": {
+    "display_name": "Poudre Valley REA, Inc.",
+    "aliases": [
+      "Poudre Valley REA"
+    ],
+    "eia_id": 15257
+  },
+  "Powell Valley Electric Cooperative": {
+    "display_name": "Powell Valley Electric Cooperative",
+    "aliases": [
+      "Powell Valley Electric Coop"
+    ],
+    "eia_id": 40497
+  },
+  "Power and Water Resource Pooling Authority": {
+    "display_name": "Power and Water Resource Pooling Authority",
+    "aliases": [],
+    "eia_id": 2273
+  },
+  "PPL Electric": {
+    "display_name": "PPL Electric",
+    "aliases": [
+      "Pennsylvania Power & Light",
+      "PPL",
+      "PPL Electric Utilities",
+      "PPL Electric Utilities - PA",
+      "PPL Electric Utilities Corporation",
+      "pppl electric utilities"
+    ],
+    "eia_id": 14715
+  },
+  "PPL GAS UTILITIES": {
+    "display_name": "PPL GAS UTILITIES",
+    "aliases": []
+  },
+  "PSE": {
+    "display_name": "PSE",
+    "aliases": [
+      "PSE (Puget Sound Energy)",
+      "PSE-Puget Sound Energy",
+      "Puget Power",
+      "Puget Sound Energy",
+      "Puget Sound Energy Inc."
+    ],
+    "eia_id": 15500
+  },
+  "PSE&G": {
+    "display_name": "PSE&G",
+    "aliases": [
+      "PSE&G (Public Service Electric and Gas) - NJ",
+      "PSEG",
+      "PSEG, PSE&G (Public Service Electric and Gas) - NJ",
+      "Public Service Elec. & Gas Co.",
+      "Public Service Electric & Gas",
+      "Public Service Electric And Gas",
+      "public service electric gas co"
+    ],
+    "eia_id": 15477
+  },
+  "PSEG Long Island": {
+    "display_name": "PSEG Long Island",
+    "aliases": [
+      "LIPA",
+      "Long Island Power Authority"
+    ],
+    "eia_id": 11171
+  },
+  "Public Service Company Of New Mexico": {
+    "display_name": "Public Service Company Of New Mexico",
+    "aliases": [
+      "PNM",
+      "public service co of new mexico",
+      "public service co of nm"
+    ],
+    "eia_id": 15472
+  },
+  "Public Service Company of Oklahoma": {
+    "display_name": "Public Service Company of Oklahoma",
+    "aliases": [
+      "PSO",
+      "Public Service Co. of Oklahoma"
+    ],
+    "eia_id": 15474
+  },
+  "Public Service NC": {
+    "display_name": "Public Service NC",
+    "aliases": [
+      "psnc",
+      "psnc energy",
+      "Public Service Co. of North Carolina",
+      "Public Service Company Of North Carolina"
+    ]
+  },
+  "Randolph Electric Membership Corporation": {
+    "display_name": "Randolph Electric Membership Corporation",
+    "aliases": [
+      "Randolph Electric Member"
+    ],
+    "eia_id": 15671
+  },
+  "Reading Municipal Light Department (RMLD) - MA": {
+    "display_name": "Reading Municipal Light Department (RMLD) - MA",
+    "aliases": [
+      "Reading Municipal Light Department"
+    ],
+    "eia_id": 3486
+  },
+  "Rhode Island Energy": {
+    "display_name": "Rhode Island Energy",
+    "aliases": [
+      "narragansett",
+      "Narragansett Electric",
+      "Narragansett Electric Co",
+      "Narragansett Electric Co. (gas Division of Ri)",
+      "National Grid Rhode Island",
+      "Rhode Island Energy - RI",
+      "Rhode Island Energy-RI"
+    ],
+    "eia_id": 13214
+  },
+  "Richmond Power and Light": {
+    "display_name": "Richmond Power and Light",
+    "aliases": [
+      "Richmond Power & Light"
+    ]
+  },
+  "Rio Grande Valley Gas Co.": {
+    "display_name": "Rio Grande Valley Gas Co.",
+    "aliases": []
+  },
+  "Roanoke Gas Company": {
+    "display_name": "Roanoke Gas Company",
+    "aliases": []
+  },
+  "Rochester Gas & Electric": {
+    "display_name": "Rochester Gas & Electric",
+    "aliases": [
+      "RG&E",
+      "Rochester Gas and Electric"
+    ],
+    "eia_id": 16183
+  },
+  "Rochester Public Utilities (RPU)": {
+    "display_name": "Rochester Public Utilities (RPU)",
+    "aliases": [
+      "Rochester Public Utilities"
+    ],
+    "eia_id": 16181
+  },
+  "Rocky Mount Utility Services GAS": {
+    "display_name": "Rocky Mount Utility Services GAS",
+    "aliases": []
+  },
+  "Rocky Mountain Power": {
+    "display_name": "Rocky Mountain Power",
+    "aliases": [
+      "Pacific Power",
+      "PacifiCorp",
+      "PacifiCorp (Pacific Power)"
+    ],
+    "eia_id": 14354
+  },
+  "Sacramento Municipal Utility District": {
+    "display_name": "Sacramento Municipal Utility District",
+    "aliases": [
+      "sacramento municipal",
+      "SMUD"
+    ],
+    "eia_id": 241
+  },
+  "Salem Electric": {
+    "display_name": "Salem Electric",
+    "eia_id": 16555,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Sam Houston Electric Cooperative, Inc.": {
+    "display_name": "Sam Houston Electric Cooperative, Inc.",
+    "aliases": [
+      "Sam Houston Electric Cooperative - TX"
+    ],
+    "eia_id": 8764
+  },
+  "San Isabel Electric Association, Inc.": {
+    "display_name": "San Isabel Electric Association, Inc.",
+    "aliases": [
+      "San Isabel Electric Association - CO"
+    ]
+  },
+  "Santee Cooper - SC": {
+    "display_name": "Santee Cooper - SC",
+    "aliases": [
+      "Santee Cooper"
+    ]
+  },
+  "SCE": {
+    "display_name": "SCE",
+    "aliases": [
+      "edison",
+      "So Cal Edison",
+      "SoCal Edison",
+      "Southern Cal Edison",
+      "Southern California Edison",
+      "Southern California Edison Co."
+    ],
+    "eia_id": 17609
+  },
+  "SDG&E": {
+    "display_name": "SDG&E",
+    "aliases": [
+      "San Diego Gas",
+      "San Diego Gas & Electric",
+      "San Diego Gas & Electric Co.",
+      "San Diego Gas & Electric Company",
+      "San Diego Gas & Electric, SDG&E",
+      "San Diego Gas and Electric",
+      "SDG&E, San Diego Gas & Electric"
+    ],
+    "eia_id": 16609
+  },
+  "Seattle City Light": {
+    "display_name": "Seattle City Light",
+    "aliases": [
+      "city of seattle",
+      "Seattle City Light - SCL",
+      "Seattle City Light - WA"
+    ],
+    "eia_id": 16868
+  },
+  "Sebring Gas Systems - FL": {
+    "display_name": "Sebring Gas Systems - FL",
+    "aliases": [
+      "Sebring Gas Systems"
+    ]
+  },
+  "Semco Energy Gas Company": {
+    "display_name": "Semco Energy Gas Company",
+    "aliases": [
+      "SEMCO"
+    ]
+  },
+  "Sequachee Valley Electric Cooperative": {
+    "display_name": "Sequachee Valley Electric Cooperative",
+    "aliases": [
+      "Sequachee Valley Electric Coop"
+    ],
+    "eia_id": 16930
+  },
+  "Sevier County Electric System": {
+    "display_name": "Sevier County Electric System",
+    "aliases": [
+      "Sevier County"
+    ],
+    "eia_id": 1169
+  },
+  "Sevier County Utility District (SCUD)": {
+    "display_name": "Sevier County Utility District (SCUD)",
+    "aliases": [
+      "Sevier County Utility District"
+    ]
+  },
+  "Shawano Municipal Utilities": {
+    "display_name": "Shawano Municipal Utilities",
+    "eia_id": 17011,
+    "aliases": [],
+    "utility_type": "multi"
+  },
+  "Shenandoah Valley Electric Cooperative - VA": {
+    "display_name": "Shenandoah Valley Electric Cooperative - VA",
+    "aliases": [
+      "Shenandoah Valley Electric Cooperative"
+    ]
+  },
+  "SiEnergy": {
+    "display_name": "SiEnergy",
+    "aliases": [
+      "Si Energy",
+      "SiEnergy LP"
+    ],
+    "utility_type": "gas"
+  },
+  "Singing River Electric Cooperative": {
+    "display_name": "Singing River Electric",
+    "aliases": [
+      "Singing River Electric Cooperative",
+      "Singing River Electric Power Assn"
+    ],
+    "utility_type": "electric"
+  },
+  "Smyrna Natural Gas System": {
+    "display_name": "Smyrna Natural Gas System",
+    "aliases": []
+  },
+  "Snohomish County PUD": {
+    "display_name": "Snohomish County PUD",
+    "aliases": [
+      "SnoPUD",
+      "Snohomish PUD"
+    ],
+    "eia_id": 17470
+  },
+  "SoCalGas": {
+    "display_name": "SoCalGas",
+    "aliases": [
+      "PG&E, Southern California Gas",
+      "So Cal Gas",
+      "socal gas",
+      "Southern California Gas",
+      "Southern California Gas Company",
+      "Southern California Gas, PG&E"
+    ]
+  },
+  "South Central Power Co": {
+    "display_name": "South Central Power Co",
+    "aliases": [
+      "South Central Power"
+    ],
+    "eia_id": 18085
+  },
+  "South Jersey Gas": {
+    "display_name": "South Jersey Gas",
+    "aliases": [
+      "SJG"
+    ]
+  },
+  "South Plains Electric Cooperative, Inc.": {
+    "display_name": "South Plains Electric Cooperative, Inc.",
+    "aliases": [
+      "South Plains Electric Co",
+      "South Plains Electric Cooperative - TX"
+    ]
+  },
+  "Southern Connecticut Gas": {
+    "display_name": "Southern Connecticut Gas",
+    "aliases": [
+      "Southern Conneticut Gas"
+    ]
+  },
+  "SOUTHERN MARYLAND ELEC COOP INC": {
+    "display_name": "SOUTHERN MARYLAND ELEC COOP INC",
+    "aliases": [
+      "SMECO",
+      "SMECO - MD",
+      "Southern Maryland Elec Coop"
+    ],
+    "eia_id": 4508
+  },
+  "Southern Rivers Energy": {
+    "display_name": "Southern Rivers Energy",
+    "eia_id": 10624,
+    "aliases": [],
+    "utility_type": "electric"
+  },
+  "Southside Electric Cooperative - VA": {
+    "display_name": "Southside Electric Cooperative - VA",
+    "aliases": [
+      "Southside Electric Cooperative"
+    ],
+    "eia_id": 55959
+  },
+  "Southwest Gas": {
+    "display_name": "Southwest Gas",
+    "aliases": [
+      "Southwest Gas Co",
+      "Southwest Gas Corporation"
+    ]
+  },
+  "Southwestern Electric Power Company": {
+    "display_name": "Southwestern Electric Power Company",
+    "aliases": [
+      "Southwestern Electric Power",
+      "Southwestern Electric Power Company - AR",
+      "SWEPCO"
+    ],
+    "eia_id": 17698
+  },
+  "Southwestern Gas Service - VA": {
+    "display_name": "Southwestern Gas Service - VA",
+    "aliases": [
+      "Southwestern VA Gas Co."
+    ]
+  },
+  "Spire Alabama": {
+    "display_name": "Spire Alabama",
+    "aliases": [
+      "Alagasco",
+      "Southeast Gas"
+    ]
+  },
+  "Spire Missouri": {
+    "display_name": "Spire Missouri",
+    "aliases": [
+      "Laclede Gas",
+      "Spire",
+      "Spire Energy"
+    ]
+  },
+  "SRP": {
+    "display_name": "SRP",
+    "aliases": [
+      "Salt River Project",
+      "Salt River Project (SRP)"
+    ],
+    "eia_id": 16572
+  },
+  "St. Croix Valley Natural Gas": {
+    "display_name": "St. Croix Valley Natural Gas",
+    "aliases": [
+      "St. Croix Gas - WI"
+    ]
+  },
+  "St. Lawrence Gas": {
+    "display_name": "St. Lawrence Gas",
+    "aliases": []
+  },
+  "Suburban Natural Gas": {
+    "display_name": "Suburban Natural Gas",
+    "aliases": []
+  },
+  "Summit Natural Gas - MO": {
+    "display_name": "Summit Natural Gas - MO",
+    "aliases": [
+      "Summit Natural Gas"
+    ]
+  },
+  "Tacoma Public Utilities - WA": {
+    "display_name": "Tacoma Public Utilities - WA",
+    "aliases": [
+      "Tacoma"
+    ],
+    "eia_id": 18429
+  },
+  "Taunton Municipal Lighting Plant - MA": {
+    "display_name": "Taunton Municipal Lighting Plant - MA",
+    "aliases": [
+      "Taunton Municipal Lighting Plant"
+    ]
+  },
+  "TECO Energy": {
+    "display_name": "TECO Energy",
+    "aliases": [
+      "Tampa Electric",
+      "Tampa Electric Co.",
+      "Tampa Electric Company"
+    ],
+    "eia_id": 18454
+  },
+  "TEP": {
+    "display_name": "TEP",
+    "aliases": [
+      "tucson electric power",
+      "Tucson Electric Power - AZ",
+      "Tucson Electric Power Co."
+    ],
+    "eia_id": 24211
+  },
+  "Texas Gas Service": {
+    "display_name": "Texas Gas Service",
+    "aliases": [
+      "one gas",
+      "texas gas",
+      "Texas Gas Service Company",
+      "tgs"
+    ]
+  },
+  "The City of Fremont - NE": {
+    "display_name": "The City of Fremont - NE",
+    "aliases": [
+      "Fremont"
+    ],
+    "eia_id": 6779
+  },
+  "The City of Salem - VA": {
+    "display_name": "The City of Salem - VA",
+    "aliases": [
+      "City of Salem"
+    ],
+    "eia_id": 385
+  },
+  "The City of Ukiah\u2019s Electric Department - CA": {
+    "display_name": "The City of Ukiah\u2019s Electric Department - CA",
+    "aliases": [
+      "City of Ukiah Electric Utilities Division"
+    ],
+    "eia_id": 19397
+  },
+  "The Coos-Curry Electric Cooperative (CCEC)": {
+    "display_name": "The Coos-Curry Electric Cooperative (CCEC)",
+    "aliases": [
+      "Coos-Curry Electric Cooperative"
+    ],
+    "eia_id": 4317
+  },
+  "The Potomac Edison Company": {
+    "display_name": "The Potomac Edison Company",
+    "aliases": [
+      "Potomac Edison company"
+    ]
+  },
+  "TID Water & Power - Turlock Irrigation District": {
+    "display_name": "TID Water & Power - Turlock Irrigation District",
+    "aliases": [
+      "Turlock Irrigation District"
+    ],
+    "eia_id": 9216
+  },
+  "Tideland Electric Membership Corporation": {
+    "display_name": "Tideland Electric Membership Corporation",
+    "aliases": [
+      "Tideland Electric Member"
+    ],
+    "eia_id": 19108
+  },
+  "TNMP": {
+    "display_name": "TNMP",
+    "aliases": [
+      "Texas New Mexico Power",
+      "texas-new mexico power",
+      "Texas-New Mexico Power Company"
+    ],
+    "eia_id": 40051
+  },
+  "TRI-COUNTY ELEC MEMBER CORP": {
+    "display_name": "TRI-COUNTY ELEC MEMBER CORP",
+    "aliases": [
+      "Tri-county Elec Member"
+    ],
+    "eia_id": 6640
+  },
+  "Tri-County Electric Cooperative, Inc.": {
+    "display_name": "Tri-County Electric Cooperative, Inc.",
+    "aliases": []
+  },
+  "Trico Electric Cooperative": {
+    "display_name": "Trico Electric Cooperative",
+    "aliases": [],
+    "eia_id": 19189
+  },
+  "Trinity Valley Electric Cooperative, Inc.": {
+    "display_name": "Trinity Valley Electric Cooperative, Inc.",
+    "aliases": []
+  },
+  "UGI": {
+    "display_name": "UGI",
+    "aliases": [
+      "UGI Energy Services",
+      "UGI Utilities",
+      "UGI Utilities Inc - PA"
+    ],
+    "eia_id": 19390
+  },
+  "Ugi Penn Natural Gas": {
+    "display_name": "Ugi Penn Natural Gas",
+    "aliases": []
+  },
+  "Umatilla Electric Cooperative (Oregon)": {
+    "display_name": "Umatilla Electric Cooperative (Oregon)",
+    "aliases": [
+      "Umatilla"
+    ],
+    "eia_id": 19325
+  },
+  "Unisource Energy Services (uns)": {
+    "display_name": "Unisource Energy Services (uns)",
+    "aliases": [
+      "UniSource Energy Services"
+    ]
+  },
+  "United Electric Cooperative Services, Inc.": {
+    "display_name": "United Electric Cooperative Services, Inc.",
+    "aliases": [],
+    "eia_id": 15034
+  },
+  "United Illuminating": {
+    "display_name": "United Illuminating",
+    "aliases": [
+      "UI",
+      "The United Illuminating Company"
+    ],
+    "parent_company": "Avangrid",
+    "eia_id": 19497
+  },
+  "United Power, Inc.": {
+    "display_name": "United Power, Inc.",
+    "aliases": [
+      "United Power"
+    ],
+    "eia_id": 19499
+  },
+  "Upper Michigan Energy Resources Corporation": {
+    "display_name": "Upper Michigan Energy Resources Corporation",
+    "aliases": [
+      "Upper Michigan Energy Resources - MI"
+    ]
+  },
+  "Upper Peninsula Power Company (UPPCO)": {
+    "display_name": "Upper Peninsula Power Company (UPPCO)",
+    "aliases": [
+      "Upper Peninsula Power Company"
+    ],
+    "eia_id": 19578
+  },
+  "Vermont Gas Systems Inc.": {
+    "display_name": "Vermont Gas Systems Inc.",
+    "aliases": [
+      "Vermont Gas Systems"
+    ]
+  },
+  "Village of Morrisville Water & Light Dept.": {
+    "display_name": "Village of Morrisville Water & Light Dept.",
+    "aliases": [],
+    "eia_id": 221
+  },
+  "Wake Electric Membership Corporation": {
+    "display_name": "Wake Electric Membership Corporation",
+    "aliases": [
+      "Wake Electric Membership"
+    ],
+    "eia_id": 16865
+  },
+  "Wakefield Municipal Gas & Light Department (WMGLD) - MA": {
+    "display_name": "Wakefield Municipal Gas & Light",
+    "aliases": [
+      "Wakefield Gas & Electric",
+      "Wakefield Municipal Gas and Light Department",
+      "Wakefield Municipal Light Department"
+    ]
+  },
+  "Washington Electric Utilities - NC": {
+    "display_name": "Washington Electric Utilities - NC",
+    "aliases": []
+  },
+  "Washington Gas": {
+    "display_name": "Washington Gas",
+    "aliases": [
+      "Washington Gas Light",
+      "Washington Gass"
+    ]
+  },
+  "WE Energies": {
+    "display_name": "WE Energies",
+    "aliases": [
+      "Wisconsin Electric",
+      "Wisconsin Electric Power",
+      "wisconsin electric power co",
+      "wisconsin electric power company",
+      "wisconsin energy",
+      "Wisconsin Gas",
+      "wisconsin gas co",
+      "wisconsin gas llc"
+    ],
+    "parent_company": "WEC Energy Group",
+    "eia_id": 20847
+  },
+  "West Florida El Coop Assn": {
+    "display_name": "West Florida El Coop Assn",
+    "aliases": [],
+    "eia_id": 6443
+  },
+  "West Penn Power Company": {
+    "display_name": "West Penn Power Company",
+    "aliases": [
+      "West Penn Power"
+    ],
+    "eia_id": 20387
+  },
+  "West Tennessee Public Utility District - TN": {
+    "display_name": "West Tennessee Public Utility District - TN",
+    "aliases": [
+      "West Tennessee Public Utility"
+    ],
+    "eia_id": 15327
+  },
+  "Westfield Gas & Electric - MA": {
+    "display_name": "Westfield Gas & Electric - MA",
+    "aliases": [
+      "Westfield Gas & Elec Lt Dep"
+    ],
+    "eia_id": 40036
+  },
+  "Wisconsin Public Service (WEC Energy)": {
+    "display_name": "Wisconsin Public Service (WEC Energy)",
+    "aliases": [
+      "Wisconsin Public Service",
+      "wisconsin public service corp",
+      "Wisconsin Public Service Corporation",
+      "Wisconsin Public Services",
+      "wps"
+    ],
+    "eia_id": 20860
+  },
+  "Withlacoochee River Electric Cooperative": {
+    "display_name": "Withlacoochee River Electric Cooperative",
+    "aliases": [
+      "Withlacoochee River Electric Cooperative - FL",
+      "WREC",
+      "Withlacoochee River Electric"
+    ],
+    "utility_type": "electric"
+  },
+  "Wyandotte Municipal Serv": {
+    "display_name": "Wyandotte Municipal Serv",
+    "aliases": [
+      "wyandotte",
+      "wyandotte municipal"
+    ],
+    "eia_id": 21048
+  },
+  "Xcel Energy": {
+    "display_name": "Xcel Energy",
+    "aliases": [
+      "Northern States Power",
+      "Northern States Power Co.",
+      "Northern States Power Company (xcel Energy)",
+      "NSP",
+      "PSC of Colorado",
+      "Public Service Co. of Colorado",
+      "Public Service Company Of Colorado",
+      "xcel",
+      "Xcel Energy Colorado",
+      "Xcel Energy Minnesota"
+    ],
+    "eia_id": 5905
+  },
+  "York County Natural Gas Authority": {
+    "display_name": "York County Natural Gas Authority",
+    "aliases": [
+      "York County Natural Gas Authority - SC"
+    ]
+  },
+  "Zia Natural Gas Company": {
+    "display_name": "Zia Natural Gas Company",
+    "aliases": []
+  },
+  "PUD No 1 Of Clark County": {
+    "display_name": "Clark Public Utilities",
+    "aliases": [
+      "Clark Public Utilities",
+      "PUD No 1 Of Clark County - (WA)",
+      "PUD No 1 Of Clark County - (Wa)",
+      "Clark County PUD"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "utilities": {
+    "ATMOS": {
+      "name": "Atmos Energy",
+      "phone": "1-888-286-6700",
+      "website": "https://www.atmosenergy.com",
+      "service_area": "Dallas/Fort Worth, West Texas, North Texas"
+    },
+    "CENTERPOINT": {
+      "name": "CenterPoint Energy",
+      "phone": "1-800-752-8036",
+      "website": "https://www.centerpointenergy.com",
+      "service_area": "Houston metropolitan area"
+    },
+    "TEXAS_GAS_SERVICE": {
+      "name": "Texas Gas Service",
+      "phone": "1-800-700-2443",
+      "website": "https://www.texasgasservice.com",
+      "service_area": "Austin, Central Texas, El Paso"
+    },
+    "COSERV": {
+      "name": "CoServ Gas",
+      "phone": "1-940-321-7800",
+      "website": "https://www.coserv.com",
+      "service_area": "Denton County, parts of Collin/Dallas/Tarrant counties"
+    }
+  },
+  "zip_to_utility": {
+    "750": "ATMOS", "751": "ATMOS", "752": "ATMOS", "753": "ATMOS",
+    "754": "ATMOS", "755": "ATMOS", "760": "ATMOS", "761": "ATMOS",
+    "762": "ATMOS", "763": "ATMOS", "764": "ATMOS", "765": "ATMOS",
+    "766": "ATMOS", "767": "ATMOS", "768": "ATMOS", "769": "ATMOS",
+    "790": "ATMOS", "791": "ATMOS", "792": "ATMOS", "793": "ATMOS",
+    "794": "ATMOS", "795": "ATMOS", "796": "ATMOS",
+    "770": "CENTERPOINT", "771": "CENTERPOINT", "772": "CENTERPOINT",
+    "773": "CENTERPOINT", "774": "CENTERPOINT", "775": "CENTERPOINT",
+    "776": "CENTERPOINT", "777": "CENTERPOINT", "778": "CENTERPOINT",
+    "779": "CENTERPOINT",
+    "786": "TEXAS_GAS_SERVICE", "787": "TEXAS_GAS_SERVICE",
+    "788": "TEXAS_GAS_SERVICE", "789": "TEXAS_GAS_SERVICE",
+    "798": "TEXAS_GAS_SERVICE", "799": "TEXAS_GAS_SERVICE"
+  },
+  "zip_overrides": {
+    "75068": "COSERV",
+    "75022": "COSERV",
+    "75028": "COSERV",
+    "75034": "COSERV",
+    "75056": "COSERV",
+    "75057": "COSERV",
+    "75067": "COSERV",
+    "75077": "COSERV",
+    "78640": "CENTERPOINT",
+    "78610": "CENTERPOINT",
+    "78666": "CENTERPOINT",
+    "78676": "CENTERPOINT",
+    "78620": "CENTERPOINT"
+  },
+  "ambiguous_zips": {},
+  "_notes": "TX gas LDC mapping from state_utility_verification.py. ZIP prefix 750-769=Atmos (DFW), 770-779=CenterPoint (Houston), 786-789=Texas Gas Service (Austin), 790-796=Atmos (Amarillo/Lubbock), 798-799=Texas Gas Service (El Paso). 5-digit overrides for Denton County (CoServ) and Hays County (CenterPoint)."
+}

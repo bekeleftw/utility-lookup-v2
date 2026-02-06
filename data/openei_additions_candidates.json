@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "description": "Candidate additions to canonical_providers.json from OpenEI cross-reference",
+    "generated": "2026-02-06",
+    "source": "openei_utilities.json + tenant data scoring",
+    "action_required": "Review and approve before adding to canonical_providers.json"
+  },
+  "high_priority": {
+    "Omaha Public Power District": {
+      "display_name": "Omaha Public Power District",
+      "eia_id": 14127,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 109
+    },
+    "Lincoln Electric System": {
+      "display_name": "Lincoln Electric System",
+      "eia_id": 11018,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 57
+    },
+    "Kissimmee Utility Authority": {
+      "display_name": "Kissimmee Utility Authority",
+      "eia_id": 10376,
+      "aliases": [],
+      "utility_type": "multi",
+      "tenant_mentions": 37
+    },
+    "Gainesville Regional Utilities": {
+      "display_name": "Gainesville Regional Utilities",
+      "eia_id": 6909,
+      "aliases": [],
+      "utility_type": "multi",
+      "tenant_mentions": 28
+    },
+    "Beaches Energy Services": {
+      "display_name": "Beaches Energy Services",
+      "eia_id": 9616,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 12
+    }
+  },
+  "low_priority": {
+    "Shawano Municipal Utilities": {
+      "display_name": "Shawano Municipal Utilities",
+      "eia_id": 17011,
+      "aliases": [],
+      "utility_type": "multi",
+      "tenant_mentions": 8
+    },
+    "Nebraska Public Power District": {
+      "display_name": "Nebraska Public Power District",
+      "eia_id": 13337,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 7
+    },
+    "Salem Electric": {
+      "display_name": "Salem Electric",
+      "eia_id": 16555,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 7
+    },
+    "Kootenai Electric Cooperative": {
+      "display_name": "Kootenai Electric Cooperative",
+      "eia_id": 10454,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 6
+    },
+    "Hohokam Irr & Drain Dist": {
+      "display_name": "Hohokam Irr & Drain Dist",
+      "eia_id": 8700,
+      "aliases": [],
+      "utility_type": "multi",
+      "tenant_mentions": 5
+    },
+    "Lakeview Light & Power": {
+      "display_name": "Lakeview Light & Power",
+      "eia_id": 10627,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 3
+    },
+    "Mille Lacs Energy Cooperative": {
+      "display_name": "Mille Lacs Energy Cooperative",
+      "eia_id": 12546,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 2
+    },
+    "Southern Rivers Energy": {
+      "display_name": "Southern Rivers Energy",
+      "eia_id": 10624,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 2
+    },
+    "Appalachian Electric Coop": {
+      "display_name": "Appalachian Electric Coop",
+      "eia_id": 727,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Bear Valley Electric Service": {
+      "display_name": "Bear Valley Electric Service",
+      "eia_id": 17612,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Bolivar Energy Authority": {
+      "display_name": "Bolivar Energy Authority",
+      "eia_id": 1936,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Gascosage Electric Coop": {
+      "display_name": "Gascosage Electric Coop",
+      "eia_id": 7024,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Heart of Texas Electric Coop": {
+      "display_name": "Heart of Texas Electric Coop",
+      "eia_id": 55982,
+      "aliases": [],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Karnes Electric Coop": {
+      "display_name": "Karnes Electric Coop",
+      "eia_id": 10009,
+      "aliases": [
+        "Karnes Electric Coop Inc"
+      ],
+      "utility_type": "electric",
+      "tenant_mentions": 1
+    },
+    "Kerrville Public Utility Board": {
+      "display_name": "Kerrville Public Utility Board",
+      "eia_id": 28604,
+      "aliases": [],
+      "utility_type": "multi",
+      "tenant_mentions": 1
+    },
+    "Modern Electric Water": {
+      "display_name": "Modern Electric Water",
+      "eia_id": 12744,
+      "aliases": [
+        "Modern Electric Water Company"
+      ],
+      "utility_type": "water",
+      "tenant_mentions": 1
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "_metadata": {
+    "state": "GA",
+    "last_updated": "2026-01-11",
+    "source": "GA PSC",
+    "note": "Georgia is deregulated for gas. AGL owns pipes, customers choose marketer."
+  },
+  "zip_to_utility": {
+    "300": "Atlanta Gas Light",
+    "301": "Atlanta Gas Light",
+    "302": "Atlanta Gas Light",
+    "303": "Atlanta Gas Light",
+    "304": "Atlanta Gas Light",
+    "305": "Atlanta Gas Light",
+    "306": "Atlanta Gas Light",
+    "307": "Atlanta Gas Light",
+    "308": "Atlanta Gas Light",
+    "309": "Atlanta Gas Light",
+    "310": "Atlanta Gas Light",
+    "311": "Atlanta Gas Light",
+    "312": "Atlanta Gas Light",
+    "313": "Atlanta Gas Light",
+    "314": "Atlanta Gas Light",
+    "315": "Atlanta Gas Light",
+    "316": "Atlanta Gas Light",
+    "317": "Atlanta Gas Light",
+    "318": "Atlanta Gas Light",
+    "319": "Atlanta Gas Light"
+  },
+  "zip_overrides": {
+    "31601": "Liberty Utilities",
+    "31602": "Liberty Utilities",
+    "31605": "Liberty Utilities",
+    "31606": "Liberty Utilities",
+    "31620": "Liberty Utilities",
+    "31622": "Liberty Utilities",
+    "31625": "Liberty Utilities",
+    "31626": "Liberty Utilities",
+    "31629": "Liberty Utilities",
+    "31630": "Liberty Utilities",
+    "31631": "Liberty Utilities",
+    "31632": "Liberty Utilities",
+    "31634": "Liberty Utilities",
+    "31635": "Liberty Utilities",
+    "31636": "Liberty Utilities",
+    "31637": "Liberty Utilities",
+    "31638": "Liberty Utilities",
+    "31639": "Liberty Utilities",
+    "31641": "Liberty Utilities",
+    "31642": "Liberty Utilities",
+    "31643": "Liberty Utilities",
+    "31645": "Liberty Utilities",
+    "31647": "Liberty Utilities",
+    "31648": "Liberty Utilities",
+    "31649": "Liberty Utilities",
+    "31650": "Liberty Utilities"
+  },
+  "utilities": {
+    "Atlanta Gas Light": {
+      "name": "Atlanta Gas Light",
+      "phone": "1-800-427-5463",
+      "website": "https://www.atlantagaslight.com",
+      "service_area": "Most of Georgia (deregulated - AGL owns pipes)",
+      "note": "Deregulated market - customers choose gas marketer but AGL delivers"
+    },
+    "Liberty Utilities": {
+      "name": "Liberty Utilities",
+      "phone": "1-800-427-5463",
+      "website": "https://www.libertyutilities.com",
+      "service_area": "South Georgia (Valdosta area)"
+    }
+  }
+}

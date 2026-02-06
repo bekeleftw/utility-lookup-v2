@@ -1,0 +1,26 @@
+{
+  "_metadata": {
+    "description": "ZIP-level gas utility corrections based on user feedback",
+    "date": "2026-02-02",
+    "source": "Airtable utility_usage_log feedback"
+  },
+  "corrections": {
+    "46901": {
+      "provider": "NIPSCO",
+      "phone": "800-464-7726",
+      "website": "https://www.nipsco.com",
+      "state": "IN",
+      "note": "User feedback - NIPSCO serves Kokomo/Howard County, not CenterPoint"
+    },
+    "75126": {
+      "provider": "CoServ Gas",
+      "state": "TX",
+      "note": "CoServ serves Forney/Kaufman County, not Atmos Energy"
+    },
+    "30165": {
+      "provider": "Scana Energy",
+      "state": "GA",
+      "note": "Scana Energy serves Rome GA, not Nicor Gas"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "_metadata": {
+    "state": "OH",
+    "last_updated": "2026-01-11",
+    "source": "PUCO Service Territory Maps"
+  },
+  "zip_to_utility": {
+    "430": "Columbia Gas",
+    "431": "Columbia Gas",
+    "432": "Columbia Gas",
+    "433": "Columbia Gas",
+    "434": "Columbia Gas",
+    "435": "Columbia Gas",
+    "436": "Columbia Gas",
+    "437": "Columbia Gas",
+    "438": "Columbia Gas",
+    "439": "Columbia Gas",
+    "440": "Dominion Energy",
+    "441": "Dominion Energy",
+    "442": "Dominion Energy",
+    "443": "Dominion Energy",
+    "444": "Dominion Energy",
+    "445": "Duke Energy Ohio",
+    "446": "Columbia Gas",
+    "447": "Columbia Gas",
+    "448": "Columbia Gas",
+    "449": "Columbia Gas",
+    "450": "Duke Energy Ohio",
+    "451": "Duke Energy Ohio",
+    "452": "Duke Energy Ohio",
+    "453": "Duke Energy Ohio",
+    "454": "CenterPoint Energy Ohio",
+    "455": "CenterPoint Energy Ohio",
+    "456": "Columbia Gas",
+    "457": "Columbia Gas",
+    "458": "Columbia Gas",
+    "459": "Columbia Gas"
+  },
+  "zip_overrides": {},
+  "utilities": {
+    "Columbia Gas": {
+      "name": "Columbia Gas of Ohio",
+      "phone": "1-800-344-4077",
+      "website": "https://www.columbiagasohio.com",
+      "service_area": "Central, Eastern, and parts of Northern Ohio"
+    },
+    "Dominion Energy": {
+      "name": "Dominion Energy Ohio",
+      "phone": "1-800-362-7557",
+      "website": "https://www.dominionenergy.com",
+      "service_area": "Northeast Ohio (Cleveland area)"
+    },
+    "Duke Energy Ohio": {
+      "name": "Duke Energy Ohio",
+      "phone": "1-800-544-6900",
+      "website": "https://www.duke-energy.com",
+      "service_area": "Southwest Ohio (Cincinnati area)"
+    },
+    "CenterPoint Energy Ohio": {
+      "name": "CenterPoint Energy Ohio",
+      "phone": "1-800-477-4747",
+      "website": "https://www.centerpointenergy.com",
+      "service_area": "Dayton area"
+    }
+  }
+}

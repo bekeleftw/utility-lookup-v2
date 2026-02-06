@@ -1,0 +1,65 @@
+{
+  "_metadata": {
+    "state": "AZ",
+    "last_updated": "2026-01-11",
+    "source": "AZ Corporation Commission"
+  },
+  "zip_to_utility": {
+    "850": "Southwest Gas",
+    "851": "Southwest Gas",
+    "852": "Southwest Gas",
+    "853": "Southwest Gas",
+    "854": "Southwest Gas",
+    "855": "Southwest Gas",
+    "856": "Southwest Gas",
+    "857": "Southwest Gas",
+    "858": "Southwest Gas",
+    "859": "Southwest Gas",
+    "860": "Southwest Gas",
+    "863": "Southwest Gas",
+    "864": "Southwest Gas",
+    "865": "Southwest Gas"
+  },
+  "zip_overrides": {
+    "85901": "Unisource Energy",
+    "85902": "Unisource Energy",
+    "85911": "Unisource Energy",
+    "85912": "Unisource Energy",
+    "85920": "Unisource Energy",
+    "85922": "Unisource Energy",
+    "85923": "Unisource Energy",
+    "85924": "Unisource Energy",
+    "85925": "Unisource Energy",
+    "85926": "Unisource Energy",
+    "85927": "Unisource Energy",
+    "85928": "Unisource Energy",
+    "85929": "Unisource Energy",
+    "85930": "Unisource Energy",
+    "85931": "Unisource Energy",
+    "85932": "Unisource Energy",
+    "85933": "Unisource Energy",
+    "85934": "Unisource Energy",
+    "85935": "Unisource Energy",
+    "85936": "Unisource Energy",
+    "85937": "Unisource Energy",
+    "85938": "Unisource Energy",
+    "85939": "Unisource Energy",
+    "85940": "Unisource Energy",
+    "85941": "Unisource Energy",
+    "85942": "Unisource Energy"
+  },
+  "utilities": {
+    "Southwest Gas": {
+      "name": "Southwest Gas Corporation",
+      "phone": "1-877-860-6020",
+      "website": "https://www.swgas.com",
+      "service_area": "Phoenix, Tucson, and most of Arizona"
+    },
+    "Unisource Energy": {
+      "name": "Unisource Energy Services",
+      "phone": "1-877-837-4968",
+      "website": "https://www.uesaz.com",
+      "service_area": "Parts of southern and eastern Arizona"
+    }
+  }
+}

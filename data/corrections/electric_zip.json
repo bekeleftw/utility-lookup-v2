@@ -1,0 +1,64 @@
+{
+  "_metadata": {
+    "description": "ZIP-level electric utility corrections based on user feedback",
+    "date": "2026-02-01",
+    "source": "Airtable utility_usage_log feedback"
+  },
+  "corrections": {
+    "85013": {
+      "provider": "Salt River Project (SRP)",
+      "state": "AZ",
+      "note": "User feedback - SRP serves this area"
+    },
+    "85014": {
+      "provider": "Salt River Project (SRP)",
+      "state": "AZ",
+      "note": "User feedback - SRP serves this area"
+    },
+    "85029": {
+      "provider": "Salt River Project (SRP)",
+      "state": "AZ",
+      "note": "User feedback - SRP serves this area"
+    },
+    "85042": {
+      "provider": "Salt River Project (SRP)",
+      "state": "AZ",
+      "note": "User feedback - SRP serves this area"
+    },
+    "85345": {
+      "provider": "Salt River Project (SRP)",
+      "state": "AZ",
+      "note": "User feedback - Peoria area served by SRP"
+    },
+    "85207": {
+      "provider": "Arizona Public Service (APS)",
+      "state": "AZ",
+      "note": "User feedback - APS serves this Mesa area"
+    },
+    "85209": {
+      "provider": "Arizona Public Service (APS)",
+      "state": "AZ",
+      "note": "User feedback - APS serves this Mesa area"
+    },
+    "86401": {
+      "provider": "Unisource Energy Services",
+      "state": "AZ",
+      "note": "User feedback - Unisource serves Kingman"
+    },
+    "32303": {
+      "provider": "Talquin Electric Cooperative",
+      "state": "FL",
+      "note": "User feedback - Talquin serves this Tallahassee-area ZIP"
+    },
+    "53548": {
+      "provider": "Rock Energy Cooperative",
+      "state": "WI",
+      "note": "User feedback - Rock Energy serves parts of Janesville"
+    },
+    "28078": {
+      "provider": "Electricities of NC (Huntersville)",
+      "state": "NC",
+      "note": "User feedback - Municipal utility serves Huntersville"
+    }
+  }
+}

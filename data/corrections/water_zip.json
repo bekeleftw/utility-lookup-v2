@@ -1,0 +1,23 @@
+{
+  "_metadata": {
+    "description": "ZIP-level water utility corrections based on user feedback",
+    "date": "2026-02-02",
+    "source": "Airtable utility_usage_log feedback"
+  },
+  "corrections": {
+    "07936": {
+      "provider": "East Hanover Township Water Department",
+      "phone": "973-887-0432",
+      "website": "https://www.easthanovertownship.com/Departments/water-and-sewer-department",
+      "state": "NJ",
+      "note": "User feedback - East Hanover Township has its own water department"
+    },
+    "47303": {
+      "provider": "Indiana American Water",
+      "phone": "800-492-8373",
+      "website": "https://www.amwater.com/inaw/",
+      "state": "IN",
+      "note": "User feedback - Indiana American Water serves Muncie"
+    }
+  }
+}

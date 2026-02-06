@@ -1,0 +1,95 @@
+{
+  "_metadata": {
+    "state": "IL",
+    "last_updated": "2026-01-11",
+    "source": "IL Commerce Commission"
+  },
+  "zip_to_utility": {
+    "600": "Nicor Gas",
+    "601": "Nicor Gas",
+    "602": "Peoples Gas",
+    "603": "Peoples Gas",
+    "604": "Nicor Gas",
+    "605": "Nicor Gas",
+    "606": "Peoples Gas",
+    "607": "Nicor Gas",
+    "608": "Nicor Gas",
+    "609": "Nicor Gas",
+    "610": "Nicor Gas",
+    "611": "Nicor Gas",
+    "612": "Nicor Gas",
+    "613": "Ameren Illinois",
+    "614": "Ameren Illinois",
+    "615": "Ameren Illinois",
+    "616": "Ameren Illinois",
+    "617": "Ameren Illinois",
+    "618": "Ameren Illinois",
+    "619": "Ameren Illinois",
+    "620": "Ameren Illinois",
+    "622": "Ameren Illinois",
+    "623": "Ameren Illinois",
+    "624": "Ameren Illinois",
+    "625": "Ameren Illinois",
+    "626": "Ameren Illinois",
+    "627": "Ameren Illinois",
+    "628": "Ameren Illinois",
+    "629": "Ameren Illinois"
+  },
+  "zip_overrides": {
+    "60091": "North Shore Gas",
+    "60093": "North Shore Gas",
+    "60201": "North Shore Gas",
+    "60202": "North Shore Gas",
+    "60203": "North Shore Gas",
+    "60204": "North Shore Gas",
+    "60208": "North Shore Gas",
+    "60035": "North Shore Gas",
+    "60037": "North Shore Gas",
+    "60040": "North Shore Gas",
+    "60043": "North Shore Gas",
+    "60044": "North Shore Gas",
+    "60045": "North Shore Gas",
+    "60046": "North Shore Gas",
+    "60047": "North Shore Gas",
+    "60048": "North Shore Gas",
+    "60060": "North Shore Gas",
+    "60061": "North Shore Gas",
+    "60062": "North Shore Gas",
+    "60064": "North Shore Gas",
+    "60069": "North Shore Gas",
+    "60070": "North Shore Gas",
+    "60076": "North Shore Gas",
+    "60077": "North Shore Gas",
+    "60085": "North Shore Gas",
+    "60087": "North Shore Gas",
+    "60088": "North Shore Gas",
+    "60089": "North Shore Gas",
+    "60090": "North Shore Gas"
+  },
+  "utilities": {
+    "Nicor Gas": {
+      "name": "Nicor Gas",
+      "phone": "1-888-642-6748",
+      "website": "https://www.nicorgas.com",
+      "service_area": "Chicago suburbs, northern Illinois"
+    },
+    "Peoples Gas": {
+      "name": "Peoples Gas",
+      "phone": "1-866-556-6001",
+      "website": "https://www.peoplesgasdelivery.com",
+      "service_area": "City of Chicago"
+    },
+    "North Shore Gas": {
+      "name": "North Shore Gas",
+      "phone": "1-866-556-6004",
+      "website": "https://www.northshoregasdelivery.com",
+      "service_area": "North Shore suburbs (Evanston, Wilmette, Winnetka, etc.)"
+    },
+    "Ameren Illinois": {
+      "name": "Ameren Illinois",
+      "phone": "1-800-755-5000",
+      "website": "https://www.ameren.com",
+      "service_area": "Central and Southern Illinois"
+    }
+  }
+}

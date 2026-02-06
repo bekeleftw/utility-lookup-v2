@@ -1,0 +1,608 @@
+{
+  "electric": {
+    "NJ": {
+      "url": "https://mapsdep.nj.gov/arcgis/rest/services/Features/Utilities/MapServer/10/query",
+      "source": "NJ DEP",
+      "name_field": "NAME",
+      "out_fields": "NAME,DISTRICT,TYPE",
+      "confidence": 0.92,
+      "notes": "NJ DEP Electric Utilities Territory Map"
+    },
+    "AR": {
+      "url": "https://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Utilities/FeatureServer/12/query",
+      "source": "Arkansas GIS Office",
+      "name_field": "name",
+      "out_fields": "name,source,label",
+      "confidence": 0.92,
+      "notes": "Electric Utility Service Territories Layer 12"
+    },
+    "DE": {
+      "url": "https://enterprise.firstmaptest.delaware.gov/arcgis/rest/services/Boundaries/DE_CPCN/FeatureServer/2/query",
+      "source": "Delaware FirstMap",
+      "name_field": "ELECTRICPROVIDER",
+      "out_fields": "ELECTRICPROVIDER",
+      "confidence": 0.92,
+      "notes": "CPCN Electric Service Areas"
+    },
+    "MS": {
+      "url": "https://services2.arcgis.com/tONuKShmVp7yWQJL/arcgis/rest/services/PSC_CurrentCAs/FeatureServer/4/query",
+      "source": "Mississippi PSC",
+      "name_field": "UTILITY_NA",
+      "out_fields": "UTILITY_NA,County",
+      "confidence": 0.92,
+      "notes": "PSC Electric Certificated Areas Layer 4"
+    },
+    "HI": {
+      "type": "coordinate_mapping",
+      "source": "Hawaii island mapping",
+      "confidence": 0.95,
+      "notes": "Simple island-based lookup: HECO (Oahu), MECO (Maui), HELCO (Big Island), KIUC (Kauai)",
+      "mappings": {
+        "oahu": {
+          "name": "Hawaiian Electric Company (HECO)",
+          "lon_range": [
+            -158.3,
+            -157.6
+          ]
+        },
+        "maui": {
+          "name": "Maui Electric Company (MECO)",
+          "lon_range": [
+            -156.7,
+            -155.9
+          ],
+          "lat_min": 20.5
+        },
+        "big_island": {
+          "name": "Hawaii Electric Light Company (HELCO)",
+          "lon_range": [
+            -156.0,
+            -154.8
+          ]
+        },
+        "kauai": {
+          "name": "Kauai Island Utility Cooperative (KIUC)",
+          "lon_range": [
+            -159.8,
+            -159.2
+          ]
+        }
+      }
+    },
+    "RI": {
+      "type": "single_utility",
+      "source": "Rhode Island mapping",
+      "confidence": 0.95,
+      "notes": "Nearly entire state served by Rhode Island Energy. Exception: Pascoag Utility District in Burrillville.",
+      "default_name": "Rhode Island Energy"
+    },
+    "PA": {
+      "url": "https://services.arcgis.com/rD2ylXRs80UroD90/arcgis/rest/services/PA_Electric_Service_Territories/FeatureServer/0/query",
+      "source": "Pennsylvania PUC",
+      "name_field": "NAME",
+      "out_fields": "NAME",
+      "confidence": 0.92,
+      "notes": "PA Electric Service Territories"
+    },
+    "WI": {
+      "url": "https://services3.arcgis.com/MD5qUVyAWtAyL43E/arcgis/rest/services/ServiceTerritories_Electric/FeatureServer/{layer}/query",
+      "source": "Wisconsin PSC (ArcGIS Online)",
+      "name_field": "UTIL_LAB",
+      "out_fields": "UTIL_LAB",
+      "confidence": 0.92,
+      "notes": "Queries IOU (1), Municipal (0), Coop (2) layers — hosted on ArcGIS Online",
+      "layers": [
+        1,
+        0,
+        2
+      ]
+    },
+    "CO": {
+      "url": "https://services.arcgis.com/yzB9WM8W0BO3Ql7d/arcgis/rest/services/Utilities_Boundaries/FeatureServer/0/query",
+      "source": "Colorado CDOT",
+      "name_field": "COMPNAME",
+      "out_fields": "COMPNAME,HOLDINGCO",
+      "confidence": 0.92,
+      "notes": "Colorado Electric Utility Service Territories"
+    },
+    "WA": {
+      "url": "https://services2.arcgis.com/lXwA5ckdH5etcXUm/ArcGIS/rest/services/WA_Electric_Utilities/FeatureServer/0/query",
+      "source": "Washington UTC",
+      "name_field": "NAME",
+      "out_fields": "NAME,FULLNAME,CAT",
+      "confidence": 0.92,
+      "notes": "WA Electric Utility Service Areas"
+    },
+    "OR": {
+      "url": "https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/OregonElectric_Utilities_WGS_1984_6_26_2023/FeatureServer/0/query",
+      "source": "Oregon PUC",
+      "name_field": "NAME",
+      "out_fields": "*",
+      "confidence": 0.92,
+      "notes": "Oregon Electric Utility Service Areas"
+    },
+    "UT": {
+      "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahElectricServiceAreas/FeatureServer/0/query",
+      "source": "Utah AGRC",
+      "name_field": "PROVIDER",
+      "out_fields": "PROVIDER,ADDRESS,TELEPHONE,WEBLINK",
+      "confidence": 0.92,
+      "notes": "Utah Electric Service Areas"
+    },
+    "MA": {
+      "url": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query",
+      "source": "MassGIS",
+      "name_field": "ELEC",
+      "out_fields": "ELEC,TOWN",
+      "confidence": 0.92,
+      "notes": "Massachusetts Electric Utility Providers"
+    },
+    "VT": {
+      "url": "https://maps.vcgi.vermont.gov/arcgis/rest/services/PSD_services/PSD_Published_Layers/MapServer/0/query",
+      "source": "Vermont PSD",
+      "name_field": "COMPANYNAM",
+      "out_fields": "COMPANYNAM,Customer_Num",
+      "confidence": 0.92,
+      "notes": "Vermont Electric Utility Service Territories"
+    },
+    "FL": {
+      "url": "https://ocgis4.ocfl.net/arcgis/rest/services/AGOL_Open_Data/MapServer/68/query",
+      "source": "Florida PSC",
+      "name_field": "COMPANY",
+      "out_fields": "COMPANY",
+      "confidence": 0.9,
+      "notes": "Florida Electric Utility Service Areas via Orange County GIS"
+    },
+    "IL": {
+      "url": "https://services.arcgis.com/R0IGaIgf2sox9aCY/arcgis/rest/services/IL_Boundary_Layers/FeatureServer/3/query",
+      "source": "Illinois Office of Broadband",
+      "name_field": "NAME",
+      "out_fields": "NAME,TYPE,HOLDING_CO,CUSTOMERS,TELEPHONE,WEBSITE",
+      "confidence": 0.92,
+      "notes": "IL Electric Utility Boundaries, HIFLD-derived with operational data"
+    },
+    "OH": {
+      "url": "https://tims.dot.state.oh.us/ags/rest/services/Boundaries/PUCO_Electric_Service_Areas/MapServer/0/query",
+      "source": "Ohio PUCO",
+      "name_field": "COMPANY_NAME",
+      "out_fields": "COMPANY_NAME,COMPANY_CD,COMPANY_TYPE",
+      "confidence": 0.92,
+      "notes": "Ohio PUCO Electric Service Areas via ODOT TIMS"
+    },
+    "KY": {
+      "url": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Electric_Service_Areas_WGS84WM/MapServer/1/query",
+      "source": "Kentucky PSC",
+      "name_field": "COMPANY_NA",
+      "out_fields": "COMPANY_NA,UTILITY_TY,ELEC_TYPE",
+      "confidence": 0.92,
+      "notes": "Kentucky Electric Service Areas"
+    },
+    "AK": {
+      "url": "https://maps.commerce.alaska.gov/server/rest/services/Services/CDO_Utilities/MapServer/90/query",
+      "source": "Alaska RCA",
+      "name_field": "UtilityName",
+      "out_fields": "UtilityName,CertificateNumber,UtilityType",
+      "confidence": 0.92,
+      "notes": "Alaska RCA Electric Utility Service Areas"
+    },
+    "NE": {
+      "url": "https://gis.ne.gov/Enterprise/rest/services/Power_Districts/FeatureServer/0/query",
+      "source": "Nebraska GIS",
+      "name_field": "DISTRICT",
+      "out_fields": "DISTRICT,SearchName",
+      "confidence": 0.92,
+      "notes": "Nebraska Power Districts (100% public power)"
+    },
+    "CA": {
+      "url": "https://services3.arcgis.com/bWPjFyq029ChCGur/arcgis/rest/services/ElectricLoadServingEntities_IOU_POU/FeatureServer/0/query",
+      "source": "California CEC",
+      "name_field": "Utility",
+      "out_fields": "Utility,Acronym,Type,URL,Phone,Address",
+      "confidence": 0.92,
+      "notes": "CA Electric Load Serving Entities (IOUs + POUs)"
+    },
+    "MI": {
+      "url": "https://services3.arcgis.com/943LBv9FP414WfDO/arcgis/rest/services/ELECTRIC_UTILITY_SERVICE_AREA_MI_WFL1/FeatureServer/16/query",
+      "source": "Michigan MPSC",
+      "name_field": "Name",
+      "out_fields": "Name,Type,Customers,Website,Phone,Counties_1",
+      "confidence": 0.92,
+      "notes": "Michigan Electric Utility Service Areas"
+    },
+    "TX": {
+      "source": "Texas PUC",
+      "name_field": "COMPANY_NAME",
+      "out_fields": "COMPANY_NAME,COMPANY_ABBREVIATION,COMPANY_TYPE,COMPANY_WEBSITE",
+      "confidence": 0.95,
+      "notes": "Queries IOU, MUNI, COOP layers",
+      "layers": [
+        {
+          "url": "https://services6.arcgis.com/N6Lzvtb46cpxThhu/arcgis/rest/services/IOU/FeatureServer/300/query",
+          "type": "IOU"
+        },
+        {
+          "url": "https://services6.arcgis.com/N6Lzvtb46cpxThhu/arcgis/rest/services/MUNI/FeatureServer/320/query",
+          "type": "MUNI"
+        },
+        {
+          "url": "https://services6.arcgis.com/N6Lzvtb46cpxThhu/arcgis/rest/services/COOP_DIST/FeatureServer/310/query",
+          "type": "COOP"
+        }
+      ]
+    },
+    "NY": {
+      "url": "https://services2.arcgis.com/Iru0GxDFgGL6jQqp/arcgis/rest/services/NYS_ElectricUtilityServiceTerritories/FeatureServer/0/query",
+      "source": "New York PSC",
+      "name_field": "comp_full",
+      "out_fields": "comp_full,comp_short,comp_id",
+      "confidence": 0.92,
+      "notes": "NY Electric Utility Service Territories"
+    },
+    "ME": {
+      "url": "https://services1.arcgis.com/RbMX0mRVOFNTdLzd/arcgis/rest/services/2020_Electric_Service_Area_web/FeatureServer/0/query",
+      "source": "Maine PUC",
+      "name_field": "UTIL_NAME",
+      "out_fields": "UTIL_NAME,OWNER,Type,DISTRICT",
+      "confidence": 0.92,
+      "notes": "Maine Electric Service Areas"
+    },
+    "SC": {
+      "url": "https://maps.palmettoeoc.net/arcgis/rest/services/SCEMD_Services/sc_utility_providers/MapServer/3/query",
+      "source": "South Carolina SCEMD",
+      "name_field": "Provider",
+      "out_fields": "Provider,EMSYS",
+      "confidence": 0.92,
+      "notes": "SC Electric Utility Service Territories via Palmetto EOC"
+    },
+    "IA": {
+      "url": "https://services.arcgis.com/vPD5PVLI6sfkZ5E4/arcgis/rest/services/Electrical_Service_Boundaries/FeatureServer/14/query",
+      "source": "Iowa IUC",
+      "name_field": "Owner",
+      "out_fields": "Owner,ESB_Type,WebsiteURL,Emergency_Phone",
+      "confidence": 0.92,
+      "notes": "Iowa Electric Service Boundaries (RECs, Municipals, IOUs)"
+    },
+    "VA": {
+      "url": "https://services3.arcgis.com/Ww6Zhg5FR2pLMf1C/arcgis/rest/services/VA_Electric_2016/FeatureServer/0/query",
+      "source": "Virginia SCC",
+      "name_field": "Utility",
+      "out_fields": "Provider,Utility,Website,Phone",
+      "confidence": 0.92,
+      "notes": "VA Electric Utility Service Territories (IOUs + coops)"
+    },
+    "IN": {
+      "url": "https://gisdata.in.gov/server/rest/services/Hosted/IURC_Prod_Boundaries_View/FeatureServer/0/query",
+      "source": "Indiana IURC",
+      "name_field": "utilityname",
+      "out_fields": "utilityname,name_abreviations",
+      "confidence": 0.92,
+      "notes": "Indiana IURC Electric Service Territories"
+    },
+    "KS": {
+      "url": "https://services1.arcgis.com/q2CglofYX6ACNEeu/arcgis/rest/services/2025_Electric/FeatureServer/0/query",
+      "source": "Kansas KCC",
+      "name_field": "Company_Na",
+      "out_fields": "Company_Na,CO_CODE,Main_Pho_1,Outage_Map",
+      "confidence": 0.92,
+      "notes": "Kansas Certified Electric Areas"
+    },
+    "DC": {
+      "type": "single_utility",
+      "source": "DC single utility",
+      "confidence": 0.99,
+      "notes": "Entire district served by Pepco",
+      "default_name": "Pepco"
+    },
+    "NC": {
+      "source": "North Carolina NCDOT",
+      "name_field": "NAME",
+      "out_fields": "NAME,TYPE,HOLDING_CO,CUSTOMERS,TELEPHONE,WEBSITE",
+      "confidence": 0.92,
+      "notes": "Queries Coop (1), Municipal (2), IOU (3) layers",
+      "layers": [
+        {
+          "url": "https://services.arcgis.com/04HiymDgLlsbhaV4/arcgis/rest/services/NCDOT_Electric_Power_Retail_Service_Territories_4_WFL1/FeatureServer/1/query",
+          "type": "Cooperative"
+        },
+        {
+          "url": "https://services.arcgis.com/04HiymDgLlsbhaV4/arcgis/rest/services/NCDOT_Electric_Power_Retail_Service_Territories_4_WFL1/FeatureServer/2/query",
+          "type": "Municipal"
+        },
+        {
+          "url": "https://services.arcgis.com/04HiymDgLlsbhaV4/arcgis/rest/services/NCDOT_Electric_Power_Retail_Service_Territories_4_WFL1/FeatureServer/3/query",
+          "type": "IOU"
+        }
+      ]
+    },
+    "MN": {
+      "source": "Minnesota PUC",
+      "name_field": "full_name",
+      "out_fields": "full_name,type,phone,website,abbrev",
+      "confidence": 0.92,
+      "notes": "Queries Municipal (0), Cooperative (1), IOU (2) layers",
+      "layers": [
+        {
+          "url": "https://feat.gisdata.mn.gov/arcgis/rest/services/EUSA/EUSA_Type/MapServer/0/query",
+          "type": "Municipal"
+        },
+        {
+          "url": "https://feat.gisdata.mn.gov/arcgis/rest/services/EUSA/EUSA_Type/MapServer/1/query",
+          "type": "Cooperative"
+        },
+        {
+          "url": "https://feat.gisdata.mn.gov/arcgis/rest/services/EUSA/EUSA_Type/MapServer/2/query",
+          "type": "IOU"
+        }
+      ]
+    }
+  },
+  "gas": {
+    "NJ": {
+      "url": "https://mapsdep.nj.gov/arcgis/rest/services/Features/Utilities/MapServer/11/query",
+      "source": "NJ DEP",
+      "name_field": "NAME",
+      "out_fields": "NAME,LABEL",
+      "confidence": 0.92,
+      "notes": "NJ DEP Gas Utilities Territory Map"
+    },
+    "MS": {
+      "url": "https://services2.arcgis.com/tONuKShmVp7yWQJL/arcgis/rest/services/PSC_CurrentCAs/FeatureServer/3/query",
+      "source": "Mississippi PSC",
+      "name_field": "UTILITY_NA",
+      "out_fields": "UTILITY_NA,County",
+      "confidence": 0.92,
+      "notes": "PSC Gas Certificated Areas Layer 3"
+    },
+    "CA": {
+      "url": "https://services3.arcgis.com/bWPjFyq029ChCGur/arcgis/rest/services/Natural_Gas_Service_Area/FeatureServer/0/query",
+      "source": "California CalEMA",
+      "name_field": "SERVICE",
+      "out_fields": "SERVICE,ABR,CATEGORY",
+      "confidence": 0.92,
+      "notes": "CA Natural Gas Service Areas"
+    },
+    "KY": {
+      "url": "https://watermaps.ky.gov/arcgis/rest/services/WebMapServices/KY_Gas_Utility_Territories_WGS85WM/MapServer/3/query",
+      "source": "Kentucky PSC",
+      "name_field": "NAME",
+      "out_fields": "NAME,ABBREV,PSC_ID,PSC_Reg,TYPE_CODE",
+      "confidence": 0.92,
+      "notes": "KY Gas Distribution Utilities. Fallback: https://services3.arcgis.com/ghsX9CKghMvyYjBU/arcgis/rest/services/Gas_Distribution_Utilities/FeatureServer/0/query",
+      "fallback_url": "https://services3.arcgis.com/ghsX9CKghMvyYjBU/arcgis/rest/services/Gas_Distribution_Utilities/FeatureServer/0/query"
+    },
+    "WI": {
+      "url": "https://services8.arcgis.com/IqcU3SH8HrYEvDe4/arcgis/rest/services/WI_Utilities_Natural_Gas_Service_Areas_(PSC_Data)/FeatureServer/0/query",
+      "source": "Wisconsin PSC",
+      "name_field": "Util_Name",
+      "out_fields": "Util_Name,Util_ID",
+      "confidence": 0.92,
+      "notes": "WI Natural Gas Service Areas"
+    },
+    "MA": {
+      "url": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/NatGasProviders/MapServer/0/query",
+      "source": "MassGIS",
+      "name_field": "GAS",
+      "out_fields": "GAS,TOWN",
+      "confidence": 0.92,
+      "notes": "MA Natural Gas Utility Providers"
+    },
+    "UT": {
+      "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahNaturalGasServiceAreas_Approx/FeatureServer/0/query",
+      "source": "Utah AGRC",
+      "name_field": "PROVIDER",
+      "out_fields": "PROVIDER,Name,TELEPHONE,WEBLINK",
+      "confidence": 0.9,
+      "notes": "Utah Natural Gas Service Areas (approximate)"
+    },
+    "WA": {
+      "url": "https://services2.arcgis.com/lXwA5ckdH5etcXUm/ArcGIS/rest/services/WA_Natural_Gas_Utilities/FeatureServer/0/query",
+      "source": "Washington UTC",
+      "name_field": "OPER_NM",
+      "out_fields": "OPER_NM,Website,Phone",
+      "confidence": 0.92,
+      "notes": "WA Natural Gas Utilities"
+    },
+    "AK": {
+      "url": "https://maps.commerce.alaska.gov/server/rest/services/Services/CDO_Utilities/MapServer/93/query",
+      "source": "Alaska RCA",
+      "name_field": "UtilityName",
+      "out_fields": "UtilityName,CertificateNumber,UtilityType",
+      "confidence": 0.92,
+      "notes": "Alaska RCA Natural Gas Service Areas"
+    },
+    "OR": {
+      "url": "https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Natural_Gas_and_Electric_Utility_Incentive_Layer_Update_13Dec2024_v01/FeatureServer/0/query",
+      "source": "Oregon ODOE",
+      "name_field": "Utility_Name",
+      "out_fields": "Utility_Name,NG_or_Electric,Utility_Type,Home_Page",
+      "confidence": 0.92,
+      "notes": "Oregon Natural Gas Utilities. Filter: NG_or_Electric contains gas",
+      "filter_field": "NG_or_Electric",
+      "filter_value": "gas"
+    },
+    "MI": {
+      "url": "https://services3.arcgis.com/943LBv9FP414WfDO/arcgis/rest/services/NATURAL_GAS_UTILITY_SERVICE_AREA_MI_WFL1/FeatureServer/27/query",
+      "source": "Michigan MPSC",
+      "name_field": "Name",
+      "out_fields": "Name,Type,Customers,Website,Phone",
+      "confidence": 0.92,
+      "notes": "Michigan Natural Gas Utility Service Areas"
+    },
+    "VA": {
+      "url": "https://services3.arcgis.com/Ww6Zhg5FR2pLMf1C/arcgis/rest/services/gas_map_2020/FeatureServer/3/query",
+      "source": "Virginia SCC",
+      "name_field": "PROVIDER",
+      "out_fields": "PROVIDER,NAME,Type,CertificateLink",
+      "confidence": 0.92,
+      "notes": "VA Natural Gas Service Areas"
+    },
+    "OH": {
+      "url": "https://services3.arcgis.com/ccRMrVzOSHBUG6X2/arcgis/rest/services/Natural_Gas_Territories_Ohio/FeatureServer/0/query",
+      "source": "Ohio Gas",
+      "name_field": "NAME",
+      "out_fields": "NAME,ADDRESS,CITY,STATE,ZIP,TELEPHONE,TYPE",
+      "confidence": 0.92,
+      "notes": "Ohio Natural Gas Service Territories"
+    }
+  },
+  "water": {
+    "TX": {
+      "url": "https://services.twdb.texas.gov/arcgis/rest/services/PWS/Public_Water_Service_Areas/FeatureServer/0/query",
+      "source": "Texas TWDB",
+      "name_field": "PWSName",
+      "out_fields": "PWSName,PWSId,PWSCode,Active",
+      "confidence": 0.95,
+      "notes": "TWDB Public Water Service Areas (self-reported retail boundaries). Filter: Active=1",
+      "filter_field": "Active",
+      "filter_value": 1,
+      "fallback_url": "https://services.twdb.texas.gov/arcgis/rest/services/PWS/Public_Utility_Commission_CCN_Water/MapServer/0/query",
+      "fallback_name_field": "UTILITY",
+      "fallback_confidence": 0.85
+    },
+    "CA": {
+      "url": "https://gispublic.waterboards.ca.gov/portalserver/rest/services/Drinking_Water/California_Drinking_Water_System_Area_Boundaries/MapServer/0/query",
+      "source": "California SWRCB",
+      "name_field": "WATER_SYSTEM_NAME",
+      "out_fields": "WATER_SYSTEM_NAME,WATER_SYSTEM_NUMBER,COUNTY,AC_PHONE_NUMBER",
+      "confidence": 0.95,
+      "timeout": 10,
+      "notes": "CA Drinking Water System Area Boundaries"
+    },
+    "PA": {
+      "url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/DEP2/MapServer/8/query",
+      "source": "Pennsylvania DEP",
+      "name_field": "NAME",
+      "out_fields": "NAME,PWS_ID,CNTY_NAME,OWNERSHIP",
+      "confidence": 0.92,
+      "notes": "PA DEP Public Water Supply service areas via PASDA"
+    },
+    "NY": {
+      "url": "https://gisservices.dec.ny.gov/arcgis/rest/services/der/der_viewer/MapServer/4/query",
+      "source": "New York DEC",
+      "name_field": "PWS_NAME",
+      "out_fields": "PWS_NAME,PWS_NUMBER,PRINCIPAL_COUNTY_SERVED,CONTACT_PHONE_NUMBER",
+      "confidence": 0.92,
+      "notes": "NY DEC Public Water Supply Service Areas (>500 pop)"
+    },
+    "NJ": {
+      "url": "https://mapsdep.nj.gov/arcgis/rest/services/Features/Utilities/MapServer/13/query",
+      "source": "NJ DEP",
+      "name_field": "SYS_NAME",
+      "out_fields": "SYS_NAME,PWID,AGENCY_URL",
+      "confidence": 0.92,
+      "notes": "NJ DEP Water Purveyor Service Areas"
+    },
+    "WA": {
+      "url": "https://services8.arcgis.com/rGGrs6HCnw87OFOT/ArcGIS/rest/services/Drinking_Water_Service_Areas/FeatureServer/0/query",
+      "source": "Washington DOH",
+      "name_field": "WS_Name",
+      "out_fields": "WS_ID,WS_Name,County,Contact_Phone",
+      "confidence": 0.92,
+      "notes": "WA DOH Drinking Water Service Areas"
+    },
+    "UT": {
+      "url": "https://services.arcgis.com/ZzrwjTRez6FJiOq4/ArcGIS/rest/services/CulinaryWaterServiceAreas/FeatureServer/0/query",
+      "source": "Utah DWRE",
+      "name_field": "WRENAME",
+      "out_fields": "WRENAME,DWNAME,SYSTEMTYPE",
+      "confidence": 0.92,
+      "notes": "Utah Culinary Water Service Areas. Alt name field: DWNAME"
+    },
+    "TN": {
+      "url": "https://services5.arcgis.com/bPacKTm9cauMXVfn/arcgis/rest/services/TN_Public_Water_System_Service_Area_Boundaries_WFL1/FeatureServer/0/query",
+      "source": "Tennessee TDEC",
+      "name_field": "MA_NAME",
+      "out_fields": "PWSID,MA_NAME,PL_TYPE,PL_POPL",
+      "confidence": 0.92,
+      "notes": "TN Public Water System Service Area Boundaries"
+    },
+    "NC": {
+      "url": "https://services.nconemap.gov/secure/rest/services/NC1Map_Water_Sewer_2004/MapServer/3/query",
+      "source": "NC OneMap",
+      "name_field": "wasyname",
+      "out_fields": "wasyname,wasyid,waphn",
+      "confidence": 0.8,
+      "timeout": 10,
+      "notes": "NC Water System Service Areas (2004 data, Type A only, ~23% coverage)"
+    },
+    "NM": {
+      "url": "https://services2.arcgis.com/qXZbWTdPDbTjl7Dy/arcgis/rest/services/New_Mexico_Public_Water_Systems_Download/FeatureServer/0/query",
+      "source": "NM OSE",
+      "name_field": "PublicSystemName",
+      "out_fields": "Water_System_ID,PublicSystemName",
+      "confidence": 0.92,
+      "notes": "NM Public Water Systems (93% coverage, 526/564 CWS)"
+    },
+    "OK": {
+      "url": "https://owrb.csa.ou.edu/server/rest/services/Water_Supply/Water_Systems/MapServer/0/query",
+      "source": "Oklahoma OWRB",
+      "name_field": "name",
+      "out_fields": "name,pwsid,county",
+      "confidence": 0.85,
+      "notes": "OK PWS Approximate Service Areas (~80% coverage, 1995 survey with updates)"
+    },
+    "AZ": {
+      "url": "https://services.arcgis.com/C34zQ7veRS0V1t04/arcgis/rest/services/CWS_Service_Area/FeatureServer/0/query",
+      "source": "Arizona ADWR",
+      "name_field": "CWS_NAME",
+      "out_fields": "ADEQ_ID,CWS_NAME,OWNER_NAME,POPULATION",
+      "confidence": 0.92,
+      "notes": "AZ Community Water System Service Areas (96% coverage)"
+    },
+    "CT": {
+      "url": "https://maps.ct.gov/arcgis/rest/services/Test_Map_ESAa_MIL1/MapServer/0/query",
+      "source": "Connecticut DPH",
+      "name_field": "Name",
+      "out_fields": "Name,Property",
+      "confidence": 0.92,
+      "notes": "CT DPH Exclusive Service Areas (94% coverage, buffered approximation)"
+    },
+    "DE": {
+      "url": "https://enterprise.firstmap.delaware.gov/arcgis/rest/services/Boundaries/DE_CPCN/MapServer/0/query",
+      "source": "Delaware PSC",
+      "name_field": "COMPANY1",
+      "out_fields": "COMPANY1,CPCN_,SERVICE_A,COUNTY",
+      "confidence": 0.85,
+      "notes": "DE PSC CPCN boundaries (jurisdictional, not actual service)"
+    },
+    "AR": {
+      "url": "https://gis.arkansas.gov/arcgis/rest/services/FEATURESERVICES/Utilities/FeatureServer/15/query",
+      "source": "Arkansas ADH",
+      "name_field": "pws_name",
+      "out_fields": "pws_name",
+      "confidence": 0.92,
+      "notes": "AR Public Water Systems (98% coverage)"
+    },
+    "KS": {
+      "url": "https://services1.arcgis.com/q2CglofYX6ACNEeu/arcgis/rest/services/KS_RuralWaterDistricts_SHP/FeatureServer/0/query",
+      "source": "Kansas KDHE",
+      "name_field": "NAME",
+      "out_fields": "NAME,FED_ID,KDHE_ID",
+      "confidence": 0.92,
+      "notes": "KS Rural Water Districts (~90% coverage)"
+    },
+    "FL": {
+      "url": "https://services.arcgis.com/s8wtJX9suxFen6TA/ArcGIS/rest/services/Public_Water_Supply_Area_SJRWMD/FeatureServer/0/query",
+      "source": "Florida SJRWMD",
+      "name_field": "UTILITY",
+      "out_fields": "UTILITY,PWS_ID,CNTY_NAME",
+      "confidence": 0.9,
+      "notes": "FL SJRWMD PWS areas (~21% of FL, NE region only)"
+    },
+    "MS": {
+      "url": "https://services2.arcgis.com/tONuKShmVp7yWQJL/arcgis/rest/services/PSC_CurrentCAs/FeatureServer/1/query",
+      "source": "Mississippi PSC",
+      "name_field": "UTILITY_NA",
+      "out_fields": "UTILITY_NA,County",
+      "confidence": 0.92,
+      "notes": "MS PSC Water Certificated Areas Layer 1"
+    }
+  },
+  "_metadata": {
+    "extracted_from": "gis_utility_lookup.py, state_utility_verification.py, pipeline/sources/*.py",
+    "electric_states": 33,
+    "gas_states": 13,
+    "water_states": 18,
+    "extraction_date": "2026-02-06"
+  }
+}

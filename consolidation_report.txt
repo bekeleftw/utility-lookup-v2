@@ -1,0 +1,901 @@
+======================================================================
+PROVIDER NAME NORMALIZATION — CONSOLIDATION REPORT
+======================================================================
+
+## SUMMARY
+  Total canonical providers:   414
+  Total aliases:               660
+  With display_name override:  0
+  With parent_company:         8
+  Conflicts found:             151
+  Parent-company errors:       5
+  Single-source providers:     380
+
+## SOURCE BREAKDOWN
+  provider_normalizer                         79 canonical,   195 aliases
+  serp_verification                           69 canonical,   192 aliases
+  cross_validation                            14 canonical,    27 aliases
+  provider_aliases_json                      505 canonical,   690 aliases
+  brand_resolver                              35 canonical,    51 aliases
+  utility_name_normalizer                     42 canonical,   130 aliases
+
+## PARENT-COMPANY ERRORS (from CORPORATE_MERGERS)
+   These map an operating utility to a holding company.
+   The holding company should NEVER be returned as a provider name.
+
+  1. "integrys energy" -> "WEC Energy Group"
+     Reason: "WEC Energy Group" is a holding company, not an operating utility
+     Action: Should be parent_company metadata, not an alias
+
+  2. "peoples gas chicago" -> "WEC Energy Group"
+     Reason: "WEC Energy Group" is a holding company, not an operating utility
+     Action: Should be parent_company metadata, not an alias
+
+  3. "midamerican energy" -> "Berkshire Hathaway Energy"
+     Reason: "Berkshire Hathaway Energy" is a holding company, not an operating utility
+     Action: Should be parent_company metadata, not an alias
+
+  4. "pacificorp" -> "Berkshire Hathaway Energy"
+     Reason: "Berkshire Hathaway Energy" is a holding company, not an operating utility
+     Action: Should be parent_company metadata, not an alias
+
+  5. "nv energy" -> "Berkshire Hathaway Energy"
+     Reason: "Berkshire Hathaway Energy" is a holding company, not an operating utility
+     Action: Should be parent_company metadata, not an alias
+
+## PARENT COMPANY RELATIONSHIPS (metadata only)
+   These are stored for reference but NEVER used for matching or display.
+
+  Alabama Power (displays as "Alabama Power") -> parent: Southern Company
+  Dominion Energy South Carolina (displays as "Dominion Energy South Carolina") -> parent: Dominion Energy
+  Duke Energy Indiana (displays as "Duke Energy Indiana") -> parent: Duke Energy
+  Georgia Power (displays as "Georgia Power") -> parent: Southern Company
+  MidAmerican Energy (displays as "MidAmerican Energy") -> parent: Berkshire Hathaway Energy
+  NV Energy (displays as "NV Energy") -> parent: Berkshire Hathaway Energy
+  Piedmont Natural Gas (displays as "Piedmont Natural Gas") -> parent: Duke Energy
+  WE Energies (displays as "WE Energies") -> parent: WEC Energy Group
+
+## CONFLICTS (same alias -> different canonicals)
+   These need manual review to pick the correct mapping.
+
+  1. Alias: "AEP"  (key: aep)
+       -> "Columbus Division Of Power"  (from: serp_verification)
+       -> "American Electric Power"  (from: cross_validation)
+       -> "AEP"  (from: utility_name_normalizer)
+
+  2. Alias: "AEP Ohio"  (key: aep ohio)
+       -> "AEP Ohio"  (from: provider_normalizer, provider_normalizer, brand_resolver)
+       -> "Columbus Division Of Power"  (from: serp_verification)
+       -> "AEP"  (from: utility_name_normalizer, utility_name_normalizer)
+
+  3. Alias: "AEP Texas"  (key: aep texas)
+       -> "AEP Texas"  (from: provider_normalizer)
+       -> "Columbus Division Of Power"  (from: serp_verification)
+       -> "American Electric Power"  (from: cross_validation)
+       -> "AEP"  (from: utility_name_normalizer)
+
+  4. Alias: "AEP Texas Central"  (key: aep texas central)
+       -> "AEP Texas"  (from: provider_normalizer)
+       -> "AEP"  (from: utility_name_normalizer)
+
+  5. Alias: "AEP Texas North"  (key: aep texas north)
+       -> "AEP Texas"  (from: provider_normalizer)
+       -> "AEP"  (from: utility_name_normalizer)
+
+  6. Alias: "AES Indiana"  (key: aes indiana)
+       -> "Indianapolis Power & Light"  (from: provider_normalizer)
+       -> "Indianapolis Power And Light"  (from: serp_verification)
+
+  7. Alias: "AGL Resources"  (key: agl resources)
+       -> "AGL Resources"  (from: brand_resolver)
+       -> "Atlanta Gas Light"  (from: brand_resolver)
+
+  8. Alias: "ameren"  (key: ameren)
+       -> "Ameren Missouri"  (from: serp_verification)
+       -> "Ameren"  (from: utility_name_normalizer)
+
+  9. Alias: "ameren illinois"  (key: ameren illinois)
+       -> "Ameren Missouri"  (from: serp_verification)
+       -> "Ameren"  (from: utility_name_normalizer)
+
+  10. Alias: "Ameren Missouri"  (key: ameren missouri)
+       -> "Ameren Missouri"  (from: provider_normalizer, serp_verification)
+       -> "Ameren"  (from: utility_name_normalizer)
+
+  11. Alias: "Ameren MO"  (key: ameren mo)
+       -> "Ameren Missouri"  (from: provider_normalizer)
+       -> "Ameren"  (from: utility_name_normalizer)
+
+  12. Alias: "american electric power"  (key: american electric power)
+       -> "Columbus Division Of Power"  (from: serp_verification)
+       -> "American Electric Power"  (from: cross_validation)
+       -> "AEP"  (from: utility_name_normalizer)
+
+  13. Alias: "APS"  (key: aps)
+       -> "Arizona Public Service"  (from: provider_normalizer, utility_name_normalizer)
+       -> "APS"  (from: brand_resolver)
+
+  14. Alias: "Arizona Public Service"  (key: arizona public service)
+       -> "Arizona Public Service"  (from: provider_normalizer, utility_name_normalizer)
+       -> "APS"  (from: brand_resolver)
+
+  15. Alias: "Atlanta Gas Light"  (key: atlanta gas light)
+       -> "Atlanta Gas Light"  (from: provider_normalizer, brand_resolver)
+       -> "AGL Resources"  (from: brand_resolver)
+       -> "Southern Company Gas"  (from: utility_name_normalizer)
+
+  16. Alias: "Austin Energy"  (key: austin energy)
+       -> "Austin Energy"  (from: provider_normalizer, utility_name_normalizer)
+       -> "City Of Austin"  (from: serp_verification, cross_validation)
+
+  17. Alias: "Baltimore Gas & Electric"  (key: baltimore gas electric)
+       -> "Baltimore Gas & Electric"  (from: provider_normalizer)
+       -> "Baltimore Gas & Electric Co"  (from: serp_verification)
+
+  18. Alias: "Baltimore Gas & Electric Co."  (key: baltimore gas electric co)
+       -> "Baltimore Gas & Electric"  (from: provider_normalizer)
+       -> "Baltimore Gas & Electric Co"  (from: serp_verification, serp_verification)
+
+  19. Alias: "Berkshire Hathaway Energy"  (key: berkshire hathaway energy)
+       -> "MidAmerican Energy"  (from: provider_normalizer)
+       -> "Rocky Mountain Power"  (from: provider_normalizer)
+       -> "Berkshire Hathaway Energy"  (from: serp_verification)
+
+  20. Alias: "BGE"  (key: bge)
+       -> "Baltimore Gas & Electric"  (from: provider_normalizer, provider_normalizer)
+       -> "Baltimore Gas & Electric Co"  (from: serp_verification)
+
+  21. Alias: "center point"  (key: center point)
+       -> "CenterPoint Energy"  (from: serp_verification)
+       -> "Center Point"  (from: cross_validation)
+
+  22. Alias: "CenterPoint Energy"  (key: centerpoint)
+       -> "CenterPoint Energy"  (from: provider_normalizer, serp_verification, utility_name_normalizer)
+       -> "Center Point"  (from: cross_validation)
+
+  23. Alias: "City Of Austin"  (key: city of austin)
+       -> "City Of Austin"  (from: serp_verification, cross_validation)
+       -> "Austin Energy"  (from: utility_name_normalizer)
+
+  24. Alias: "City Public Service"  (key: city public service)
+       -> "CPS Energy"  (from: provider_normalizer, utility_name_normalizer)
+       -> "City Public Service"  (from: serp_verification)
+
+  25. Alias: "columbia gas"  (key: columbia gas)
+       -> "Columbia Gas Of Pennsylvania"  (from: serp_verification)
+       -> "NiSource"  (from: utility_name_normalizer)
+
+  26. Alias: "Columbia Gas of Pennsylvania"  (key: columbia gas of pennsylvania)
+       -> "Columbia Gas PA"  (from: provider_normalizer)
+       -> "Columbia Gas Of Pennsylvania"  (from: serp_verification)
+
+  27. Alias: "Columbia Gas of Virginia"  (key: columbia gas of virginia)
+       -> "Columbia Gas VA"  (from: provider_normalizer)
+       -> "Dominion Energy Virginia"  (from: serp_verification)
+       -> "Columbia Gas Of Virginia"  (from: serp_verification)
+
+  28. Alias: "Columbia Gas PA"  (key: columbia gas pa)
+       -> "Columbia Gas PA"  (from: provider_normalizer)
+       -> "Columbia Gas Of Pennsylvania"  (from: serp_verification)
+
+  29. Alias: "com ed"  (key: com ed)
+       -> "Commonwealth Edison"  (from: serp_verification)
+       -> "ComEd"  (from: utility_name_normalizer)
+
+  30. Alias: "ComEd"  (key: comed)
+       -> "ComEd"  (from: provider_normalizer, provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Commonwealth Edison"  (from: serp_verification)
+
+  31. Alias: "Commonwealth Edison"  (key: commonwealth edison)
+       -> "ComEd"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Commonwealth Edison"  (from: serp_verification)
+
+  32. Alias: "Con Edison"  (key: con edison)
+       -> "Con Edison"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Consolidated Edison"  (from: serp_verification)
+
+  33. Alias: "Con Edison"  (key: coned)
+       -> "Con Edison"  (from: provider_normalizer, utility_name_normalizer)
+       -> "Consolidated Edison"  (from: serp_verification)
+
+  34. Alias: "Con Edison"  (key: con ed)
+       -> "Consolidated Edison"  (from: serp_verification)
+       -> "Con Edison"  (from: utility_name_normalizer)
+
+  35. Alias: "Connecticut Light & Power"  (key: connecticut light power)
+       -> "Eversource CT"  (from: provider_normalizer)
+       -> "Connecticut Light And Power"  (from: serp_verification, serp_verification, serp_verification)
+
+  36. Alias: "Connecticut Light & Power Co."  (key: connecticut light power co)
+       -> "Eversource CT"  (from: provider_normalizer)
+       -> "Connecticut Light And Power"  (from: serp_verification)
+
+  37. Alias: "Consolidated Edison"  (key: consolidated edison)
+       -> "Con Edison"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Consolidated Edison"  (from: serp_verification)
+
+  38. Alias: "cps"  (key: cps)
+       -> "City Public Service"  (from: serp_verification)
+       -> "CPS Energy"  (from: utility_name_normalizer)
+
+  39. Alias: "CPS Energy"  (key: cps energy)
+       -> "CPS Energy"  (from: provider_normalizer, utility_name_normalizer)
+       -> "City Public Service"  (from: serp_verification)
+
+  40. Alias: "Detroit Edison"  (key: detroit edison)
+       -> "DTE"  (from: provider_normalizer)
+       -> "Detroit Edison"  (from: serp_verification)
+       -> "DTE Energy"  (from: utility_name_normalizer)
+
+  41. Alias: "dominion"  (key: dominion)
+       -> "Dominion Energy Virginia"  (from: serp_verification)
+       -> "Dominion Energy"  (from: utility_name_normalizer)
+
+  42. Alias: "Dominion Energy"  (key: dominion energy)
+       -> "Dominion Energy Virginia"  (from: provider_normalizer, serp_verification)
+       -> "Dominion Energy"  (from: brand_resolver, utility_name_normalizer)
+
+  43. Alias: "Dominion Energy Utah"  (key: dominion energy utah)
+       -> "Dominion Energy Utah"  (from: provider_normalizer)
+       -> "Dominion Energy Questar"  (from: serp_verification)
+
+  44. Alias: "Dominion Energy Virginia"  (key: dominion energy virginia)
+       -> "Dominion Energy Virginia"  (from: provider_normalizer, serp_verification)
+       -> "Dominion Energy"  (from: utility_name_normalizer)
+
+  45. Alias: "Dominion Virginia Power"  (key: dominion virginia power)
+       -> "Dominion Energy Virginia"  (from: provider_normalizer)
+       -> "Dominion Energy"  (from: utility_name_normalizer)
+
+  46. Alias: "DTE"  (key: dte)
+       -> "DTE"  (from: provider_normalizer)
+       -> "Detroit Edison"  (from: serp_verification)
+       -> "DTE Energy"  (from: utility_name_normalizer)
+
+  47. Alias: "DTE Energy"  (key: dte energy)
+       -> "DTE"  (from: provider_normalizer)
+       -> "Detroit Edison"  (from: serp_verification)
+       -> "DTE Energy"  (from: utility_name_normalizer)
+
+  48. Alias: "duke"  (key: duke)
+       -> "Duke Energy Carolinas"  (from: serp_verification)
+       -> "Duke Energy"  (from: cross_validation)
+
+  49. Alias: "Duke Energy"  (key: duke energy)
+       -> "Duke Energy Carolinas"  (from: provider_normalizer, serp_verification)
+       -> "Duke Energy"  (from: cross_validation, brand_resolver, utility_name_normalizer)
+
+  50. Alias: "Duke Energy Carolinas"  (key: duke energy carolinas)
+       -> "Duke Energy Carolinas"  (from: provider_normalizer, serp_verification)
+       -> "Duke Energy"  (from: utility_name_normalizer)
+
+  51. Alias: "Duke Energy Corporation"  (key: duke energy corporation)
+       -> "Duke Energy Carolinas"  (from: provider_normalizer)
+       -> "Duke Energy"  (from: utility_name_normalizer)
+
+  52. Alias: "Duke Energy Florida"  (key: duke energy florida)
+       -> "Duke Energy Florida"  (from: provider_normalizer, provider_normalizer)
+       -> "Duke Energy Carolinas"  (from: serp_verification)
+       -> "Duke Energy"  (from: utility_name_normalizer)
+
+  53. Alias: "Duke Energy Indiana"  (key: duke energy indiana)
+       -> "Duke Energy Indiana"  (from: provider_normalizer)
+       -> "Duke Energy"  (from: utility_name_normalizer)
+
+  54. Alias: "Duke Energy Ohio"  (key: duke energy ohio)
+       -> "Duke Energy Ohio"  (from: provider_normalizer)
+       -> "Duke Energy"  (from: brand_resolver, utility_name_normalizer)
+
+  55. Alias: "duke energy progress"  (key: duke energy progress)
+       -> "Duke Energy Carolinas"  (from: serp_verification)
+       -> "Duke Energy"  (from: utility_name_normalizer)
+
+  56. Alias: "entergy"  (key: entergy)
+       -> "Entergy New Orleans"  (from: serp_verification)
+       -> "Entergy"  (from: utility_name_normalizer)
+
+  57. Alias: "entergy arkansas"  (key: entergy arkansas)
+       -> "Entergy New Orleans"  (from: serp_verification)
+       -> "Little Rock Pine Bluff"  (from: serp_verification)
+       -> "Entergy"  (from: utility_name_normalizer)
+
+  58. Alias: "entergy louisiana"  (key: entergy louisiana)
+       -> "Entergy New Orleans"  (from: serp_verification)
+       -> "Entergy"  (from: utility_name_normalizer)
+
+  59. Alias: "Entergy New Orleans"  (key: entergy new orleans)
+       -> "Entergy New Orleans"  (from: serp_verification)
+       -> "Entergy"  (from: utility_name_normalizer)
+
+  60. Alias: "entergy texas"  (key: entergy texas)
+       -> "Entergy New Orleans"  (from: serp_verification)
+       -> "Entergy"  (from: utility_name_normalizer)
+
+  61. Alias: "Eversource"  (key: eversource)
+       -> "Eversource MA"  (from: provider_normalizer)
+       -> "Connecticut Light And Power"  (from: serp_verification)
+       -> "Eversource"  (from: utility_name_normalizer)
+
+  62. Alias: "eversource energy"  (key: eversource energy)
+       -> "Eversource MA"  (from: provider_normalizer)
+       -> "Connecticut Light And Power"  (from: serp_verification)
+       -> "Eversource"  (from: utility_name_normalizer)
+
+  63. Alias: "Eversource, CT"  (key: eversource ct)
+       -> "Eversource CT"  (from: provider_normalizer, provider_normalizer)
+       -> "Eversource"  (from: utility_name_normalizer)
+
+  64. Alias: "FirstEnergy Ohio"  (key: firstenergy ohio)
+       -> "FirstEnergy Ohio"  (from: provider_normalizer)
+       -> "FirstEnergy"  (from: brand_resolver)
+
+  65. Alias: "Florida Power & Light"  (key: florida power light)
+       -> "Florida Power & Light"  (from: provider_normalizer, utility_name_normalizer)
+       -> "Florida Power And Light"  (from: serp_verification, serp_verification)
+       -> "FPL"  (from: brand_resolver)
+
+  66. Alias: "Florida Power and Light"  (key: florida power and light)
+       -> "Florida Power & Light"  (from: provider_normalizer, utility_name_normalizer)
+       -> "Florida Power And Light"  (from: serp_verification, cross_validation)
+       -> "FPL"  (from: brand_resolver)
+
+  67. Alias: "FP&L"  (key: fpl)
+       -> "Florida Power & Light"  (from: provider_normalizer, utility_name_normalizer, utility_name_normalizer)
+       -> "Florida Power And Light"  (from: serp_verification, cross_validation)
+       -> "FPL"  (from: brand_resolver)
+
+  68. Alias: "Georgia Power"  (key: georgia power)
+       -> "Georgia Power"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Georgia Power Company"  (from: serp_verification)
+
+  69. Alias: "Georgia Power Company"  (key: georgia power company)
+       -> "Georgia Power"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Georgia Power Company"  (from: serp_verification)
+
+  70. Alias: "Indianapolis Power & Light"  (key: indianapolis power light)
+       -> "Indianapolis Power & Light"  (from: provider_normalizer)
+       -> "Indianapolis Power And Light"  (from: serp_verification)
+
+  71. Alias: "IPL"  (key: ipl)
+       -> "Indianapolis Power & Light"  (from: provider_normalizer)
+       -> "Indianapolis Power And Light"  (from: serp_verification)
+
+  72. Alias: "Laclede Gas"  (key: laclede gas)
+       -> "Spire Missouri"  (from: provider_normalizer)
+       -> "Spire"  (from: utility_name_normalizer)
+
+  73. Alias: "Louisville Gas & Electric"  (key: louisville gas electric)
+       -> "LG&E/KU"  (from: provider_normalizer)
+       -> "Louisville Gas And Electric"  (from: serp_verification)
+
+  74. Alias: "Metropolitan Utilities District"  (key: metropolitan utilities district)
+       -> "Metropolitan Utilities District"  (from: serp_verification)
+       -> "Metropolitan Utilities District Of Omaha"  (from: serp_verification)
+
+  75. Alias: "MidAmerican"  (key: midamerican)
+       -> "MidAmerican Energy"  (from: provider_normalizer)
+       -> "Berkshire Hathaway Energy"  (from: serp_verification)
+
+  76. Alias: "MidAmerican Energy"  (key: midamerican energy)
+       -> "MidAmerican Energy"  (from: provider_normalizer)
+       -> "Berkshire Hathaway Energy"  (from: serp_verification)
+
+  77. Alias: "MUD"  (key: mud)
+       -> "Metropolitan Utilities District"  (from: serp_verification)
+       -> "Metropolitan Utilities District Of Omaha"  (from: serp_verification)
+
+  78. Alias: "Narragansett Electric"  (key: narragansett electric)
+       -> "Rhode Island Energy"  (from: provider_normalizer)
+       -> "Narragansett Electric Co"  (from: serp_verification)
+
+  79. Alias: "National Grid"  (key: national grid)
+       -> "National Grid NY"  (from: provider_normalizer)
+       -> "Niagara Mohawk Power"  (from: serp_verification)
+       -> "National Grid"  (from: utility_name_normalizer)
+
+  80. Alias: "Nevada Power"  (key: nevada power)
+       -> "NV Energy"  (from: provider_normalizer, utility_name_normalizer)
+       -> "Nevada Power Co"  (from: serp_verification)
+
+  81. Alias: "Nevada Power Co."  (key: nevada power co)
+       -> "NV Energy"  (from: provider_normalizer)
+       -> "Nevada Power Co"  (from: serp_verification)
+
+  82. Alias: "Niagara Mohawk"  (key: niagara mohawk)
+       -> "National Grid NY"  (from: provider_normalizer)
+       -> "Niagara Mohawk Power"  (from: serp_verification)
+
+  83. Alias: "Nicor Gas"  (key: nicor gas)
+       -> "Nicor Gas"  (from: provider_normalizer, brand_resolver)
+       -> "Southern Company Gas"  (from: utility_name_normalizer)
+
+  84. Alias: "NIPSCO"  (key: nipsco)
+       -> "NIPSCO"  (from: provider_normalizer)
+       -> "NiSource"  (from: utility_name_normalizer)
+
+  85. Alias: "NiSource"  (key: nisource)
+       -> "Columbia Gas Of Pennsylvania"  (from: serp_verification)
+       -> "NiSource"  (from: utility_name_normalizer)
+
+  86. Alias: "Northern States Power"  (key: northern states power)
+       -> "Xcel Energy Minnesota"  (from: provider_normalizer)
+       -> "Public Service Co Of Colorado"  (from: serp_verification)
+       -> "Public Service Company Of Colorado"  (from: serp_verification)
+       -> "Xcel Energy"  (from: utility_name_normalizer)
+
+  87. Alias: "nstar"  (key: nstar)
+       -> "Connecticut Light And Power"  (from: serp_verification)
+       -> "Eversource"  (from: utility_name_normalizer)
+
+  88. Alias: "NSTAR Electric"  (key: nstar electric)
+       -> "Eversource MA"  (from: provider_normalizer)
+       -> "Connecticut Light And Power"  (from: serp_verification)
+
+  89. Alias: "NV Energy"  (key: nv energy)
+       -> "NV Energy"  (from: provider_normalizer, utility_name_normalizer)
+       -> "Nevada Power Co"  (from: serp_verification)
+
+  90. Alias: "OG&E"  (key: oge)
+       -> "OG&E"  (from: provider_normalizer)
+       -> "Oklahoma Gas And Electric"  (from: serp_verification, serp_verification)
+
+  91. Alias: "Oklahoma Gas & Electric"  (key: oklahoma gas electric)
+       -> "OG&E"  (from: provider_normalizer)
+       -> "Oklahoma Gas And Electric"  (from: serp_verification)
+
+  92. Alias: "Oklahoma Gas and Electric"  (key: oklahoma gas and electric)
+       -> "OG&E"  (from: provider_normalizer)
+       -> "Oklahoma Gas And Electric"  (from: serp_verification)
+
+  93. Alias: "Oncor"  (key: oncor)
+       -> "Oncor"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Oncor Electric Delivery"  (from: serp_verification)
+       -> "Oncor Electric"  (from: cross_validation)
+
+  94. Alias: "oncor electric"  (key: oncor electric)
+       -> "Oncor Electric Delivery"  (from: serp_verification)
+       -> "Oncor Electric"  (from: cross_validation)
+       -> "Oncor"  (from: utility_name_normalizer)
+
+  95. Alias: "Oncor Electric Delivery"  (key: oncor electric delivery)
+       -> "Oncor"  (from: provider_normalizer, brand_resolver, utility_name_normalizer)
+       -> "Oncor Electric Delivery"  (from: serp_verification)
+
+  96. Alias: "Orlando Utilities Commission"  (key: orlando utilities commission)
+       -> "Orlando Utilities Commission"  (from: provider_normalizer, serp_verification)
+       -> "OUC"  (from: utility_name_normalizer)
+
+  97. Alias: "OUC"  (key: ouc)
+       -> "Orlando Utilities Commission"  (from: provider_normalizer, serp_verification)
+       -> "OUC"  (from: utility_name_normalizer)
+
+  98. Alias: "Pacific Gas & Electric"  (key: pacific gas electric)
+       -> "Pacific Gas & Electric"  (from: provider_normalizer)
+       -> "Pacific Gas And Electric"  (from: serp_verification, serp_verification)
+       -> "PG&E"  (from: brand_resolver, utility_name_normalizer)
+
+  99. Alias: "Pacific Gas & Electric Company"  (key: pacific gas electric company)
+       -> "Pacific Gas & Electric"  (from: provider_normalizer)
+       -> "PG&E"  (from: utility_name_normalizer)
+
+  100. Alias: "Pacific Gas and Electric"  (key: pacific gas and electric)
+       -> "Pacific Gas & Electric"  (from: provider_normalizer)
+       -> "Pacific Gas And Electric"  (from: serp_verification, cross_validation)
+       -> "PG&E"  (from: brand_resolver, utility_name_normalizer)
+
+  ... and 51 more conflicts
+
+## SINGLE-SOURCE PROVIDERS (coverage gaps)
+   These appear in only one source — may need verification.
+
+  - "AEP"  (from: utility_name_normalizer)
+  - "AEP Energy"  (from: provider_aliases_json)
+  - "AEP Texas"  (from: provider_normalizer)
+  - "AGL Resources"  (from: brand_resolver)
+  - "Alabama Gas Corporation"  (from: provider_aliases_json)
+  - "Alabama Power"  (from: provider_normalizer)
+  - "Alpena Power Company - MI"  (from: provider_aliases_json)
+  - "Ameren"  (from: utility_name_normalizer)
+  - "American Electric Power"  (from: cross_validation)
+  - "Anchorage Municipal Light"  (from: serp_verification)
+  - "Anderson Municipal Light and Power"  (from: provider_aliases_json)
+  - "Appalachian Power Company"  (from: provider_aliases_json)
+  - "Arizona Public Service, SRP"  (from: provider_aliases_json)
+  - "Avista"  (from: provider_normalizer)
+  - "Bandera Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Bangor Natural Gas (ME)"  (from: provider_aliases_json)
+  - "Bartlett Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Basin Electric Power Coop"  (from: provider_aliases_json)
+  - "Bath Gas and Electric"  (from: provider_aliases_json)
+  - "Bay City Electric Light and Power (BCELP) - MI"  (from: provider_aliases_json)
+  - "Belmont Municipal Light Department"  (from: provider_aliases_json)
+  - "Beltrami Electric Cooperative Incorporated"  (from: provider_aliases_json)
+  - "Berkshire Gas Company"  (from: provider_aliases_json)
+  - "Black River Electric Cooperative - MO"  (from: provider_aliases_json)
+  - "Blue Grass Energy Cooperative Corp."  (from: provider_aliases_json)
+  - "Bluebonnet Electric"  (from: cross_validation)
+  - "Bluebonnet Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Bowling Green Municipal Utilities (BGMU)"  (from: provider_aliases_json)
+  - "Brigham City Public Power"  (from: provider_aliases_json)
+  - "Brunswick Electric Membership Corporation"  (from: provider_aliases_json)
+  - "Burlington Electric Department"  (from: serp_verification)
+  - "Cartersville Gas System"  (from: provider_aliases_json)
+  - "Center Point"  (from: cross_validation)
+  - "CenterPoint Energy Minnesota"  (from: provider_normalizer)
+  - "Central Alabama Electric Cooperative"  (from: provider_aliases_json)
+  - "Central Electric Cooperative, Inc"  (from: provider_aliases_json)
+  - "Central Electric Membership Corp. - (nc)"  (from: provider_aliases_json)
+  - "Central Georgia EMC"  (from: provider_aliases_json)
+  - "Central Hudson Gas & Electric - NY"  (from: provider_aliases_json)
+  - "Central Maine Power"  (from: serp_verification)
+  - "Central Rural Electric Cooperative"  (from: provider_aliases_json)
+  - "Central Virginia Electric Cooperative"  (from: provider_aliases_json)
+  - "Chattanooga Gas Company"  (from: provider_aliases_json)
+  - "Cheyenne Light Fuel & Power"  (from: serp_verification)
+  - "Choose your electric here"  (from: provider_aliases_json)
+  - "Choptank Electric Corp"  (from: provider_aliases_json)
+  - "Chugach Electric Association, Inc."  (from: provider_aliases_json)
+  - "Citizens Electric Corporation - (mo)"  (from: provider_aliases_json)
+  - "Citizens Energy Group"  (from: serp_verification)
+  - "Citizens Gas Fuel Company - MI"  (from: provider_aliases_json)
+  - "City of Anaheim Public Utilities Department"  (from: provider_aliases_json)
+  - "City of Blaine - WA"  (from: provider_aliases_json)
+  - "City of Cartersville - (ga)"  (from: provider_aliases_json)
+  - "City of Cheney (WA)"  (from: provider_aliases_json)
+  - "City of Cuero Electric Department"  (from: provider_aliases_json)
+  - "City of Dunlap Natural Gas System"  (from: provider_aliases_json)
+  - "CITY OF EDMOND - (OK)"  (from: provider_aliases_json)
+  - "City of Ellensburg"  (from: provider_aliases_json)
+  - "CITY OF FAIRBURN - (GA)"  (from: provider_aliases_json)
+  - "CITY OF FLANDREAU SD"  (from: provider_aliases_json)
+  - "City of Fountain Electric"  (from: provider_aliases_json)
+  - "City of Griffin - (ga)"  (from: provider_aliases_json)
+  - "City of Harrisonville - (mo)"  (from: provider_aliases_json)
+  - "City of Idaho Falls - (id)"  (from: provider_aliases_json)
+  - "City of Jasper - IN"  (from: provider_aliases_json)
+  - "City of Lafayette - TN"  (from: provider_aliases_json)
+  - "City of LaGrange"  (from: provider_aliases_json)
+  - "CITY OF LEESBURG"  (from: provider_aliases_json)
+  - "City of Live Oak - FL"  (from: provider_aliases_json)
+  - "City of Loveland Water and Power"  (from: provider_aliases_json)
+  - "City of Marianna - FL"  (from: provider_aliases_json)
+  - "City of Milford Public Works"  (from: provider_aliases_json)
+  - "City of Milton Gas"  (from: provider_aliases_json)
+  - "City of Monroe - NC"  (from: provider_aliases_json)
+  - "CITY OF NEWARK - (DE)"  (from: provider_aliases_json)
+  - "City of Oak Ridge, TN"  (from: provider_aliases_json)
+  - "City of Palo Alto Gas Department"  (from: provider_aliases_json)
+  - "City of Pascagoula - MS"  (from: provider_aliases_json)
+  - "City of Pikeville GAS - KY"  (from: provider_aliases_json)
+  - "City of Stillwater Utilities Authority - OK"  (from: provider_aliases_json)
+  - "City of Three Rivers - TX"  (from: provider_aliases_json)
+  - "City of Trinidad - CO"  (from: provider_aliases_json)
+  - "City of Troy - (al)"  (from: provider_aliases_json)
+  - "City of Winter Park Electric Utility Department"  (from: provider_aliases_json)
+  - "Ckenergy Electric Cooperative"  (from: provider_aliases_json)
+  - "Clarksville Gas & Water (Clarksville, TN)"  (from: provider_aliases_json)
+  - "Clearwater Gas System"  (from: provider_aliases_json)
+  - "CLECO (Central Louisiana Electric Company)"  (from: provider_aliases_json)
+  - "Colombia Gas of Pennsylvania-PA"  (from: provider_aliases_json)
+  - "Colorado Springs Utilities - CO"  (from: provider_aliases_json)
+  - "Columbia Gas KY"  (from: provider_normalizer)
+  - "Columbia Gas of Massachusetts"  (from: provider_aliases_json)
+  - "Columbia Gas Of Virginia"  (from: serp_verification)
+  - "Columbia Gas of Washington/maryland"  (from: provider_aliases_json)
+  - "Columbia Gas VA"  (from: provider_normalizer)
+  - "Columbia Power & Water - TN"  (from: provider_aliases_json)
+  - "Connecticut Natural Gas"  (from: serp_verification)
+  - "Connecticut Natural Gas (CNG) ,CT"  (from: provider_aliases_json)
+  - "Connexus Energy"  (from: provider_aliases_json)
+  - "Consolidated Edison Co-ny"  (from: provider_aliases_json)
+  - "Cookeville Gas Department - TN"  (from: provider_aliases_json)
+  - "CoServ Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Crow Wing Cooperative Power and Light Company"  (from: provider_aliases_json)
+  - "Cuivre River Electric Cooperative"  (from: provider_aliases_json)
+  - "Dakota Electric Association"  (from: provider_aliases_json)
+  - "Dalton Utilities - GA"  (from: provider_aliases_json)
+  - "Deep East Texas Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Del Rio Gas System"  (from: provider_aliases_json)
+  - "Delmarva Power and Light"  (from: provider_aliases_json)
+  - "Delta Natural Gas Co."  (from: provider_aliases_json)
+  - "Dominion Energy NC"  (from: provider_normalizer)
+  - "Dominion Energy South Carolina"  (from: serp_verification)
+  - "Dominion Hope Gas"  (from: provider_aliases_json)
+  - "DTE Energy"  (from: utility_name_normalizer)
+  - "Dublin Natural Gas System"  (from: provider_aliases_json)
+  - "DUCK RIVER ELEC MEMBER CORP"  (from: provider_aliases_json)
+  - "Duke Energy Indiana"  (from: provider_normalizer)
+  - "Duquesne Light"  (from: brand_resolver)
+  - "Duquesne Light Company - PA"  (from: provider_aliases_json)
+  - "East Mississippi Electric Power Association"  (from: provider_aliases_json)
+  - "East Ohio Gas Co/dominion"  (from: provider_aliases_json)
+  - "Eastern Maine Electric Cooperative (EMEC)"  (from: provider_aliases_json)
+  - "El Paso Electric Company"  (from: provider_aliases_json)
+  - "Electric Power Board (EPB) - TN"  (from: provider_aliases_json)
+  - "Elizabethtown Gas Co."  (from: provider_aliases_json)
+  - "Ellensburg Natural Gas Dept."  (from: provider_aliases_json)
+  - "Elmhurst Mutual Power & Light Company"  (from: provider_aliases_json)
+  - "Enbridge Gas North Carolina"  (from: provider_aliases_json)
+  - "Enbridge Gas Ohio"  (from: provider_aliases_json)
+  - "Energy Services of Pensacola"  (from: provider_aliases_json)
+  - "Energy United"  (from: utility_name_normalizer)
+  - "Energy West (gas Natural, Inc.)"  (from: provider_aliases_json)
+  - "Energy West Wyoming"  (from: provider_aliases_json)
+  - "Enstar Natural Gas Company"  (from: provider_aliases_json)
+  - "Entergy"  (from: utility_name_normalizer)
+  - "Eugene Water & Electric Board EWEB - OR"  (from: provider_aliases_json)
+  - "Evergy Kansas Metro, Inc."  (from: provider_aliases_json)
+  - "Eversource"  (from: utility_name_normalizer)
+  - "Eversource CT"  (from: provider_normalizer)
+  - "Expand Energy"  (from: brand_resolver)
+  - "Farmers Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Fitchburg Gas & Elec Lt Co."  (from: provider_aliases_json)
+  - "Flathead Electric Cooperative"  (from: provider_aliases_json)
+  - "Floresville Electric Light & Power System (FELPS)"  (from: provider_aliases_json)
+  - "Florida City Gas Company"  (from: provider_aliases_json)
+  - "Florida Power & Light"  (from: utility_name_normalizer)
+  - "Florida Public Utilities Co."  (from: provider_aliases_json)
+  - "Fort Hill Natural Gas Authority"  (from: provider_aliases_json)
+  - "Fort Valley Utility Commission - GA"  (from: provider_aliases_json)
+  - "Fountain Inn Natural Gas System"  (from: provider_aliases_json)
+  - "Franklin Electric Plant Board"  (from: provider_aliases_json)
+  - "Freeborn Mower Electric Cooperative"  (from: provider_aliases_json)
+  - "Frontier Natural Gas"  (from: provider_aliases_json)
+  - "Garland Power & Light System"  (from: provider_aliases_json)
+  - "GEUS (Greenville Electric Utility System)"  (from: provider_aliases_json)
+  - "Gibson County Utility District - TN"  (from: provider_aliases_json)
+  - "Glendale Water and Power (GWP)"  (from: provider_aliases_json)
+  - "Glenwood Energy of Oxford Inc."  (from: provider_aliases_json)
+  - "Golden Valley Electric Association, Inc."  (from: provider_aliases_json)
+  - "Grays Harbor Co. Pud #1"  (from: provider_aliases_json)
+  - "Grayson-Collin Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Great Lakes Energy Cooperative"  (from: provider_aliases_json)
+  - "Green Mountain Power Corp"  (from: serp_verification)
+  - "GreyStone Power Corporation"  (from: provider_aliases_json)
+  - "GROTON DEPT OF UTILITIES - (CT)"  (from: provider_aliases_json)
+  - "Groveland Municipal Light Department"  (from: provider_aliases_json)
+  - "Guadalupe Valley Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Gulf Power Company (now FPL) - FL"  (from: provider_aliases_json)
+  - "Hagerstown Light Department"  (from: provider_aliases_json)
+  - "Harrisonburg Electric Comission"  (from: provider_aliases_json)
+  - "Hawaii Electric Light Company (HELCO)"  (from: provider_aliases_json)
+  - "Hawaiian Electric Company (HECO)"  (from: provider_aliases_json)
+  - "Haywood Electric Membership Corporation"  (from: provider_aliases_json)
+  - "Heber Light & Power - UT"  (from: provider_aliases_json)
+  - "Hendricks Power Cooperative"  (from: provider_aliases_json)
+  - "Hermiston Energy Services - OR"  (from: provider_aliases_json)
+  - "Hilco Electric Cooperative, Inc."  (from: provider_aliases_json)
+  - "Holyoke Gas & Electric (HG&E)"  (from: provider_aliases_json)
+  - "Holyoke Gas & Electric (HG&E), MA"  (from: provider_aliases_json)
+  - "Homer Electric Association, Inc."  (from: provider_aliases_json)
+  - "Idaho Power Co."  (from: provider_aliases_json)
+  - "Indiana Michigan Power Company"  (from: provider_aliases_json)
+  - "Indiana Natural Gas Co - IN"  (from: provider_aliases_json)
+  - "INTERIOR ALASKA NATURAL GAS"  (from: provider_aliases_json)
+  - "Intermountain Gas"  (from: provider_aliases_json)
+  - "Intermountain Rural Electric Association"  (from: provider_aliases_json)
+  - "Interstate Pwr&light Co. (alliant Energy)"  (from: provider_aliases_json)
+  - "Jackson EMC"  (from: utility_name_normalizer)
+  - "JEA"  (from: utility_name_normalizer)
+  - "Jersey Central Power & Light (JCP&L)"  (from: provider_aliases_json)
+  - "Jo-Carroll Energy Cooperative"  (from: provider_aliases_json)
+  - "Jonesboro City Water & Light"  (from: provider_aliases_json)
+  - "Kansas Gas Service"  (from: serp_verification)
+  - "Kentucky Power"  (from: provider_normalizer)
+  - "Kingsport Power Co."  (from: provider_aliases_json)
+  - "Knox Energy Cooperative"  (from: provider_aliases_json)
+  - "Knoxville Utilities Board"  (from: provider_aliases_json)
+  - "La Plata Electric Association (LPEA)"  (from: provider_aliases_json)
+  - "Laclede Electric Cooperative"  (from: provider_aliases_json)
+  - "Lake Apopka Natual Gas Dist."  (from: provider_aliases_json)
+  ... and 180 more
+
+## TOP 30 PROVIDERS BY ALIAS COUNT
+  Eversource MA (16 aliases)
+    - cl&p
+    - Connecticut Light & Power
+    - Connecticut Light & Power Co.
+    - Connecticut Light And Power
+    - Eversource
+    ... and 11 more
+  Ameren Missouri (10 aliases)
+    - ameren
+    - Ameren Corporation
+    - Ameren IL
+    - ameren illinois
+    - Ameren Illinois Company
+    ... and 5 more
+  Little Rock Pine Bluff (10 aliases)
+    - entergy
+    - Entergy - Gulf States
+    - entergy arkansas
+    - Entergy Gulf States - LA
+    - entergy louisiana
+    ... and 5 more
+  PG&E (10 aliases)
+    - pacific gas
+    - Pacific Gas & Electric
+    - Pacific Gas & Electric Co.
+    - Pacific Gas & Electric Company
+    - Pacific Gas & Electric, PG&E
+    ... and 5 more
+  Xcel Energy (10 aliases)
+    - Northern States Power
+    - Northern States Power Co.
+    - Northern States Power Company (xcel Energy)
+    - NSP
+    - PSC of Colorado
+    ... and 5 more
+  AEP Ohio (9 aliases)
+    - AEP
+    - AEP (OHIO), SOPEC
+    - AEP Texas
+    - AEP Texas Central
+    - AEP Texas North
+    ... and 4 more
+  Dominion Energy (9 aliases)
+    - Columbia Gas of Virginia
+    - dominion
+    - Dominion Energy Virginia
+    - Dominion Virginia Power
+    - Dominion Virginia Power - VA
+    ... and 4 more
+  LG&E/KU (9 aliases)
+    - Kentucky Utilities
+    - Kentucky Utilities Company
+    - LG&E
+    - LG&E Kentucky Utilities
+    - Louisville Gas & Electric
+    ... and 4 more
+  WE Energies [parent: WEC Energy Group] (9 aliases)
+    - wec energy
+    - Wisconsin Electric
+    - Wisconsin Electric Power
+    - wisconsin electric power co
+    - wisconsin electric power company
+    ... and 4 more
+  CenterPoint Energy (8 aliases)
+    - center point
+    - Centerpoint Energy - Arkla
+    - Centerpoint Energy - TX
+    - CenterPoint Energy Houston Electric
+    - Centerpoint Energy, Spire
+    ... and 3 more
+  Nicor Gas (8 aliases)
+    - AGL Resources
+    - Atlanta Gas Light
+    - Atlanta Gas Light Co - GA
+    - Atlanta Gas Light Co.
+    - Georgia Natural Gas
+    ... and 3 more
+  Duke Energy (7 aliases)
+    - duke
+    - Duke Energy - FL
+    - Duke Energy Carolinas
+    - Duke Energy Florida
+    - Duke Energy Kentucky, Inc.
+    ... and 2 more
+  FirstEnergy (7 aliases)
+    - AES Ohio
+    - FirstEnergy Ohio
+    - Ohio Edison
+    - Ohio Edison Co.
+    - The Illuminating Company
+    ... and 2 more
+  National Grid NY (7 aliases)
+    - KeySpan
+    - National Grid
+    - National Grid - NY
+    - National Grid USA
+    - nationalgrid
+    ... and 2 more
+  OG&E (7 aliases)
+    - Oklahoma Electric Coop
+    - Oklahoma Electric Cooperative
+    - Oklahoma Gas & Electric
+    - Oklahoma Gas and Electric
+    - Oklahoma Gas and Electric, RG&E
+    ... and 2 more
+  Peoples Gas (WEC Energy) (7 aliases)
+    - equitable gas
+    - Equitable Gas Co. (peoples Natural Gas
+    - Peoples Gas
+    - Peoples Gas - PA
+    - peoples gas light and coke
+    ... and 2 more
+  Rhode Island Energy (7 aliases)
+    - narragansett
+    - Narragansett Electric
+    - Narragansett Electric Co
+    - Narragansett Electric Co. (gas Division of Ri)
+    - National Grid Rhode Island
+    ... and 2 more
+  SDG&E (7 aliases)
+    - San Diego Gas
+    - San Diego Gas & Electric
+    - San Diego Gas & Electric Co.
+    - San Diego Gas & Electric Company
+    - San Diego Gas & Electric, SDG&E
+    ... and 2 more
+  Spire Alabama (7 aliases)
+    - Alagasco
+    - Southeast Gas
+    - Spire
+    - Spire Energy, Spire
+    - Spire Mississippi
+    ... and 2 more
+  DTE (6 aliases)
+    - Detroit Edison
+    - DTE Electric
+    - DTE Electric Company
+    - DTE Energy
+    - DTE Gas
+    ... and 1 more
+  FPL (6 aliases)
+    - florida power
+    - Florida Power & Light
+    - Florida Power & Light Co.
+    - Florida Power & Light Company
+    - Florida Power and Light
+    ... and 1 more
+  Oncor (6 aliases)
+    - oncor delivery
+    - oncor electric
+    - Oncor Electric Delivery
+    - Oncor Electric Delivery Company
+    - Oncor Electric Delivery Company LLC
+    ... and 1 more
+  SCE (6 aliases)
+    - edison
+    - So Cal Edison
+    - SoCal Edison
+    - Southern Cal Edison
+    - Southern California Edison
+    ... and 1 more
+  SoCalGas (6 aliases)
+    - PG&E, Southern California Gas
+    - So Cal Gas
+    - socal gas
+    - Southern California Gas
+    - Southern California Gas Company
+    ... and 1 more
+  ComEd (5 aliases)
+    - com ed
+    - Commonwealth Edison
+    - Commonwealth Edison (ComEd)
+    - Commonwealth Edison (ComEd), Comed
+    - Commonwealth Edison Co.
+  Eversource CT (5 aliases)
+    - Connecticut Light & Power
+    - Connecticut Light & Power Co.
+    - Eversource, CT
+    - YANKEE GAS SERVICE CO (EVERSOURCE)
+    - Yankee Gas Service Co.
+  Indianapolis Power & Light (5 aliases)
+    - AES Indiana
+    - Indianapolis Power & Light Company
+    - Indianapolis Power And Light
+    - indianapolis power light co
+    - IPL
+  Metropolitan Utilities District Of Omaha (5 aliases)
+    - metropolitan utilities
+    - Metropolitan Utilities District
+    - metropolitan utilities omaha
+    - MUD
+    - mud omaha
+  Montana-Dakota Utilities (5 aliases)
+    - MDU
+    - MDU (Montana-Dakota Utilities)
+    - montana dakota
+    - montana dakota utilities
+    - montana-dakota
+  NIPSCO (5 aliases)
+    - columbia gas
+    - COLUMBIA GAS OF OHIO
+    - NiSource
+    - Northern Indiana Pub Svc Co.
+    - Northern Indiana Public Service
+
+======================================================================
+END OF REPORT
+======================================================================

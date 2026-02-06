@@ -1,0 +1,359 @@
+{
+  "_metadata": {
+    "description": "Georgia Electric Membership Corporations (EMCs) - 41 rural electric cooperatives",
+    "source": "Green Power EMC (https://greenpoweremc.com/georgiasemcs)",
+    "coverage": "4.7 million members, 65% of state land area, 151 of 159 counties",
+    "last_updated": "2026-01-20",
+    "notes": "EMCs serve rural and suburban areas. Georgia Power (IOU) serves urban/metro Atlanta."
+  },
+  
+  "emcs": {
+    "Altamaha EMC": {
+      "website": "http://www.altamahaemc.com/",
+      "phone": "912-526-8181",
+      "counties": ["Appling", "Jeff Davis", "Toombs", "Tattnall", "Montgomery"]
+    },
+    "Amicalola EMC": {
+      "website": "https://www.amicalolaemc.com/",
+      "phone": "706-253-5200",
+      "counties": ["Dawson", "Pickens", "Gilmer", "Fannin", "Lumpkin", "Bartow"]
+    },
+    "Canoochee EMC": {
+      "website": "https://www.canoocheeemc.com/",
+      "phone": "912-685-2115",
+      "counties": ["Emanuel", "Candler", "Bulloch", "Bryan", "Chatham", "Effingham"]
+    },
+    "Carroll EMC": {
+      "website": "https://www.cemc.com/",
+      "phone": "770-832-3552",
+      "counties": ["Carroll", "Haralson", "Heard", "Troup", "Douglas"]
+    },
+    "Central Georgia EMC": {
+      "website": "https://www.cgemc.com/",
+      "phone": "478-743-1191",
+      "counties": ["Bibb", "Jones", "Monroe", "Butts", "Jasper", "Putnam"]
+    },
+    "Coastal Electric Cooperative": {
+      "website": "https://coastalelectriccooperative.com/",
+      "phone": "912-880-2400",
+      "counties": ["Bryan", "Liberty", "Long", "McIntosh"]
+    },
+    "Cobb EMC": {
+      "website": "https://www.cobbemc.com/",
+      "phone": "770-429-2100",
+      "counties": ["Cobb", "Bartow", "Cherokee", "Paulding", "Fulton"]
+    },
+    "Colquitt EMC": {
+      "website": "http://colquittemc.com/",
+      "phone": "229-985-3620",
+      "counties": ["Colquitt", "Brooks", "Cook", "Berrien", "Tift", "Worth"]
+    },
+    "Coweta-Fayette EMC": {
+      "website": "https://utility.org/",
+      "phone": "770-502-0226",
+      "counties": ["Coweta", "Fayette", "Heard", "Meriwether", "Spalding", "Troup"]
+    },
+    "Diverse Power": {
+      "website": "https://www.diversepower.com/",
+      "phone": "706-845-2000",
+      "counties": ["Harris", "Muscogee", "Talbot", "Marion", "Chattahoochee", "Calhoun", "Randolph"]
+    },
+    "Excelsior EMC": {
+      "website": "http://www.excelsioremc.com/",
+      "phone": "912-685-2115",
+      "counties": ["Bulloch", "Candler", "Emanuel", "Evans", "Tattnall", "Bryan"]
+    },
+    "Flint Energies": {
+      "website": "https://www.flintenergies.com/",
+      "phone": "478-988-3500",
+      "counties": ["Houston", "Peach", "Crawford", "Bibb", "Macon", "Dooly", "Crisp", "Sumter", "Chattahoochee"]
+    },
+    "Grady EMC": {
+      "website": "http://gradyemc.com/",
+      "phone": "229-377-4182",
+      "counties": ["Grady", "Thomas", "Decatur", "Mitchell", "Brooks"]
+    },
+    "GreyStone Power Corporation": {
+      "website": "https://www.greystonepower.com/",
+      "phone": "770-942-6576",
+      "counties": ["Douglas", "Paulding", "Carroll", "Bartow", "Fulton", "Cobb"]
+    },
+    "Habersham EMC": {
+      "website": "http://www.habershamemc.com/",
+      "phone": "706-754-2114",
+      "counties": ["Habersham", "Stephens", "Banks", "White", "Rabun"]
+    },
+    "Hart EMC": {
+      "website": "https://www.hartemc.com/",
+      "phone": "706-376-4714",
+      "counties": ["Hart", "Franklin", "Elbert", "Madison", "Banks"]
+    },
+    "Irwin EMC": {
+      "website": "http://www.irwinemc.com/",
+      "phone": "229-468-7538",
+      "counties": ["Irwin", "Ben Hill", "Wilcox", "Coffee", "Berrien", "Tift", "Turner"]
+    },
+    "Jackson EMC": {
+      "website": "https://www.jacksonemc.com/",
+      "phone": "706-367-5281",
+      "counties": ["Jackson", "Barrow", "Banks", "Hall", "Madison", "Clarke", "Gwinnett", "Walton"]
+    },
+    "Jefferson Energy Cooperative": {
+      "website": "http://www.jeffersonenergy.com/",
+      "phone": "706-547-5534",
+      "counties": ["Jefferson", "Burke", "Richmond", "Glascock", "Warren"]
+    },
+    "Little Ocmulgee EMC": {
+      "website": "https://www.loemc.com/",
+      "phone": "229-868-5614",
+      "counties": ["Wheeler", "Telfair", "Jeff Davis", "Dodge", "Laurens", "Montgomery"]
+    },
+    "Middle Georgia EMC": {
+      "website": "http://www.mgemc.com/",
+      "phone": "478-374-7001",
+      "counties": ["Laurens", "Johnson", "Emanuel", "Treutlen", "Dodge", "Telfair"]
+    },
+    "Mitchell EMC": {
+      "website": "https://www.mitchellemc.com/",
+      "phone": "229-336-5221",
+      "counties": ["Mitchell", "Baker", "Dougherty", "Calhoun", "Early", "Miller", "Seminole"]
+    },
+    "North Georgia EMC": {
+      "website": "https://www.ngemc.com/",
+      "phone": "706-259-9441",
+      "counties": ["Catoosa", "Walker", "Dade", "Whitfield", "Murray", "Gordon"],
+      "note": "Not a Green Power EMC member"
+    },
+    "Ocmulgee EMC": {
+      "website": "https://www.ocmulgeeemc.com/",
+      "phone": "478-374-7001",
+      "counties": ["Dodge", "Bleckley", "Pulaski", "Wilcox", "Telfair", "Laurens"]
+    },
+    "Oconee EMC": {
+      "website": "http://www.oconeeemc.com/",
+      "phone": "478-452-2154",
+      "counties": ["Baldwin", "Hancock", "Washington", "Wilkinson", "Jones", "Bibb", "Bleckley"]
+    },
+    "Okefenoke REMC": {
+      "website": "https://www.oremc.com/",
+      "phone": "912-496-3541",
+      "counties": ["Ware", "Brantley", "Charlton", "Camden", "Clinch", "Echols", "Lanier", "Baker"]
+    },
+    "Planters EMC": {
+      "website": "http://www.plantersemc.com/",
+      "phone": "912-564-2232",
+      "counties": ["Bulloch", "Screven", "Burke", "Jenkins", "Effingham"]
+    },
+    "Rayle EMC": {
+      "website": "http://www.rayleemc.com/",
+      "phone": "706-678-2116",
+      "counties": ["Wilkes", "Lincoln", "Taliaferro", "Greene", "Oglethorpe", "Warren"]
+    },
+    "Satilla REMC": {
+      "website": "http://www.satillaemc.com/",
+      "phone": "912-449-2558",
+      "counties": ["Ware", "Bacon", "Appling", "Pierce", "Brantley", "Wayne", "Atkinson", "Ben Hill", "Coffee"]
+    },
+    "Sawnee EMC": {
+      "website": "https://sawnee.coop/",
+      "phone": "770-887-2363",
+      "counties": ["Forsyth", "Dawson", "Hall", "Cherokee", "Lumpkin", "Fulton", "Gwinnett"]
+    },
+    "Slash Pine EMC": {
+      "website": "https://www.slashpineemc.com/",
+      "phone": "912-375-5244",
+      "counties": ["Atkinson", "Berrien", "Charlton", "Clinch", "Coffee", "Lanier", "Ware"]
+    },
+    "Snapping Shoals EMC": {
+      "website": "https://www.ssemc.com/",
+      "phone": "770-786-3484",
+      "counties": ["Newton", "Rockdale", "Henry", "Butts", "Jasper", "Morgan", "Walton", "DeKalb"]
+    },
+    "Southern Rivers Energy": {
+      "website": "http://www.southernriversenergy.com/",
+      "phone": "706-553-4444",
+      "counties": ["Troup", "Meriwether", "Pike", "Upson", "Lamar", "Spalding", "Bibb"]
+    },
+    "Sumter EMC": {
+      "website": "http://www.sumteremc.com/",
+      "phone": "229-924-8041",
+      "counties": ["Sumter", "Lee", "Terrell", "Webster", "Schley", "Macon", "Chattahoochee"]
+    },
+    "Three Notch EMC": {
+      "website": "http://www.threenotchemc.com/",
+      "phone": "229-723-4466",
+      "counties": ["Miller", "Early", "Baker", "Seminole", "Decatur"]
+    },
+    "Tri-County EMC": {
+      "website": "https://www.tri-countyemc.com/",
+      "phone": "478-986-8100",
+      "counties": ["Jones", "Baldwin", "Bibb", "Twiggs", "Wilkinson", "Monroe"]
+    },
+    "Upson EMC": {
+      "website": "http://www.upsonemc.com/",
+      "phone": "706-647-5959",
+      "counties": ["Upson", "Pike", "Lamar", "Taylor", "Crawford"]
+    },
+    "Walton EMC": {
+      "website": "https://www.waltonemc.com/",
+      "phone": "770-267-2505",
+      "counties": ["Walton", "Barrow", "Oconee", "Morgan", "Newton", "Rockdale", "Gwinnett", "DeKalb"]
+    },
+    "Washington EMC": {
+      "website": "https://www.washingtonemc.com/",
+      "phone": "478-552-2577",
+      "counties": ["Washington", "Baldwin", "Hancock", "Johnson", "Wilkinson", "Emanuel"]
+    }
+  },
+  
+  "county_to_emc": {
+    "Appling": ["Altamaha EMC", "Satilla REMC"],
+    "Atkinson": ["Satilla REMC", "Slash Pine EMC"],
+    "Bacon": ["Satilla REMC"],
+    "Baker": ["Mitchell EMC", "Okefenoke REMC", "Three Notch EMC"],
+    "Baldwin": ["Oconee EMC", "Tri-County EMC", "Washington EMC"],
+    "Banks": ["Hart EMC", "Jackson EMC", "Habersham EMC"],
+    "Barrow": ["Jackson EMC", "Walton EMC"],
+    "Bartow": ["Amicalola EMC", "Cobb EMC", "GreyStone Power Corporation"],
+    "Ben Hill": ["Irwin EMC", "Satilla REMC"],
+    "Berrien": ["Colquitt EMC", "Irwin EMC", "Slash Pine EMC"],
+    "Bibb": ["Central Georgia EMC", "Flint Energies", "Southern Rivers Energy", "Oconee EMC", "Tri-County EMC"],
+    "Bleckley": ["Ocmulgee EMC", "Oconee EMC"],
+    "Brantley": ["Okefenoke REMC", "Satilla REMC"],
+    "Brooks": ["Colquitt EMC", "Grady EMC"],
+    "Bryan": ["Canoochee EMC", "Coastal Electric Cooperative", "Excelsior EMC"],
+    "Bulloch": ["Excelsior EMC", "Planters EMC"],
+    "Burke": ["Jefferson Energy Cooperative", "Planters EMC"],
+    "Butts": ["Central Georgia EMC", "Snapping Shoals EMC"],
+    "Calhoun": ["Mitchell EMC", "Diverse Power"],
+    "Camden": ["Okefenoke REMC"],
+    "Candler": ["Canoochee EMC", "Excelsior EMC"],
+    "Carroll": ["Carroll EMC", "GreyStone Power Corporation"],
+    "Catoosa": ["North Georgia EMC"],
+    "Charlton": ["Okefenoke REMC", "Slash Pine EMC"],
+    "Chatham": ["Canoochee EMC"],
+    "Chattahoochee": ["Flint Energies", "Sumter EMC", "Diverse Power"],
+    "Cherokee": ["Cobb EMC", "Sawnee EMC"],
+    "Clarke": ["Jackson EMC"],
+    "Clinch": ["Okefenoke REMC", "Slash Pine EMC"],
+    "Cobb": ["Cobb EMC", "GreyStone Power Corporation"],
+    "Coffee": ["Irwin EMC", "Satilla REMC", "Slash Pine EMC"],
+    "Colquitt": ["Colquitt EMC"],
+    "Cook": ["Colquitt EMC"],
+    "Coweta": ["Coweta-Fayette EMC"],
+    "Crawford": ["Flint Energies", "Upson EMC"],
+    "Crisp": ["Flint Energies"],
+    "Dade": ["North Georgia EMC"],
+    "Dawson": ["Amicalola EMC", "Sawnee EMC"],
+    "Decatur": ["Grady EMC", "Three Notch EMC"],
+    "DeKalb": ["Snapping Shoals EMC", "Walton EMC"],
+    "Dodge": ["Little Ocmulgee EMC", "Ocmulgee EMC"],
+    "Dooly": ["Flint Energies"],
+    "Dougherty": ["Mitchell EMC"],
+    "Douglas": ["Carroll EMC", "GreyStone Power Corporation"],
+    "Early": ["Mitchell EMC", "Three Notch EMC"],
+    "Echols": ["Okefenoke REMC"],
+    "Effingham": ["Canoochee EMC", "Planters EMC"],
+    "Elbert": ["Hart EMC"],
+    "Emanuel": ["Canoochee EMC", "Excelsior EMC", "Middle Georgia EMC", "Washington EMC"],
+    "Evans": ["Excelsior EMC"],
+    "Fannin": ["Amicalola EMC"],
+    "Fayette": ["Coweta-Fayette EMC"],
+    "Floyd": [],
+    "Forsyth": ["Sawnee EMC"],
+    "Franklin": ["Hart EMC"],
+    "Fulton": ["Cobb EMC", "GreyStone Power Corporation", "Sawnee EMC"],
+    "Gilmer": ["Amicalola EMC"],
+    "Glascock": ["Jefferson Energy Cooperative"],
+    "Gordon": ["North Georgia EMC"],
+    "Grady": ["Grady EMC"],
+    "Greene": ["Rayle EMC"],
+    "Gwinnett": ["Jackson EMC", "Sawnee EMC", "Walton EMC"],
+    "Habersham": ["Habersham EMC"],
+    "Hall": ["Jackson EMC", "Sawnee EMC"],
+    "Hancock": ["Oconee EMC", "Washington EMC"],
+    "Haralson": ["Carroll EMC"],
+    "Harris": ["Diverse Power"],
+    "Hart": ["Hart EMC"],
+    "Heard": ["Carroll EMC", "Coweta-Fayette EMC"],
+    "Henry": ["Snapping Shoals EMC"],
+    "Houston": ["Flint Energies"],
+    "Irwin": ["Irwin EMC"],
+    "Jackson": ["Jackson EMC"],
+    "Jasper": ["Central Georgia EMC", "Snapping Shoals EMC"],
+    "Jeff Davis": ["Altamaha EMC", "Little Ocmulgee EMC"],
+    "Jefferson": ["Jefferson Energy Cooperative"],
+    "Jenkins": ["Planters EMC"],
+    "Johnson": ["Middle Georgia EMC", "Washington EMC"],
+    "Jones": ["Central Georgia EMC", "Oconee EMC", "Tri-County EMC"],
+    "Lamar": ["Southern Rivers Energy", "Upson EMC"],
+    "Lanier": ["Okefenoke REMC", "Slash Pine EMC"],
+    "Laurens": ["Little Ocmulgee EMC", "Middle Georgia EMC", "Ocmulgee EMC"],
+    "Lee": ["Sumter EMC"],
+    "Liberty": ["Coastal Electric Cooperative"],
+    "Lincoln": ["Rayle EMC"],
+    "Long": ["Coastal Electric Cooperative"],
+    "Lumpkin": ["Amicalola EMC", "Sawnee EMC"],
+    "Macon": ["Flint Energies", "Sumter EMC"],
+    "Madison": ["Hart EMC", "Jackson EMC"],
+    "Marion": ["Diverse Power"],
+    "McIntosh": ["Coastal Electric Cooperative"],
+    "Meriwether": ["Coweta-Fayette EMC", "Southern Rivers Energy"],
+    "Miller": ["Mitchell EMC", "Three Notch EMC"],
+    "Mitchell": ["Grady EMC", "Mitchell EMC"],
+    "Monroe": ["Central Georgia EMC", "Tri-County EMC"],
+    "Montgomery": ["Altamaha EMC", "Little Ocmulgee EMC"],
+    "Morgan": ["Snapping Shoals EMC", "Walton EMC"],
+    "Murray": ["North Georgia EMC"],
+    "Muscogee": ["Diverse Power"],
+    "Newton": ["Snapping Shoals EMC", "Walton EMC"],
+    "Oconee": ["Walton EMC"],
+    "Oglethorpe": ["Rayle EMC"],
+    "Paulding": ["Cobb EMC", "GreyStone Power Corporation"],
+    "Peach": ["Flint Energies"],
+    "Pickens": ["Amicalola EMC"],
+    "Pierce": ["Satilla REMC"],
+    "Pike": ["Southern Rivers Energy", "Upson EMC"],
+    "Pulaski": ["Ocmulgee EMC"],
+    "Putnam": ["Central Georgia EMC"],
+    "Rabun": ["Habersham EMC"],
+    "Randolph": ["Diverse Power"],
+    "Richmond": ["Jefferson Energy Cooperative"],
+    "Rockdale": ["Snapping Shoals EMC", "Walton EMC"],
+    "Schley": ["Sumter EMC"],
+    "Screven": ["Planters EMC"],
+    "Seminole": ["Mitchell EMC", "Three Notch EMC"],
+    "Spalding": ["Coweta-Fayette EMC", "Southern Rivers Energy"],
+    "Stephens": ["Habersham EMC"],
+    "Sumter": ["Flint Energies", "Sumter EMC"],
+    "Talbot": ["Diverse Power"],
+    "Taliaferro": ["Rayle EMC"],
+    "Tattnall": ["Altamaha EMC", "Excelsior EMC"],
+    "Taylor": ["Upson EMC"],
+    "Telfair": ["Little Ocmulgee EMC", "Middle Georgia EMC", "Ocmulgee EMC"],
+    "Terrell": ["Sumter EMC"],
+    "Thomas": ["Grady EMC"],
+    "Tift": ["Colquitt EMC", "Irwin EMC"],
+    "Toombs": ["Altamaha EMC"],
+    "Treutlen": ["Middle Georgia EMC"],
+    "Troup": ["Carroll EMC", "Coweta-Fayette EMC", "Southern Rivers Energy"],
+    "Turner": ["Irwin EMC"],
+    "Twiggs": ["Tri-County EMC"],
+    "Union": [],
+    "Upson": ["Southern Rivers Energy", "Upson EMC"],
+    "Walker": ["North Georgia EMC"],
+    "Walton": ["Jackson EMC", "Snapping Shoals EMC", "Walton EMC"],
+    "Ware": ["Okefenoke REMC", "Satilla REMC", "Slash Pine EMC"],
+    "Warren": ["Jefferson Energy Cooperative", "Rayle EMC"],
+    "Washington": ["Oconee EMC", "Washington EMC"],
+    "Wayne": ["Satilla REMC"],
+    "Webster": ["Sumter EMC"],
+    "Wheeler": ["Little Ocmulgee EMC"],
+    "White": ["Habersham EMC"],
+    "Whitfield": ["North Georgia EMC"],
+    "Wilcox": ["Irwin EMC", "Ocmulgee EMC"],
+    "Wilkes": ["Rayle EMC"],
+    "Wilkinson": ["Oconee EMC", "Tri-County EMC", "Washington EMC"],
+    "Worth": ["Colquitt EMC"]
+  }
+}

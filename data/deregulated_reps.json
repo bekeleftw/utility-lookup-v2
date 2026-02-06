@@ -1,0 +1,297 @@
+{
+  "metadata": {
+    "description": "Retail Electric Providers in deregulated Texas (ERCOT). REPs are NOT canonical providers \u2014 they should never be returned as the 'correct' utility for an address.",
+    "correct_behavior": "When a REP name is detected, the lookup should return the TDU for that address instead. TDU is determined by physical location using HIFLD boundary polygons.",
+    "last_updated": "2026-02-06",
+    "source": "Extracted from 172K tenant-verified addresses"
+  },
+  "texas_tdus": [
+    {
+      "name": "Oncor",
+      "canonical_id": "Oncor",
+      "service_area": "Dallas-Fort Worth metro and surrounding"
+    },
+    {
+      "name": "CenterPoint Energy Houston Electric",
+      "canonical_id": "CenterPoint Energy",
+      "service_area": "Greater Houston"
+    },
+    {
+      "name": "AEP Texas Central",
+      "canonical_id": "AEP Texas",
+      "service_area": "Corpus Christi, McAllen, Rio Grande Valley"
+    },
+    {
+      "name": "AEP Texas North",
+      "canonical_id": "AEP Texas",
+      "service_area": "Abilene, San Angelo, West Texas"
+    },
+    {
+      "name": "Texas-New Mexico Power",
+      "canonical_id": "TNMP",
+      "service_area": "Non-contiguous: N-Central TX, Gulf Coast, West TX"
+    },
+    {
+      "name": "Lubbock Power & Light",
+      "canonical_id": "Lubbock Power & Light System",
+      "service_area": "Lubbock area"
+    }
+  ],
+  "reps": {
+    "Energy Texas": {
+      "frequency_in_tenant_data": 10800
+    },
+    "Rhythm": {
+      "frequency_in_tenant_data": 10558
+    },
+    "TXU Energy": {
+      "frequency_in_tenant_data": 353
+    },
+    "Reliant Energy": {
+      "frequency_in_tenant_data": 335
+    },
+    "Ambit Energy-CYMA": {
+      "frequency_in_tenant_data": 277
+    },
+    "Gexa Energy": {
+      "frequency_in_tenant_data": 171
+    },
+    "Reliant-The Mardia Group": {
+      "frequency_in_tenant_data": 124
+    },
+    "4Change Energy": {
+      "frequency_in_tenant_data": 92
+    },
+    "Amigo Energy": {
+      "frequency_in_tenant_data": 82
+    },
+    "Xoom Energy - Key Renter McAllen": {
+      "frequency_in_tenant_data": 68
+    },
+    "Good Charlie": {
+      "frequency_in_tenant_data": 63
+    },
+    "Frontier Utilities": {
+      "frequency_in_tenant_data": 46
+    },
+    "Champion Energy Services (Spring": {
+      "frequency_in_tenant_data": 43
+    },
+    "Direct Energy": {
+      "frequency_in_tenant_data": 42
+    },
+    "Veteran Energy": {
+      "frequency_in_tenant_data": 30
+    },
+    "Discount Power": {
+      "frequency_in_tenant_data": 25
+    },
+    "TXU": {
+      "frequency_in_tenant_data": 20
+    },
+    "Stream Energy": {
+      "frequency_in_tenant_data": 18
+    },
+    "MeterTex (TX)": {
+      "frequency_in_tenant_data": 16
+    },
+    "APG&E": {
+      "frequency_in_tenant_data": 16
+    },
+    "Cirro Energy": {
+      "frequency_in_tenant_data": 13
+    },
+    "Chariot Energy": {
+      "frequency_in_tenant_data": 12
+    },
+    "BKV Energy": {
+      "frequency_in_tenant_data": 11
+    },
+    "Green Mountain Energy": {
+      "frequency_in_tenant_data": 10
+    },
+    "Rythym Energy": {
+      "frequency_in_tenant_data": 8
+    },
+    "Gexa": {
+      "frequency_in_tenant_data": 7
+    },
+    "Express Energy": {
+      "frequency_in_tenant_data": 7
+    },
+    "Payless Power": {
+      "frequency_in_tenant_data": 7
+    },
+    "Abundance Energy": {
+      "frequency_in_tenant_data": 7
+    },
+    "Green mountain energy": {
+      "frequency_in_tenant_data": 6
+    },
+    "TXU energy": {
+      "frequency_in_tenant_data": 6
+    },
+    "Budget Power": {
+      "frequency_in_tenant_data": 6
+    },
+    "CleanSky Energy": {
+      "frequency_in_tenant_data": 6
+    },
+    "Reliant": {
+      "frequency_in_tenant_data": 5
+    },
+    "Trieangle Energy": {
+      "frequency_in_tenant_data": 5
+    },
+    "Tara Energy": {
+      "frequency_in_tenant_data": 5
+    },
+    "Ambit Energy": {
+      "frequency_in_tenant_data": 4
+    },
+    "Xoom": {
+      "frequency_in_tenant_data": 4
+    },
+    "Txu": {
+      "frequency_in_tenant_data": 4
+    },
+    "Rhythm Energy": {
+      "frequency_in_tenant_data": 4
+    },
+    "Payless power": {
+      "frequency_in_tenant_data": 4
+    },
+    "Atlantex Power": {
+      "frequency_in_tenant_data": 4
+    },
+    "Direct energy": {
+      "frequency_in_tenant_data": 4
+    },
+    "Ambit": {
+      "frequency_in_tenant_data": 4
+    },
+    "Reliant Energy Co": {
+      "frequency_in_tenant_data": 4
+    },
+    "Green Mountain energy": {
+      "frequency_in_tenant_data": 3
+    },
+    "Abundance energy": {
+      "frequency_in_tenant_data": 3
+    },
+    "Think Energy": {
+      "frequency_in_tenant_data": 3
+    },
+    "Cleansky Energy": {
+      "frequency_in_tenant_data": 3
+    },
+    "apg&e": {
+      "frequency_in_tenant_data": 3
+    },
+    "AP Gas and Electric": {
+      "frequency_in_tenant_data": 3
+    },
+    "Champion Energy Services": {
+      "frequency_in_tenant_data": 3
+    },
+    "Octopus Energy": {
+      "frequency_in_tenant_data": 3
+    },
+    "Tesla Electric": {
+      "frequency_in_tenant_data": 3
+    },
+    "Apg&e": {
+      "frequency_in_tenant_data": 3
+    },
+    "Atlantex": {
+      "frequency_in_tenant_data": 2
+    },
+    "Revolution Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Champion": {
+      "frequency_in_tenant_data": 2
+    },
+    "Southern Federal Power": {
+      "frequency_in_tenant_data": 2
+    },
+    "Veterans Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Abundance": {
+      "frequency_in_tenant_data": 2
+    },
+    "Pogo Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "4 Change Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Express energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Tri Eagle Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Acacia energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "OhmConnect Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "NRG": {
+      "frequency_in_tenant_data": 2
+    },
+    "Companion Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "For change energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Infuse Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Ambit energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Chariot": {
+      "frequency_in_tenant_data": 2
+    },
+    "TriEagle Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Veteran energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Green Mountain": {
+      "frequency_in_tenant_data": 2
+    },
+    "cirro": {
+      "frequency_in_tenant_data": 2
+    },
+    "GoodCharlie Energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "4 change energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Clean sky energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Ironhorse": {
+      "frequency_in_tenant_data": 2
+    },
+    "Gexa energy": {
+      "frequency_in_tenant_data": 2
+    },
+    "Just Energy": {
+      "frequency_in_tenant_data": 142
+    },
+    "Just Energy Texas LP": {
+      "frequency_in_tenant_data": 5
+    },
+    "Constellation Energy": {
+      "frequency_in_tenant_data": 11
+    }
+  }
+}

@@ -1,0 +1,35 @@
+# Environment / secrets
+.env
+
+# Large shapefiles and geodata (download separately)
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.geojson
+*.gpkg
+electric-retail-service-territories-shapefile/
+electric-retail-service-territories-geojson.geojson
+CWS_Boundaries_Latest/
+240245-V1/
+
+# Batch results and validation outputs (regenerated)
+batch_results.csv
+batch_results_recompare.csv
+batch_results_full.xlsx
+mapper_review_queue.xlsx
+mapper_review_queue.csv
+ai_comparison_results.csv
+BATCH_VALIDATION_REPORT.md
+
+# Tenant verification data (sensitive)
+addresses_with_tenant_verification_*.csv
+
+# Cache
+data/lookup_cache.db
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
