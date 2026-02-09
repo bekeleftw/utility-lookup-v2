@@ -16,9 +16,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Clone repo and pull LFS files (shapefiles are stored in LFS)
-ARG GITHUB_REPO=https://github.com/bekeleftw/utility-lookup-v2.git
-RUN git clone --depth 1 ${GITHUB_REPO} /tmp/repo \
+# Clone repo with token auth and pull LFS files (shapefiles)
+ARG GITHUB_TOKEN
+RUN git clone --depth 1 https://${GITHUB_TOKEN}@github.com/bekeleftw/utility-lookup-v2.git /tmp/repo \
     && cd /tmp/repo && git lfs pull \
     && cp -r /tmp/repo/electric-retail-service-territories-shapefile/ /app/ \
     && cp -r /tmp/repo/240245-V1/ /app/ \
