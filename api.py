@@ -64,12 +64,16 @@ async def lifespan(app: FastAPI):
 
     # AI resolver for low-confidence results
     global ai_resolver
+    anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
     openrouter_key = os.environ.get("OPENROUTER_API_KEY", "")
-    if openrouter_key:
+    if anthropic_key:
+        ai_resolver = AIResolver(anthropic_key, "anthropic")
+        logger.info("AI resolver: enabled (Anthropic direct)")
+    elif openrouter_key:
         ai_resolver = AIResolver(openrouter_key, "openrouter", "anthropic/claude-sonnet-4-5")
-        logger.info("AI resolver: enabled (Claude Sonnet)")
+        logger.info("AI resolver: enabled (OpenRouter)")
     else:
-        logger.info("AI resolver: disabled (no OPENROUTER_API_KEY)")
+        logger.info("AI resolver: disabled (no ANTHROPIC_API_KEY or OPENROUTER_API_KEY)")
 
     elapsed = time.time() - t0
     logger.info(f"Engine ready in {elapsed:.1f}s")
