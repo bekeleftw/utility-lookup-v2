@@ -13,6 +13,7 @@ from .geocoder import Geocoder, create_geocoder, get_census_block_geoid
 from .models import GeocodedAddress, LookupResult, ProviderResult
 from .scorer import EnsembleScorer
 from .spatial_index import SpatialIndex
+from .postgis_spatial import PostGISSpatialIndex
 from .corrections import CorrectionsLookup
 from .county_gas import CountyGasLookup
 from .eia_verification import EIAVerification
@@ -43,14 +44,22 @@ class LookupEngine:
         logger.info("Initializing LookupEngine...")
         t0 = time.time()
 
-        # Spatial index
-        self.spatial = SpatialIndex(self.config)
-        if skip_water:
-            self.spatial._load_electric()
-            self.spatial._load_gas()
-            logger.info("Skipped water layer (skip_water=True)")
+        # Spatial index — use PostGIS if available, else in-memory geopandas
+        postgis_url = os.environ.get("POSTGIS_URL", "")
+        if postgis_url:
+            self.spatial = PostGISSpatialIndex(postgis_url)
+            if not self.spatial.is_loaded:
+                logger.warning("PostGIS unavailable, falling back to in-memory spatial index")
+                self.spatial = SpatialIndex(self.config)
+                self.spatial.load_all()
         else:
-            self.spatial.load_all()
+            self.spatial = SpatialIndex(self.config)
+            if skip_water:
+                self.spatial._load_electric()
+                self.spatial._load_gas()
+                logger.info("Skipped water layer (skip_water=True)")
+            else:
+                self.spatial.load_all()
 
         # Scorer / normalization bridge
         self.scorer = EnsembleScorer(self.config)
