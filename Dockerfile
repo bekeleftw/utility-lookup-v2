@@ -1,13 +1,11 @@
 FROM python:3.11-slim
 
-# System deps for geopandas/shapely + git-lfs for fetching shapefiles
+# System deps for geopandas/shapely + curl for downloading shapefiles
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgdal-dev \
     libgeos-dev \
     libproj-dev \
-    git \
-    git-lfs \
-    && git lfs install \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -16,17 +14,20 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Clone repo with token auth and pull LFS files (shapefiles)
-ARG GITHUB_TOKEN
-RUN git clone --depth 1 https://${GITHUB_TOKEN}@github.com/bekeleftw/utility-lookup-v2.git /tmp/repo \
-    && cd /tmp/repo && git lfs pull \
-    && cp -r /tmp/repo/electric-retail-service-territories-shapefile/ /app/ \
-    && cp -r /tmp/repo/240245-V1/ /app/ \
-    && cp -r /tmp/repo/CWS_Boundaries_Latest/ /app/ \
-    && cp -r /tmp/repo/data/ /app/ \
-    && rm -rf /tmp/repo
+# Download shapefiles from GitHub Release (avoids LFS issues)
+ARG SHAPEFILE_RELEASE=https://github.com/bekeleftw/utility-lookup-v2/releases/download/v1.0-shapefiles
+RUN curl -L -o /tmp/electric.tar.gz ${SHAPEFILE_RELEASE}/electric-shapefile.tar.gz \
+    && curl -L -o /tmp/gas.tar.gz ${SHAPEFILE_RELEASE}/gas-shapefile.tar.gz \
+    && curl -L -o /tmp/water.tar.gz ${SHAPEFILE_RELEASE}/water-shapefile.tar.gz \
+    && tar xzf /tmp/electric.tar.gz -C /app/ \
+    && tar xzf /tmp/gas.tar.gz -C /app/ \
+    && tar xzf /tmp/water.tar.gz -C /app/ \
+    && rm -f /tmp/*.tar.gz
 
-# Copy application code from build context (changes most often)
+# Copy data files from build context
+COPY data/ data/
+
+# Copy application code (changes most often — last layer)
 COPY lookup_engine/ lookup_engine/
 COPY api.py .
 COPY run_engine.py .

@@ -1,7 +1,13 @@
 # Environment / secrets
 .env
 
-# Large standalone geodata files (not needed — shapefiles are in their directories)
+# Shapefiles (downloaded from GitHub Release during Docker build)
+electric-retail-service-territories-shapefile/
+240245-V1/
+CWS_Boundaries_Latest/
+.gitattributes
+
+# Large standalone geodata files
 electric-retail-service-territories-geojson.geojson
 
 # Batch results and validation outputs (regenerated)
