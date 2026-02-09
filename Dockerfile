@@ -30,6 +30,7 @@ RUN git clone --depth 1 ${GITHUB_REPO} /tmp/repo \
 COPY lookup_engine/ lookup_engine/
 COPY api.py .
 COPY run_engine.py .
+COPY provider_normalizer.py .
 
 # Railway sets PORT env var
 ENV PORT=8080
