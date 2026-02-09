@@ -25,7 +25,6 @@ fix_round2.py
 generate_review_files.py
 import_mapper_corrections.py
 openei_crossref.py
-provider_normalizer.py
 retest_mismatches.py
 sample_test_gis.py
 tenant_coverage_check*.py
