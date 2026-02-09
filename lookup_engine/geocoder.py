@@ -88,13 +88,16 @@ class CensusGeocoder(Geocoder):
             return None
 
     def geocode_batch(
-        self, addresses: List[Tuple[str, str]]
+        self, addresses: List[Tuple[str, str]], on_chunk_complete=None,
     ) -> Dict[str, Optional[GeocodedAddress]]:
         """
         Geocode up to N addresses using the Census batch endpoint.
 
         Args:
             addresses: list of (unique_id, full_address) tuples
+            on_chunk_complete: optional callback(chunk_results, chunk_addresses)
+                called after each 10K chunk returns, so callers can process
+                failures concurrently (e.g. queue for Nominatim).
 
         Returns:
             dict mapping unique_id -> GeocodedAddress or None if no match
@@ -116,6 +119,9 @@ class CensusGeocoder(Geocoder):
 
             chunk_results = self._send_batch(buffer.getvalue(), attempt=1)
             all_results.update(chunk_results)
+
+            if on_chunk_complete:
+                on_chunk_complete(chunk_results, chunk)
 
         matched = sum(1 for v in all_results.values() if v is not None)
         logger.info(f"Batch geocoding complete: {matched}/{total} matched")
@@ -314,6 +320,83 @@ class GoogleGeocoder(Geocoder):
 
         except requests.RequestException as e:
             logger.error(f"Google geocoder error for '{address}': {e}")
+            return None
+
+
+class NominatimGeocoder(Geocoder):
+    """Free OpenStreetMap Nominatim geocoder. Rate limit: 1 req/sec per usage policy."""
+
+    BASE_URL = "https://nominatim.openstreetmap.org/search"
+
+    def __init__(self, email: str = ""):
+        self.email = email  # Nominatim requires contact email for heavy usage
+        self._last_call = 0.0
+
+    def geocode(self, address: str) -> Optional[GeocodedAddress]:
+        # Light rate limit — 0.25s between calls per worker instance
+        elapsed = time.time() - self._last_call
+        if elapsed < 0.25:
+            time.sleep(0.25 - elapsed)
+        self._last_call = time.time()
+
+        params = {
+            "q": address,
+            "format": "jsonv2",
+            "countrycodes": "us",
+            "limit": 1,
+            "addressdetails": 1,
+        }
+        if self.email:
+            params["email"] = self.email
+
+        try:
+            t0 = time.time()
+            resp = requests.get(
+                self.BASE_URL, params=params,
+                headers={"User-Agent": "utility-lookup-v2/1.0"},
+                timeout=10,
+            )
+            resp.raise_for_status()
+            results = resp.json()
+            elapsed_ms = (time.time() - t0) * 1000
+
+            if not results:
+                return None
+
+            best = results[0]
+            lat = float(best.get("lat", 0))
+            lon = float(best.get("lon", 0))
+
+            if lat == 0 and lon == 0:
+                return None
+
+            addr = best.get("address", {})
+            city = addr.get("city", "") or addr.get("town", "") or addr.get("village", "")
+            state = addr.get("state", "")
+            zip_code = addr.get("postcode", "")
+            county = addr.get("county", "")
+
+            # Map Nominatim importance/type to confidence
+            place_rank = int(best.get("place_rank", 0))
+            if place_rank >= 30:  # house number level
+                confidence = 0.92
+            elif place_rank >= 26:  # street level
+                confidence = 0.80
+            else:
+                confidence = 0.60
+
+            result = GeocodedAddress(
+                lat=lat, lon=lon,
+                confidence=confidence,
+                formatted_address=best.get("display_name", address),
+                city=city, state=state, zip_code=zip_code, county=county,
+                block_geoid="",  # Nominatim doesn't provide Census blocks
+            )
+            logger.debug(f"Nominatim geocoder: {address} -> ({lat}, {lon}) ({elapsed_ms:.0f}ms)")
+            return result
+
+        except requests.RequestException as e:
+            logger.debug(f"Nominatim geocoder error for '{address}': {e}")
             return None
 
 

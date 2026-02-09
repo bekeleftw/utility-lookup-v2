@@ -1,0 +1,60 @@
+# Git
+.git/
+.gitignore
+
+# Large files not needed for API
+*.csv
+*.xlsx
+*.geojson
+batch_results*
+mapper_review_queue*
+ai_comparison_results*
+ai_review_*
+addresses_with_tenant_*
+
+# Batch validation scripts (not needed for API)
+batch_validate.py
+ai_resolve_batch.py
+run_ai_review.py
+build_tx_reps.py
+consolidate_normalization.py
+expand_provider_aliases.py
+expand_water_aliases.py
+fix_canonical_providers.py
+fix_round2.py
+generate_review_files.py
+import_mapper_corrections.py
+openei_crossref.py
+provider_normalizer.py
+retest_mismatches.py
+sample_test_gis.py
+tenant_coverage_check*.py
+test_*.py
+
+# Docs and prompts
+*.md
+windsurf_prompt*
+cc_prompt*
+
+# Cache files (regenerated at runtime)
+data/lookup_cache.db
+data/geocode_cache.json
+data/state_gis_cache.json
+__pycache__/
+*.pyc
+
+# IDE / OS
+.DS_Store
+.env
+.claude/
+.windsurf/
+
+# OpenEI data (not needed)
+openei_utilities.json
+
+# Dupe analysis files
+*_dupes*.json
+*_aliases*.json
+*_candidates.json
+consolidation_report.txt
+catalog_dupes_report.txt

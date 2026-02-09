@@ -20,7 +20,11 @@
     "aliases": [
       "AEP Texas Central",
       "AEP Texas Inc.",
-      "AEP Texas North"
+      "AEP Texas North",
+      "AEP Texas Central Company",
+      "AEP TEXAS CENTRAL COMPANY",
+      "AEP Texas North Company",
+      "AEP TEXAS NORTH COMPANY"
     ],
     "eia_id": 3278
   },
@@ -86,7 +90,9 @@
       "Ameren MO, Spire",
       "Spire, Ameren Illinois",
       "union electric",
-      "Union Electric Co. - (mo)"
+      "Union Electric Co. - (mo)",
+      "Union Electric Co",
+      "UNION ELECTRIC CO - (MO)"
     ],
     "eia_id": 56697
   },
@@ -338,7 +344,9 @@
     "aliases": [
       "CDE",
       "Clarksville Department of Electricity",
-      "Clarksville Lightband"
+      "Clarksville Lightband",
+      "City of Clarksville",
+      "CITY OF CLARKSVILLE - (TN)"
     ],
     "utility_type": "electric"
   },
@@ -1536,7 +1544,10 @@
   "Huntsville Utilities": {
     "display_name": "Huntsville Utilities",
     "aliases": [
-      "Huntsville Utilities - AL"
+      "Huntsville Utilities - AL",
+      "City of Huntsville",
+      "CITY OF HUNTSVILLE - (AL)",
+      "Huntsville Utilities Electric"
     ]
   },
   "Idaho Power Co.": {
@@ -2215,7 +2226,11 @@
     "aliases": [
       "Nevada Power",
       "Nevada Power Co.",
-      "Sierra Pacific Power"
+      "Sierra Pacific Power",
+      "Nevada Power Co",
+      "NEVADA POWER CO",
+      "Sierra Pacific Power Co",
+      "SIERRA PACIFIC POWER CO"
     ],
     "parent_company": "Berkshire Hathaway Energy",
     "eia_id": 13407
@@ -2244,7 +2259,9 @@
       "Oklahoma Gas and Electric",
       "Oklahoma Gas and Electric, RG&E",
       "oklahoma gas electric co",
-      "RG&E, Oklahoma Gas and Electric"
+      "RG&E, Oklahoma Gas and Electric",
+      "Oklahoma Gas & Electric Co",
+      "OKLAHOMA GAS & ELECTRIC CO"
     ],
     "eia_id": 13734
   },
@@ -2500,7 +2517,9 @@
     "aliases": [
       "PEPCO",
       "Potomac Electric Power Co.",
-      "Potomac Electric Power Company"
+      "Potomac Electric Power Company",
+      "Potomac Electric Power Co",
+      "POTOMAC ELECTRIC POWER CO"
     ],
     "eia_id": 14405
   },
@@ -3224,7 +3243,9 @@
       "Public Service Company Of Colorado",
       "xcel",
       "Xcel Energy Colorado",
-      "Xcel Energy Minnesota"
+      "Xcel Energy Minnesota",
+      "Southwestern Public Service Co",
+      "SOUTHWESTERN PUBLIC SERVICE CO"
     ],
     "eia_id": 5905
   },
@@ -3245,6 +3266,560 @@
       "PUD No 1 Of Clark County - (WA)",
       "PUD No 1 Of Clark County - (Wa)",
       "Clark County PUD"
+    ]
+  },
+  "Virginia Electric and Power": {
+    "display_name": "Dominion Energy",
+    "aliases": [
+      "Virginia Electric & Power",
+      "Virginia Electric & Power Co",
+      "VIRGINIA ELECTRIC & POWER CO",
+      "VEPCO"
+    ]
+  },
+  "Massachusetts Electric": {
+    "display_name": "National Grid MA",
+    "aliases": [
+      "Massachusetts Electric Co",
+      "MASSACHUSETTS ELECTRIC CO",
+      "New England Electric System"
+    ]
+  },
+  "Minnesota Power": {
+    "display_name": "Minnesota Power",
+    "aliases": [
+      "MINNESOTA POWER",
+      "Allete",
+      "ALLETE, INC."
+    ],
+    "parent_company": "ALLETE"
+  },
+  "Cumberland Electric Membership Corporation": {
+    "display_name": "Cumberland EMC",
+    "aliases": [
+      "Cumberland Elec Member",
+      "CUMBERLAND ELEC MEMBER",
+      "Cumberland Electric"
+    ]
+  },
+  "Upper Cumberland EMC": {
+    "display_name": "Upper Cumberland EMC",
+    "aliases": [
+      "Upper Cumberland E M C",
+      "UPPER CUMBERLAND E M C",
+      "Upper Cumberland Electric"
+    ]
+  },
+  "Florence Utilities": {
+    "display_name": "Florence Utilities",
+    "aliases": [
+      "City of Florence",
+      "CITY OF FLORENCE - (AL)",
+      "Florence Electric Department"
+    ]
+  },
+  "Johnson City Power Board": {
+    "display_name": "Johnson City Power Board",
+    "aliases": [
+      "Johnson City",
+      "JOHNSON CITY - (TN)",
+      "Johnson City PB"
+    ]
+  },
+  "Northeast Mississippi EPA": {
+    "display_name": "Northeast Mississippi EPA",
+    "aliases": [
+      "NORTHEAST MISSISSIPPI EPA",
+      "Northeast Mississippi Electric Power Association"
+    ]
+  },
+  "Charlotte Water": {
+    "display_name": "Charlotte Water",
+    "aliases": [
+      "Charlotte-Mecklenburg Utilities",
+      "CHARLOTTE-MECKLENBURG UTILITIES",
+      "Charlotte Mecklenburg Utility Department",
+      "CMUD"
+    ]
+  },
+  "City of Winston-Salem": {
+    "display_name": "City of Winston-Salem",
+    "aliases": [
+      "Winston-Salem",
+      "CITY OF WINSTON-SALEM",
+      "Winston Salem Water"
+    ]
+  },
+  "Missouri American Water": {
+    "display_name": "Missouri American Water",
+    "aliases": [
+      "Mo American St Louis",
+      "MO AMERICAN ST LOUIS",
+      "Mo American Water Co",
+      "Mo American St Louis St Charles Counties",
+      "Missouri American Water Company"
+    ]
+  },
+  "Pennsylvania American Water": {
+    "display_name": "Pennsylvania American Water",
+    "aliases": [
+      "Pa Amer Water Co Pittsburgh Dist",
+      "PA AMER WATER CO PITTSBURGH DIST",
+      "Pa American Water Co",
+      "Pennsylvania American Water Company"
+    ]
+  },
+  "EPCOR Water Arizona": {
+    "display_name": "EPCOR Water Arizona",
+    "aliases": [
+      "Az Water Co - Pinal Valley",
+      "AZ WATER CO - PINAL VALLEY",
+      "Az Water Co - Pinal Valley Water System",
+      "Arizona Water Company",
+      "EPCOR Water",
+      "Chaparral City Water"
+    ]
+  },
+  "Indiana American Water": {
+    "display_name": "Indiana American Water",
+    "aliases": [
+      "In American Water Co",
+      "IN AMERICAN WATER CO",
+      "Indiana American Water Company"
+    ]
+  },
+  "West Virginia American Water": {
+    "display_name": "West Virginia American Water",
+    "aliases": [
+      "Wv American Water Co",
+      "WV AMERICAN WATER CO",
+      "West Virginia American Water Company"
+    ]
+  },
+  "Tennessee American Water": {
+    "display_name": "Tennessee American Water",
+    "aliases": [
+      "Tn American Water Co",
+      "TN AMERICAN WATER CO",
+      "Tennessee American Water Company"
+    ]
+  },
+  "Illinois American Water": {
+    "display_name": "Illinois American Water",
+    "aliases": [
+      "Il American Water Co",
+      "IL AMERICAN WATER CO",
+      "Illinois American Water Company"
+    ]
+  },
+  "Iowa American Water": {
+    "display_name": "Iowa American Water",
+    "aliases": [
+      "Ia American Water Co",
+      "IA AMERICAN WATER CO",
+      "Iowa American Water Company"
+    ]
+  },
+  "New Jersey American Water": {
+    "display_name": "New Jersey American Water",
+    "aliases": [
+      "Nj American Water Co",
+      "NJ AMERICAN WATER CO",
+      "New Jersey American Water Company",
+      "Elizabethtown Water Co"
+    ]
+  },
+  "City of Savannah Water": {
+    "display_name": "City of Savannah Water Resources",
+    "aliases": [
+      "Savannah-Main",
+      "SAVANNAH-MAIN",
+      "Savannah Main"
+    ]
+  },
+  "City of Tucson Water": {
+    "display_name": "City of Tucson Water",
+    "aliases": [
+      "Tucson Water",
+      "TUCSON WATER"
+    ]
+  },
+  "Richmond DPU": {
+    "display_name": "Richmond Department of Public Utilities",
+    "aliases": [
+      "City of Richmond DPU",
+      "CITY OF RICHMOND DPU",
+      "Richmond Dept of Public Utilities"
+    ]
+  },
+  "Tuscumbia Utilities": {
+    "display_name": "Tuscumbia Utilities",
+    "aliases": [
+      "Tuscambia Utilities (AL)",
+      "Tuscumbia Utilities (AL)"
+    ]
+  },
+  "Arizona Water Company": {
+    "display_name": "Arizona Water Company",
+    "aliases": [
+      "Arizona Water Co"
+    ]
+  },
+  "City of Chandler": {
+    "display_name": "City of Chandler",
+    "aliases": [
+      "Chandler Arizona",
+      "City of Chandler - AZ"
+    ]
+  },
+  "Colorado Springs Utilities": {
+    "display_name": "Colorado Springs Utilities",
+    "aliases": [
+      "Colorado Springs Utilities - CO"
+    ]
+  },
+  "Aquarion Water Company": {
+    "display_name": "Aquarion Water Company",
+    "aliases": [
+      "Aquarion Water Company - CT",
+      "AQUARION WATER CO - CT"
+    ]
+  },
+  "Regional Utilities (Santa Rosa Beach)": {
+    "display_name": "Regional Utilities (Santa Rosa Beach)",
+    "aliases": [
+      "Regional Utilities (Santa Rosa Beach, FL)"
+    ]
+  },
+  "City of Canton": {
+    "display_name": "City of Canton",
+    "aliases": [
+      "City of Canton Water Department - GA",
+      "City of Canton - GA"
+    ]
+  },
+  "City of Ames": {
+    "display_name": "City of Ames",
+    "aliases": [
+      "City of Ames - IA",
+      "Ames Water Treatment Plant - IA"
+    ]
+  },
+  "City of Columbus Utilities": {
+    "display_name": "City of Columbus Utilities",
+    "aliases": [
+      "City of Columbus Utilities - IN",
+      "Columbus City Utilities - IN"
+    ]
+  },
+  "St. Mary's County Metropolitan Commission": {
+    "display_name": "St. Mary's County Metropolitan Commission",
+    "aliases": [
+      "St. Mary's County Metropolitan Commission - MD"
+    ]
+  },
+  "City of Flowood": {
+    "display_name": "City of Flowood",
+    "aliases": [
+      "City of Flowood, MS",
+      "The City of Flowood - MS"
+    ]
+  },
+  "Aqua": {
+    "display_name": "Aqua",
+    "aliases": [
+      "Aqua -NJ",
+      "Aqua - NJ"
+    ]
+  },
+  "Aqua Ohio": {
+    "display_name": "Aqua Ohio",
+    "aliases": [
+      "Aqua - Ohio"
+    ]
+  },
+  "City of Painesville": {
+    "display_name": "City of Painesville",
+    "aliases": [
+      "City of Painesville - OH",
+      "The City of Painsville-OH"
+    ]
+  },
+  "Columbus Water": {
+    "display_name": "Columbus Water",
+    "aliases": [
+      "The City of Columbus - OH",
+      "Columbus Water & Power - OH",
+      "Columbus PWS - OH"
+    ]
+  },
+  "City of Claremore": {
+    "display_name": "City of Claremore",
+    "aliases": [
+      "City of Claremore - OK"
+    ]
+  },
+  "City of Hermiston": {
+    "display_name": "City of Hermiston",
+    "aliases": [
+      "City of Hermiston (Oregon)",
+      "City of Hermiston - OR"
+    ]
+  },
+  "City of Waxahachie": {
+    "display_name": "City of Waxahachie",
+    "aliases": [
+      "The City of Waxahachie - TX",
+      "Waxahachie Texas"
+    ]
+  },
+  "City of Texas City": {
+    "display_name": "City of Texas City",
+    "aliases": [
+      "Texas City - TX",
+      "Texas City (GCWA)"
+    ]
+  },
+  "City of Heath": {
+    "display_name": "City of Heath",
+    "aliases": [
+      "City of Heath (TX)",
+      "The City of Heath - TX"
+    ]
+  },
+  "Aqua Virginia": {
+    "display_name": "Aqua Virginia",
+    "aliases": [
+      "Aqua Virginia, Inc."
+    ]
+  },
+  "City of Anacortes": {
+    "display_name": "City of Anacortes",
+    "aliases": [
+      "City of Anacortes - WA"
+    ]
+  },
+  "Washington Water Services": {
+    "display_name": "Washington Water Services",
+    "aliases": [
+      "Washington Water Services Gig Harbor",
+      "Washington Water Services East Pierce"
+    ]
+  },
+  "City of Marysville": {
+    "display_name": "City of Marysville",
+    "aliases": [
+      "City of Marysville - WA"
+    ]
+  },
+  "City of Orange": {
+    "display_name": "City of Orange",
+    "aliases": [
+      "City of Orange Water Department"
+    ]
+  },
+  "City of Grovetown": {
+    "display_name": "City of Grovetown",
+    "aliases": [
+      "Grovetown GA"
+    ]
+  },
+  "Winston-Salem/Forsyth County Utilities": {
+    "display_name": "Winston-Salem/Forsyth County Utilities",
+    "aliases": [
+      "Winston-Salem/Forsyth County"
+    ]
+  },
+  "Fort Bend County MUD 194": {
+    "display_name": "Fort Bend County MUD 194",
+    "aliases": [
+      "Fort Bend Mud 194 - Inframark"
+    ]
+  },
+  "City of Dexter": {
+    "display_name": "City of Dexter",
+    "aliases": [
+      "City of Dexter Water Department",
+      "City of Dexter Public Works"
+    ]
+  },
+  "Highland City Water": {
+    "display_name": "Highland City Water",
+    "aliases": [
+      "Highland City Water System",
+      "Highland City Water Department"
+    ]
+  },
+  "Tualatin Valley Water District": {
+    "display_name": "Tualatin Valley Water District",
+    "aliases": [
+      "Tualatin Valley Water District (TVWD)"
+    ]
+  },
+  "Florida Power and Light": {
+    "display_name": "Florida Power and Light",
+    "aliases": [
+      "FPL. Palm Coast (FL)",
+      "Gulf Power Company (now FPL) - FL"
+    ]
+  },
+  "Idaho Power": {
+    "display_name": "Idaho Power",
+    "aliases": [
+      "Idaho Power - ID"
+    ]
+  },
+  "City of Wamego": {
+    "display_name": "City of Wamego",
+    "aliases": [
+      "City of Wamego-KS",
+      "City of Wamego - KS"
+    ]
+  },
+  "Louisville Gas and Electric": {
+    "display_name": "Louisville Gas and Electric",
+    "aliases": [
+      "Louisville Gas and Electric - KY",
+      "LG&E Kentucky Utilities"
+    ]
+  },
+  "Holyoke Gas & Electric": {
+    "display_name": "Holyoke Gas & Electric",
+    "aliases": [
+      "Holyoke Gas & Electric (HG&E), MA",
+      "City of Holyoke - MA"
+    ]
+  },
+  "Easton Utilities": {
+    "display_name": "Easton Utilities",
+    "aliases": [
+      "Easton Utilities - MD",
+      "Easton Utilities Commision - MD"
+    ]
+  },
+  "Surry-Yadkin EMC": {
+    "display_name": "Surry-Yadkin EMC",
+    "aliases": [
+      "Surry-Yadkin EMC - NC"
+    ]
+  },
+  "Town of Apex": {
+    "display_name": "Town of Apex",
+    "aliases": [
+      "Town of Apex - NC"
+    ]
+  },
+  "New York State Electric & Gas": {
+    "display_name": "New York State Electric & Gas",
+    "aliases": [
+      "New York State Electric & Gas (NYSEG)"
+    ]
+  },
+  "PPL Electric Utilities": {
+    "display_name": "PPL Electric Utilities",
+    "aliases": [
+      "PPL Electric Utilities - PA"
+    ]
+  },
+  "Brownsville Energy Authority": {
+    "display_name": "Brownsville Energy Authority",
+    "aliases": [
+      "Brownsville Energy Authority (BEA) - TN",
+      "Brownsville Energy Authority, TN"
+    ]
+  },
+  "Tennessee Valley Authority": {
+    "display_name": "Tennessee Valley Authority",
+    "aliases": [
+      "Tennessee Valley Authority (TVA)"
+    ]
+  },
+  "City of Seguin": {
+    "display_name": "City of Seguin",
+    "aliases": [
+      "Seguin, TX",
+      "City of Seguin - TX"
+    ]
+  },
+  "City of Lubbock": {
+    "display_name": "City of Lubbock",
+    "aliases": [
+      "City of Lubbock - TX",
+      "Lubbock Power & Light - TX"
+    ]
+  },
+  "Eugene Water and Electric Board": {
+    "display_name": "Eugene Water and Electric Board",
+    "aliases": [
+      "Eugene Water & Electric Board",
+      "Eugene Water and Electric Board (EWEB)"
+    ]
+  },
+  "Memphis Light, Gas and Water": {
+    "display_name": "Memphis Light, Gas and Water",
+    "aliases": [
+      "Memphis Light, Gas & Water"
+    ]
+  },
+  "Columbia Gas of Pennsylvania": {
+    "display_name": "Columbia Gas of Pennsylvania",
+    "aliases": [
+      "Colombia Gas of Pennsylvania-PA"
+    ]
+  },
+  "Peoples Gas": {
+    "display_name": "Peoples Gas",
+    "aliases": [
+      "Peoples Gas - PA"
+    ]
+  },
+  "UGI Utilities Inc": {
+    "display_name": "UGI Utilities Inc",
+    "aliases": [
+      "UGI Utilities Inc - PA"
+    ]
+  },
+  "Regional Utilities": {
+    "display_name": "Regional Utilities",
+    "aliases": [
+      "Regional Utilities (Santa Rosa Beach, FL)"
+    ]
+  },
+  "City of Saint Charles Water Division": {
+    "display_name": "City of Saint Charles Water Division",
+    "aliases": [
+      "City of Saint Charles Missouri (MO)",
+      "City of Saint Charles Water Division - MO"
+    ]
+  },
+  "City of Arlington": {
+    "display_name": "City of Arlington",
+    "aliases": [
+      "City of Arlington, WA",
+      "City of Arlington - WA"
+    ]
+  },
+  "City of Janesville": {
+    "display_name": "City of Janesville",
+    "aliases": [
+      "City of Janesville - WI",
+      "City of Janesville, WI"
+    ]
+  },
+  "Georgia Natural Gas": {
+    "display_name": "Georgia Natural Gas",
+    "aliases": [
+      "Georgia Natural Gas | ANITA I HALE",
+      "Georgia Natural Gas-Atlanta Area PM",
+      "Georgia Natural Gas - Avalon 2024"
+    ]
+  },
+  "Liberty Utilities-NH": {
+    "display_name": "Liberty Utilities-NH",
+    "aliases": [
+      "Liberty Utilities - NH",
+      "Liberty Utilities (NH)",
+      "Liberty (NH)"
     ]
   }
 }

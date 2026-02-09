@@ -90,6 +90,13 @@ class ProviderIDMatcher:
         "dominioneastohio": "enbridge gas ohio",
         "sceg": "dominion energy south carolina",
         "sce&g": "dominion energy south carolina",
+        "srp": "salt river project",
+        "ladwp": "los angeles department of water power",
+        "tnmp": "texas new mexico power",
+        "lge ku": "louisville gas electric",
+        "lgeku": "louisville gas electric",
+        "lg&e/ku": "louisville gas electric",
+        "chelco": "choctawhatchee electric cooperative",
     }
 
     @staticmethod
@@ -110,6 +117,93 @@ class ProviderIDMatcher:
         # Rebrands
         t = t.replace("east ohio gas", "enbridge gas ohio")
         t = t.replace("dominion east ohio", "enbridge gas ohio")
+        # HIFLD shapefile territory names -> canonical names
+        t = t.replace("little rock pine bluff", "entergy arkansas")
+        t = t.replace("cheyenne light fuel power", "black hills energy")
+        t = t.replace("cheyenne light fuel & power", "black hills energy")
+        if "jones" in t and "onslow" in t and ("emc" in t or "electric" in t):
+            t = "jones onslow electric membership"
+        if "intermountain gas" in t:
+            t = "intermountain gas"
+        if "upper cumberland e m c" in t or "upper cumberland emc" in t:
+            t = "upper cumberland electric membership"
+        if "wisconsin rapids waterworks" in t:
+            t = "wisconsin rapids water works lighting commission"
+        # Water: EPA/SDWIS system names -> catalog names
+        if "philadelphia water" in t:
+            t = "city of philadelphia"
+        if "citizens water" in t and "indianapolis" in t:
+            t = "citizens energy"
+        if "fort wayne" in t and "3 rivers" in t:
+            t = "fort wayne city utilities"
+        if "pittsburgh" in t and ("w and s" in t or "water" in t and "sewer" in t):
+            t = "pittsburgh water sewer authority"
+        if "sarasota" in t and "special" in t:
+            t = "sarasota county water"
+        if "augusta" in t and "richmond" in t:
+            t = "augusta utility"
+        if "north las vegas" in t and ("util" in t or "water" in t):
+            t = "city of north las vegas"
+        if "cal am water" in t or "cal american water" in t:
+            t = "california american water"
+        if "acsa" in t and "urban" in t:
+            t = "albemarle county service authority"
+        if "okaloosa" in t and ("wtr" in t or "water" in t):
+            t = "okaloosa county water sewer"
+        if "global water" in t and "santa cruz" in t:
+            t = "global water resources"
+        if "west view" in t and ("muni" in t or "auth" in t):
+            t = "west view water authority"
+        if "saws" in t:
+            t = "san antonio water system"
+        if "charles county" in t and "dpw" in t:
+            t = "charles county department of public works"
+        if "greer cpw" in t or ("greer" in t and "commission" in t):
+            t = "greer commission of public works"
+        if "pwcsa" in t:
+            t = "prince william water"
+        if "coachella" in t and ("vwd" in t or "valley" in t):
+            t = "coachella valley water district"
+        if "elsinore" in t and ("mwd" in t or "valley" in t):
+            t = "elsinore valley municipal water district"
+        if "skagit" in t and ("pud" in t or "county" in t):
+            t = "skagit public utility district"
+        if "goforth" in t and "sud" in t:
+            t = "goforth special utility district"
+        if "consolidated mutual" in t:
+            t = "consolidated mutual water"
+        if "smyrna" in t and "natural gas" in t:
+            t = "smyrna utilities department"
+        if "rio grande valley gas" in t:
+            t = "rio grande valley gas"
+        # Water: American Water state abbreviations
+        # Matches both "Mo American Water Co" and "Mo American St Louis St Charles Counties"
+        _aw_abbrevs = {
+            "mo ": "missouri ", "pa ": "pennsylvania ", "in ": "indiana ",
+            "wv ": "west virginia ", "tn ": "tennessee ", "il ": "illinois ",
+            "ia ": "iowa ", "nj ": "new jersey ", "va ": "virginia ",
+            "ca ": "california ", "ky ": "kentucky ", "md ": "maryland ",
+        }
+        if "amer" in t:
+            # Expand "amer" → "american" first
+            t = re.sub(r'\bamer\b', 'american', t)
+            for abbrev, full in _aw_abbrevs.items():
+                if t.startswith(abbrev) and "american" in t[len(abbrev):len(abbrev)+12]:
+                    # Strip district/city suffixes first
+                    t = re.sub(r'\s+(pittsburgh|st louis|st charles|chattanooga|southeast|northwest|monterey)[\w\s]*$', '', t)
+                    # Normalize to "[State] American Water"
+                    t = full + "american water"
+                    break
+        # Water: Charlotte-Mecklenburg → Charlotte Water
+        if "charlotte" in t and "mecklenburg" in t:
+            t = "charlotte water"
+        if "winston" in t and "salem" in t and ("water" in t or "city" in t):
+            t = "city of winston salem"
+        # Water: EPA system name patterns
+        if "chaparral city water" in t:
+            t = "epcor water arizona"
+        if "az water co" in t or "arizona water co" in t:
+            t = "epcor water arizona"
         # Check aliases first (exact match on lowered input)
         alias_key = t.replace("&", "").replace("-", "").replace(" ", "").strip()
         for ak, av in ProviderIDMatcher.ALIASES.items():
@@ -220,7 +314,7 @@ class ProviderIDMatcher:
         result = process.extractOne(
             normalized_input, names,
             scorer=fuzz.token_sort_ratio,
-            score_cutoff=72,
+            score_cutoff=82,
         )
         if result:
             matched_name, score, idx = result

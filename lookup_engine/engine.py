@@ -65,6 +65,7 @@ class LookupEngine:
 
         # Priority 1: State GIS API
         self.state_gis = StateGISLookup()
+        self.state_gis.prewarm()
 
         # Priority 2: Gas ZIP mapping (gas only)
         self.gas_mappings = GasZIPMappingLookup()
@@ -306,7 +307,7 @@ class LookupEngine:
         candidates.sort(key=lambda c: c.confidence, reverse=True)
 
         primary = candidates[0]
-        primary.needs_review = primary.confidence < 0.80
+        primary.needs_review = primary.confidence < 0.70
 
         # Alternatives
         seen = {primary.provider_name.upper()}
@@ -407,9 +408,17 @@ class LookupEngine:
         if address_state:
             gis_result = self.state_gis.query(lat, lon, address_state, utility_type)
             if gis_result and gis_result.get("name"):
+                gis_source = gis_result.get("source", "state_gis")
+                n_before = len(candidates)
                 _add_candidate(gis_result["name"], None,
                                gis_result.get("state", address_state),
-                               gis_result.get("source", "state_gis"))
+                               gis_source)
+                # Gas: state GIS is higher resolution than HIFLD/ZIP — boost to 0.90
+                # so it outranks HIFLD gas (0.85) and most gas ZIP mappings
+                if utility_type == "gas" and len(candidates) > n_before:
+                    gis_candidate = candidates[n_before]
+                    if gis_candidate.confidence < 0.90:
+                        gis_candidate.confidence = 0.90
 
         # Priority 2: Gas ZIP-prefix mapping (gas only)
         if utility_type == "gas" and zip_code and address_state:
@@ -499,13 +508,16 @@ class LookupEngine:
             for alt in candidates[1:]:
                 alt_name_upper = alt.provider_name.upper()
                 # Check if alternative looks like a co-op, municipal, or local utility
-                is_local = any(kw in alt_name_upper for kw in (
-                    "COOPERATIVE", "COOP", "ELECTRIC MEMBERSHIP",
-                    "MUNICIPAL", "CITY OF", "TOWN OF",
-                    "PUBLIC UTILITIES", "UTILITIES COMMISSION",
-                    "PUD", "PUBLIC UTILITY DISTRICT",
-                    "SANTEE COOPER", "ENERGY UNITED",
-                ))
+                is_local = (
+                    any(kw in alt_name_upper for kw in (
+                        "COOPERATIVE", "COOP", "ELECTRIC MEMBERSHIP",
+                        "MUNICIPAL", "CITY OF", "TOWN OF",
+                        "PUBLIC UTILITIES", "UTILITIES COMMISSION",
+                        "PUD", "PUBLIC UTILITY DISTRICT",
+                        "EMC", "CPW", "REA", "REC",
+                    ))
+                    or any(name in alt_name_upper for name in self._LOCAL_UTILITY_NAMES)
+                )
                 # Require reasonable confidence and exclude low-quality sources
                 alt_source = (alt.polygon_source or "").lower()
                 is_low_quality_source = any(s in alt_source for s in ("findenergy_city", "state_gas_default"))
@@ -539,7 +551,7 @@ class LookupEngine:
                 seen.add(c.provider_name.upper())
 
         primary.alternatives = alternatives
-        primary.needs_review = primary.confidence < 0.80
+        primary.needs_review = primary.confidence < 0.70
 
         # ID matching: map provider name to catalog ID
         if self.id_matcher.loaded:
@@ -651,7 +663,7 @@ class LookupEngine:
         "ENTERGY MISSISSIPPI", "ENTERGY TEXAS",
         # NextEra / FPL (FL) — OUC, JEA, Gainesville, Lakeland inside
         "NEXTERA ENERGY", "FLORIDA POWER & LIGHT", "FPL",
-        "FLORIDA POWER AND LIGHT",
+        "FLORIDA POWER AND LIGHT", "GULF POWER",
         # Xcel Energy (MN, CO, WI, TX) — municipals throughout
         "XCEL ENERGY", "NORTHERN STATES POWER",
         "PUBLIC SERVICE COMPANY OF COLORADO",
@@ -666,6 +678,43 @@ class LookupEngine:
         "LOUISVILLE GAS AND ELECTRIC", "KENTUCKY UTILITIES",
         # PacifiCorp / Rocky Mountain Power (UT, WY, OR, WA)
         "PACIFICORP", "ROCKY MOUNTAIN POWER", "PACIFIC POWER",
+        # Ameren (IL, MO)
+        "AMEREN", "AMEREN ILLINOIS", "AMEREN MISSOURI",
+        # APS / Arizona Public Service
+        "APS", "ARIZONA PUBLIC SERVICE",
+        # Idaho Power
+        "IDAHO POWER",
+        # Tampa Electric (TECO)
+        "TAMPA ELECTRIC", "TECO ENERGY",
+    }
+
+    # Known local utilities that should be promoted over large IOUs.
+    # These don't have standard co-op/municipal keywords in their names.
+    _LOCAL_UTILITY_NAMES = {
+        "ENERGY UNITED", "BRIGHTRIDGE", "JEA",
+        "GREER CPW", "GREER COMMISSION OF PUBLIC WORKS",
+        "SANTEE COOPER",
+        "SECO ENERGY",
+        "PEDERNALES ELECTRIC", "PEDERNALES ELECTRIC COOPERATIVE",
+        "NEW BRAUNFELS UTILITIES",
+        "BRYAN TEXAS UTILITIES",
+        "CPS ENERGY",
+        "AUSTIN ENERGY",
+        "EPB", "EPB CHATTANOOGA",
+        "GAINESVILLE REGIONAL UTILITIES",
+        "KISSIMMEE UTILITY AUTHORITY",
+        "TALQUIN ELECTRIC",
+        "COWETA-FAYETTE EMC", "COWETA FAYETTE EMC",
+        "CANOOCHEE EMC",
+        "SNAPPING SHOALS EMC",
+        "WAKE EMC",
+        "PIEDMONT EMC", "PIEDMONT ELECTRIC MEMBERSHIP",
+        "CENTRAL EMC", "CENTRAL ELECTRIC MEMBERSHIP",
+        "LUMBEE RIVER EMC",
+        "PEE DEE ELECTRIC",
+        "BROAD RIVER ELECTRIC",
+        "MID-CAROLINA ELECTRIC", "MID CAROLINA ELECTRIC",
+        "NEWBERRY ELECTRIC",
     }
 
     @classmethod

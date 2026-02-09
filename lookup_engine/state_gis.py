@@ -13,6 +13,7 @@ Usage:
 import json
 import logging
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Optional
 
@@ -21,14 +22,16 @@ import requests
 logger = logging.getLogger(__name__)
 
 # Default timeout for state GIS API requests (seconds)
-_DEFAULT_TIMEOUT = 5
+_DEFAULT_TIMEOUT = 1
 
 # Circuit breaker: disable endpoint after this many consecutive failures
-_CIRCUIT_BREAKER_THRESHOLD = 3
+_CIRCUIT_BREAKER_THRESHOLD = 2
 
 
 class StateGISLookup:
     """Query state-level GIS APIs for utility provider at a point."""
+
+    _DISK_CACHE_FILE = Path(__file__).parent.parent / "data" / "state_gis_cache.json"
 
     def __init__(self, endpoints_file: str = None):
         if endpoints_file is None:
@@ -42,6 +45,72 @@ class StateGISLookup:
 
         # Simple in-memory cache: {(lat_round, lon_round, state, utility_type): result}
         self._cache: dict = {}
+
+        # Disk cache: persists across runs to avoid re-querying state GIS APIs
+        self._disk_cache: dict = {}  # "lat,lon,state,utype" -> result_or_null
+        self._disk_cache_dirty = 0
+        if self._DISK_CACHE_FILE.exists():
+            try:
+                with open(self._DISK_CACHE_FILE, encoding="utf-8") as f:
+                    self._disk_cache = json.load(f)
+                logger.info(f"State GIS disk cache: {len(self._disk_cache)} entries loaded")
+            except Exception as e:
+                logger.warning(f"Failed to load state GIS disk cache: {e}")
+                self._disk_cache = {}
+
+    def prewarm(self):
+        """Test all ArcGIS endpoints in parallel and disable dead ones immediately."""
+        endpoints_to_test = []
+        for utility_type, states in self.endpoints.items():
+            if utility_type.startswith("_"):
+                continue
+            if not isinstance(states, dict):
+                continue
+            for state, config in states.items():
+                config_type = config.get("type", "arcgis") if isinstance(config, dict) else ""
+                if config_type in ("single_utility", "coordinate_mapping"):
+                    continue  # These don't make HTTP calls
+                url = config.get("url", "") if isinstance(config, dict) else ""
+                if not url:
+                    # Multi-layer: test first layer URL
+                    layers = config.get("layers", []) if isinstance(config, dict) else []
+                    if layers and isinstance(layers[0], dict):
+                        url = layers[0].get("url", "")
+                if url:
+                    endpoints_to_test.append((state, utility_type, url))
+
+        if not endpoints_to_test:
+            return
+
+        logger.info(f"Pre-warming {len(endpoints_to_test)} state GIS endpoints...")
+        t0 = time.time()
+
+        def _ping(args):
+            state, utype, url = args
+            try:
+                # Just hit the endpoint with a simple query to see if it responds
+                test_url = url.split("/query")[0] + "?f=json" if "/query" in url else url + "?f=json"
+                resp = requests.get(test_url, timeout=_DEFAULT_TIMEOUT)
+                return (state, utype, resp.status_code < 500)
+            except Exception:
+                return (state, utype, False)
+
+        alive = 0
+        dead = 0
+        with ThreadPoolExecutor(max_workers=20) as pool:
+            futures = {pool.submit(_ping, ep): ep for ep in endpoints_to_test}
+            for future in as_completed(futures):
+                state, utype, ok = future.result()
+                if ok:
+                    alive += 1
+                else:
+                    dead += 1
+                    key = (state, utype)
+                    self._disabled.add(key)
+                    logger.info(f"  Pre-warm: disabled {state}/{utype} (unreachable)")
+
+        elapsed = time.time() - t0
+        logger.info(f"Pre-warm complete: {alive} alive, {dead} disabled in {elapsed:.1f}s")
 
     def query(self, lat: float, lon: float, state: str, utility_type: str) -> Optional[dict]:
         """
@@ -71,6 +140,13 @@ class StateGISLookup:
         if cache_key in self._cache:
             return self._cache[cache_key]
 
+        # Disk cache check
+        disk_key = f"{round(lat, 3)},{round(lon, 3)},{state},{utility_type}"
+        if disk_key in self._disk_cache:
+            disk_val = self._disk_cache[disk_key]
+            self._cache[cache_key] = disk_val
+            return disk_val
+
         result = None
         try:
             result = self._dispatch_query(lat, lon, state, state_config, utility_type)
@@ -81,6 +157,10 @@ class StateGISLookup:
 
         # Cache the result (even None, to avoid re-querying)
         self._cache[cache_key] = result
+        self._disk_cache[disk_key] = result
+        self._disk_cache_dirty += 1
+        if self._disk_cache_dirty >= 1000:
+            self.save_disk_cache()
 
         if result:
             self._failures.pop(key, None)  # Reset failure count on success
@@ -268,6 +348,19 @@ class StateGISLookup:
         """Check if a state GIS source exists for this state/type."""
         state = (state or "").upper()
         return state in self.endpoints.get(utility_type, {})
+
+    def save_disk_cache(self):
+        """Persist the disk cache to JSON."""
+        if self._disk_cache_dirty == 0:
+            return
+        try:
+            self._DISK_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            with open(self._DISK_CACHE_FILE, "w", encoding="utf-8") as f:
+                json.dump(self._disk_cache, f)
+            logger.info(f"State GIS disk cache saved: {len(self._disk_cache)} entries")
+            self._disk_cache_dirty = 0
+        except Exception as e:
+            logger.warning(f"Failed to save state GIS disk cache: {e}")
 
     def clear_cache(self):
         """Clear the in-memory result cache."""

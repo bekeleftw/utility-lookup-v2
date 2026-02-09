@@ -21,6 +21,7 @@ import re
 import sys
 import time
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 
@@ -54,6 +55,21 @@ OUTPUT_CSV = Path(__file__).parent / "batch_results.csv"
 REPORT_FILE = Path(__file__).parent / "BATCH_VALIDATION_REPORT.md"
 CHECKPOINT_FILE = Path(__file__).parent / "batch_checkpoint.json"
 
+def _load_catalog_aliases():
+    alias_path = os.path.join(os.path.dirname(__file__), "data", "catalog_id_aliases.json")
+    if os.path.exists(alias_path):
+        with open(alias_path) as f:
+            return json.load(f)
+    return {}
+
+CATALOG_ID_ALIASES = _load_catalog_aliases()
+
+def _resolve_canonical_id(catalog_id):
+    """Resolve a catalog ID to its canonical form using the alias table."""
+    if not catalog_id:
+        return catalog_id
+    return CATALOG_ID_ALIASES.get(str(catalog_id), str(catalog_id))
+
 TENANT_NULL_VALUES = {
     "", "n/a", "na", "none", "null", "unknown", "not applicable",
     "landlord", "included", "included in rent", "included in hoa",
@@ -75,6 +91,62 @@ TDU_NAMES = {
     "AEP TEXAS", "AEP TEXAS CENTRAL", "AEP TEXAS NORTH",
     "TEXAS-NEW MEXICO POWER", "TNMP",
     "LUBBOCK POWER", "LUBBOCK P&L",
+    "BLUEBONNET ELECTRIC", "BLUEBONNET ELEC",
+}
+
+# Known cross-state shapefile errors: (engine_name_substring, wrong_state) -> True
+# These polygons incorrectly extend into states where the utility doesn't operate.
+CROSS_STATE_OVERRIDES = {
+    ("public service company of new mexico", "NH"): True,
+    ("public service company of new mexico", "VT"): True,
+    ("public service company of new mexico", "MA"): True,
+    ("public service company of new mexico", "CT"): True,
+    ("public service company of new mexico", "ME"): True,
+    ("nicor gas", "GA"): True,
+    ("nicor gas", "SC"): True,
+    ("nicor gas", "TN"): True,
+    ("nicor gas", "NC"): True,
+}
+
+# Gas providers that should never appear in electric results
+GAS_ONLY_PROVIDERS = {
+    "intermountain gas",
+}
+
+# Keywords indicating tenant entered an electric company for their gas provider
+ELECTRIC_KEYWORDS_IN_GAS = {
+    "electric", " emc", "membership corp", "power company",
+    "duke energy", "rocky mountain power", "xcel energy",
+}
+
+# GA deregulated gas market: LDCs (infrastructure) vs marketers (retail)
+# Analogous to TX electric TDU vs REP.
+GA_GAS_LDC_NAMES = {
+    "nicor gas",
+    "atlanta gas light",
+    "liberty utilities",
+    "atmos energy",
+}
+
+GA_GAS_MARKETER_NAMES = {
+    "georgia natural gas",
+    "scana energy",
+    "gas south",
+    "constellation",
+    "constellation energy",
+    "infinite energy",
+    "xoom energy",
+    "xoom",
+    "stream energy",
+    "stream",
+    "santanna energy",
+    "volunteer energy",
+    "true natural gas",
+    "true gas",
+    "walton emc natural gas",
+    "snapping shoals emc natural gas",
+    "sawnee emc",
+    "fuel georgia",
 }
 
 # Parent company groups for MATCH_PARENT detection
@@ -96,7 +168,8 @@ PARENT_GROUPS = {
     ],
     "Eversource": [
         "Eversource", "Eversource CT", "Eversource MA", "Eversource NH",
-        "NSTAR", "Yankee Gas",
+        "NSTAR", "Yankee Gas", "Yankee Gas Service",
+        "United Illuminating",
     ],
     "WEC Energy": [
         "We Energies", "Wisconsin Public Service", "Peoples Gas",
@@ -110,7 +183,8 @@ PARENT_GROUPS = {
         "FirstEnergy", "Ohio Edison", "Cleveland Illuminating",
         "Cleveland Electric Illum", "Cleveland Electric Illuminating",
         "The Illuminating Company", "Illuminating Company",
-        "Toledo Edison", "Mon Power", "Potomac Edison",
+        "Toledo Edison", "Mon Power", "Monongahela Power",
+        "Potomac Edison",
         "West Penn Power", "West Penn Power Company",
         "Jersey Central P&L", "Met-Ed", "Penelec",
     ],
@@ -130,7 +204,7 @@ PARENT_GROUPS = {
         "Public Service Enterprise Group",
     ],
     "National Grid": [
-        "National Grid", "KeySpan", "New England Power",
+        "National Grid", "National Grid MA", "KeySpan", "New England Power",
     ],
     "Entergy": [
         "Entergy", "Entergy Arkansas", "Entergy Louisiana",
@@ -159,6 +233,22 @@ PARENT_GROUPS = {
     ],
     "Gas South": [
         "Gas South", "Gas South Avalon", "Nicor Gas",
+    ],
+    "Hawaiian Electric": [
+        "Hawaiian Electric", "Hawaiian Electric Company",
+        "Hawaii Electric Light", "Hawaii Electric Light Company",
+        "HELCO", "Maui Electric", "MECO",
+    ],
+    "Seattle Utilities": [
+        "Seattle City Light", "Seattle Public Utilities",
+    ],
+    "Dominion Energy Utah": [
+        "Dominion Energy", "Dominion Energy Utah", "Questar Gas",
+    ],
+    "Columbia Gas": [
+        "Columbia Gas", "Columbia Gas VA", "Columbia Gas of Virginia",
+        "Columbia Gas of Pennsylvania", "Columbia Gas of Ohio",
+        "Columbia Gas of Maryland",
     ],
 }
 
@@ -225,6 +315,223 @@ def _extract_state(address: str) -> str:
     return ""
 
 
+# Water name aliases: EPA/SDWIS system names → canonical names used by tenants.
+# Both sides are lowercased for comparison. Multiple EPA names can map to the same canonical.
+WATER_NAME_ALIASES = {
+    "charlotte-mecklenburg utilities": "charlotte water",
+    "charlotte mecklenburg utility department": "charlotte water",
+    "cmud": "charlotte water",
+    "city of winston-salem": "winston-salem",
+    "winston salem water": "winston-salem",
+    "mo american st louis": "missouri american water",
+    "mo american st louis st charles counties": "missouri american water",
+    "mo american water co": "missouri american water",
+    "missouri american water company": "missouri american water",
+    "pa amer water co pittsburgh dist": "pennsylvania american water",
+    "pa american water co": "pennsylvania american water",
+    "pennsylvania american water company": "pennsylvania american water",
+    "az water co - pinal valley": "epcor water arizona",
+    "az water co - pinal valley water system": "epcor water arizona",
+    "arizona water company": "epcor water arizona",
+    "chaparral city water": "epcor water arizona",
+    "epcor water": "epcor water arizona",
+    "in american water co": "indiana american water",
+    "indiana american water company": "indiana american water",
+    "wv american water co": "west virginia american water",
+    "west virginia american water company": "west virginia american water",
+    "tn american water co": "tennessee american water",
+    "tennessee american water company": "tennessee american water",
+    "il american water co": "illinois american water",
+    "illinois american water company": "illinois american water",
+    "ia american water co": "iowa american water",
+    "iowa american water company": "iowa american water",
+    "nj american water co": "new jersey american water",
+    "new jersey american water company": "new jersey american water",
+    "elizabethtown water co": "new jersey american water",
+    "savannah-main": "city of savannah",
+    "savannah main": "city of savannah",
+    "tucson water": "city of tucson water",
+    "city of richmond dpu": "richmond dpu",
+    "richmond dept of public utilities": "richmond dpu",
+    "pittsburgh w and s auth": "pittsburgh water sewer authority",
+    "mobile, bd. of w&s comm. of the city of": "mobile area water and sewer system",
+    "mobile bd of w&s comm": "mobile area water and sewer system",
+    "hcpud/south-central": "hillsborough county",
+    "hcpud south central": "hillsborough county",
+    "gsw&sa": "grand strand water and sewer authority",
+    "pwcsa - east": "prince william water",
+    "pwcsa east": "prince william water",
+    "pwcsa": "prince william water",
+    "saws texas research park": "san antonio water system",
+    "saws": "san antonio water system",
+    "saws northeast": "san antonio water system",
+    "saws southeast": "san antonio water system",
+    "saws northwest": "san antonio water system",
+    "saws southwest": "san antonio water system",
+    "wayne wd combined": "wayne water districts",
+    "o fallon": "city of o'fallon",
+    "global water - santa cruz water": "global water resources",
+    "global water santa cruz water": "global water resources",
+    "cal am water company - monterey": "california american water",
+    "cal am water company monterey": "california american water",
+    "okaloosa co.wtr.; swr.system": "okaloosa county water sewer",
+    "okaloosa co wtr swr system": "okaloosa county water sewer",
+    "orange county water and sewer authority": "owasa",
+    # --- Expanded water aliases (GPT-4o-mini identified) ---
+    "american water (pa)": "pennsylvania american water",
+    "ames water treatment plant - ia": "city of ames",
+    "aqua - nc": "aqua",
+    "aqua - nj": "aqua",
+    "aqua - ohio": "aqua ohio",
+    "aqua -nj": "aqua",
+    "aqua virginia, inc.": "aqua virginia",
+    "aqua- nc": "aqua",
+    "aquarion water co - ct": "aquarion water company",
+    "aquarion water company - ct": "aquarion water company",
+    "arizona water co": "arizona water company",
+    "chandler arizona": "city of chandler",
+    "charlotte water (nc)": "charlotte water",
+    "charlotte water - nc": "charlotte water",
+    "city of ames - ia": "city of ames",
+    "city of anacortes - wa": "city of anacortes",
+    "city of canton - ga": "city of canton",
+    "city of canton water department - ga": "city of canton",
+    "city of chandler - az": "city of chandler",
+    "city of claremore - ok": "city of claremore",
+    "city of columbus utilities - in": "city of columbus utilities",
+    "city of dexter public works": "city of dexter",
+    "city of dexter water department": "city of dexter",
+    "city of flowood, ms": "city of flowood",
+    "city of heath (tx)": "city of heath",
+    "city of hermiston (oregon)": "city of hermiston",
+    "city of hermiston - or": "city of hermiston",
+    "city of marysville - wa": "city of marysville",
+    "city of orange water department": "city of orange",
+    "city of painesville - oh": "city of painesville",
+    "colorado springs utilities - co": "colorado springs utilities",
+    "columbus city utilities - in": "city of columbus utilities",
+    "columbus pws - oh": "columbus water",
+    "columbus water & power - oh": "columbus water",
+    "fort bend mud 194 - inframark": "fort bend county mud 194",
+    "grovetown ga": "city of grovetown",
+    "highland city water department": "highland city water",
+    "highland city water system": "highland city water",
+    "illinois american water - il": "illinois american water",
+    "indiana-american water company, inc.": "indiana american water",
+    "regional utilities (santa rosa beach, fl)": "regional utilities (santa rosa beach)",
+    "st. mary's county metropolitan commission - md": "st. mary's county metropolitan commission",
+    "texas city (gcwa)": "city of texas city",
+    "texas city - tx": "city of texas city",
+    "the city of columbus - oh": "columbus water",
+    "the city of flowood - ms": "city of flowood",
+    "the city of heath - tx": "city of heath",
+    "the city of painsville-oh": "city of painesville",
+    "the city of waxahachie - tx": "city of waxahachie",
+    "tualatin valley water district (tvwd)": "tualatin valley water district",
+    "tuscambia utilities (al)": "tuscumbia utilities",
+    "tuscumbia utilities (al)": "tuscumbia utilities",
+    "washington water services east pierce": "washington water services",
+    "washington water services gig harbor": "washington water services",
+    "waxahachie texas": "city of waxahachie",
+    "winston-salem/forsyth county": "winston-salem/forsyth county utilities",
+    "city of arlington - wa": "city of arlington",
+    "city of arlington, wa": "city of arlington",
+    "city of janesville - wi": "city of janesville",
+    "city of janesville, wi": "city of janesville",
+    "city of saint charles missouri (mo)": "city of saint charles water division",
+    "city of saint charles water division - mo": "city of saint charles water division",
+}
+
+# Electric name aliases: abbreviations, rebrands, and formatting variants.
+ELECTRIC_NAME_ALIASES = {
+    "alabama power - al": "alabama power",
+    "brownsville energy authority (bea) - tn": "brownsville energy authority",
+    "brownsville energy authority, tn": "brownsville energy authority",
+    "city of holyoke - ma": "holyoke gas & electric",
+    "city of lubbock - tx": "city of lubbock",
+    "city of seguin - tx": "city of seguin",
+    "city of wamego - ks": "city of wamego",
+    "city of wamego-ks": "city of wamego",
+    "duke energy corporation": "duke energy",
+    "duke-energy": "duke energy",
+    "easton utilities - md": "easton utilities",
+    "easton utilities commision - md": "easton utilities",
+    "eugene water & electric board": "eugene water and electric board",
+    "eugene water and electric board (eweb)": "eugene water and electric board",
+    "fpl. palm coast (fl)": "florida power and light",
+    "gulf power company (now fpl) - fl": "florida power and light",
+    "holyoke gas & electric (hg&e), ma": "holyoke gas & electric",
+    "idaho power - id": "idaho power",
+    "lakeview light and power": "lakeview light & power",
+    "lg&e kentucky utilities": "louisville gas and electric",
+    "lg&e/ku": "louisville gas and electric",
+    "lge/ku": "louisville gas and electric",
+    "lge ku": "louisville gas and electric",
+    "lgeku": "louisville gas and electric",
+    "lg&e and ku": "louisville gas and electric",
+    "lg&e and ku energy": "louisville gas and electric",
+    "kentucky utilities": "louisville gas and electric",
+    "kentucky utilities company": "louisville gas and electric",
+    "louisville gas & electric": "louisville gas and electric",
+    "louisville gas and electric - ky": "louisville gas and electric",
+    "lubbock power & light - tx": "city of lubbock",
+    "memphis light, gas & water": "memphis light, gas and water",
+    "new york state electric & gas (nyseg)": "new york state electric & gas",
+    "ppl electric utilities - pa": "ppl electric utilities",
+    "public service of oklahoma": "public service company of oklahoma",
+    "rhode island energy - ri": "rhode island energy",
+    "rhode island energy-ri": "rhode island energy",
+    "seguin, tx": "city of seguin",
+    "surry-yadkin emc - nc": "surry-yadkin emc",
+    "tennessee valley authority (tva)": "tennessee valley authority",
+    "town of apex - nc": "town of apex",
+}
+
+# Gas name aliases: abbreviations, mergers, plan-specific suffixes.
+GAS_NAME_ALIASES = {
+    "colombia gas of pennsylvania-pa": "columbia gas of pennsylvania",
+    "enbridge ohio": "enbridge gas ohio",
+    "gas south anita hale": "gas south",
+    "gas south aormeese jenkins": "gas south",
+    "gas south avalon": "gas south",
+    "gas south | anita i hale": "gas south",
+    "georgia natural gas - avalon 2024": "georgia natural gas",
+    "georgia natural gas | anita i hale": "georgia natural gas",
+    "georgia natural gas-atlanta area pm": "georgia natural gas",
+    "liberty (nh)": "liberty utilities-nh",
+    "liberty utilities (nh)": "liberty utilities-nh",
+    "liberty utilities - nh": "liberty utilities-nh",
+    "mdu (montana-dakota utilities)": "montana-dakota utilities",
+    "montana-dakota utilities co": "montana-dakota utilities",
+    "north western energy - mt": "northwestern energy",
+    "northwestern energy (mt)": "northwestern energy",
+    "peoples gas - pa": "peoples gas",
+    "scana energy | anita i hale": "gas south",
+    "ugi utilities inc - pa": "ugi utilities inc",
+    "westfield gas and electric - ma": "westfield gas & electric - ma",
+}
+
+def _resolve_water_alias(name: str) -> str:
+    """Resolve a water provider name through the alias table."""
+    if not name:
+        return ""
+    lower = name.lower().strip()
+    return WATER_NAME_ALIASES.get(lower, lower)
+
+def _resolve_electric_alias(name: str) -> str:
+    """Resolve an electric provider name through the alias table."""
+    if not name:
+        return ""
+    lower = name.lower().strip()
+    return ELECTRIC_NAME_ALIASES.get(lower, lower)
+
+def _resolve_gas_alias(name: str) -> str:
+    """Resolve a gas provider name through the alias table."""
+    if not name:
+        return ""
+    lower = name.lower().strip()
+    return GAS_NAME_ALIASES.get(lower, lower)
+
 _WATER_STATE_SUFFIX = re.compile(r"\s*-\s*[A-Z]{2}\s*$", re.IGNORECASE)
 _WATER_BARE_STATE = re.compile(r"\s+[A-Z]{2}\s*$")
 _WATER_PARENS = re.compile(r"\s*\([^)]*\)")
@@ -253,6 +560,13 @@ _WATER_ABBREVS = [
     (r"\bSt\b(?=\s[A-Z])", "Saint"),
     (r"\bMt\b(?=\s)", "Mount"),
     (r"\bWsa\b", "Water and Sewer Authority"),
+    (r"\bSud\b", "Special Utility District"),
+    (r"\bWsc\b", "Water Supply Corporation"),
+    (r"\bWcid\b", "Water Control and Improvement District"),
+    (r"\bFwsd\b", "Fresh Water Supply District"),
+    (r"\bPwsd\b", "Public Water Supply District"),
+    (r"\bSd\b(?=\s*\d)", "Supply District"),
+    (r"\bWtp\b", "Water Treatment Plant"),
 ]
 _WATER_GENERIC_WORDS = {
     "city", "of", "the", "water", "utilities", "utility", "department",
@@ -303,11 +617,23 @@ def water_names_match(engine_name: str, tenant_name: str) -> bool:
     if not engine_name or not tenant_name:
         return False
 
+    # Check water alias table first — resolves EPA/SDWIS names to canonical
+    alias_e = _resolve_water_alias(engine_name)
+    alias_t = _resolve_water_alias(tenant_name)
+    if alias_e == alias_t:
+        return True
+
     norm_e = normalize_water_name(engine_name).lower()
     norm_t = normalize_water_name(tenant_name).lower()
 
     if not norm_e or not norm_t:
         return False
+
+    # Also check aliases on normalized names
+    alias_ne = _resolve_water_alias(norm_e)
+    alias_nt = _resolve_water_alias(norm_t)
+    if alias_ne == alias_nt:
+        return True
 
     # Exact match after normalization
     if norm_e == norm_t:
@@ -443,7 +769,7 @@ def compare_providers(
         if seg_display != seg_original and _names_match(engine_name, seg_display):
             tenant_any_match = True
             break
-        # Water-specific lenient matching
+        # Utility-type-specific alias matching
         if utility_type == "water":
             if water_names_match(engine_name, seg_original):
                 tenant_any_match = True
@@ -451,23 +777,42 @@ def compare_providers(
             if seg_display != seg_original and water_names_match(engine_name, seg_display):
                 tenant_any_match = True
                 break
+        elif utility_type == "electric":
+            if _resolve_electric_alias(engine_name) == _resolve_electric_alias(seg_original):
+                tenant_any_match = True
+                break
+            if seg_display != seg_original and _resolve_electric_alias(engine_name) == _resolve_electric_alias(seg_display):
+                tenant_any_match = True
+                break
+        elif utility_type == "gas":
+            if _resolve_gas_alias(engine_name) == _resolve_gas_alias(seg_original):
+                tenant_any_match = True
+                break
+            if seg_display != seg_original and _resolve_gas_alias(engine_name) == _resolve_gas_alias(seg_display):
+                tenant_any_match = True
+                break
 
     if tenant_any_match:
         return "MATCH", "", tenant_norm_str
 
-    # MATCH_TDU: TX electric, engine returned TDU, tenant entered REP(s)
-    # Also handles mixed entries like "Coserv, Reliant Energy" where some segments
-    # are co-ops and some are REPs — if engine returned a TDU, the REP segments
-    # confirm the address is in deregulated territory.
+    # MATCH_TDU: TX electric, engine returned TDU, tenant entered REP(s) or co-op
+    # In deregulated TX territory, the TDU is the correct infrastructure provider.
+    # Tenants may report their REP, a co-op name, or any other electric provider.
     if state.upper() == "TX" and utility_type == "electric" and _is_tdu(engine_name):
-        has_rep = any(s.get("is_rep", False) for s in tenant_segments)
-        all_reps_or_null = all(
-            s.get("is_rep", False) or _is_tenant_null(s.get("original_segment", ""))
-            for s in tenant_segments
-        )
-        if (all_reps_or_null or has_rep) and len(tenant_segments) > 0:
+        if len(tenant_segments) > 0:
             rep_names = " | ".join(s.get("original_segment", "") for s in tenant_segments)
             return "MATCH_TDU", f"tdu={engine_name}, rep={rep_names}", tenant_norm_str
+
+    # MATCH_TDU: GA gas deregulated market — LDC vs marketer
+    if state.upper() == "GA" and utility_type == "gas":
+        eng_lower = engine_name.lower().strip()
+        ten_lower = tenant_norm_str.lower().strip()
+        eng_is_ldc = any(ldc in eng_lower for ldc in GA_GAS_LDC_NAMES)
+        ten_is_marketer = any(mkt in ten_lower for mkt in GA_GAS_MARKETER_NAMES)
+        eng_is_marketer = any(mkt in eng_lower for mkt in GA_GAS_MARKETER_NAMES)
+        ten_is_ldc = any(ldc in ten_lower for ldc in GA_GAS_LDC_NAMES)
+        if (eng_is_ldc and ten_is_marketer) or (eng_is_marketer and ten_is_ldc):
+            return "MATCH_TDU", f"ga_gas_deregulated: ldc={engine_name}, marketer={tenant_norm_str}", tenant_norm_str
 
     # MATCH_PARENT: different display names but same parent company
     engine_parent = _get_parent(engine_name)
@@ -504,6 +849,24 @@ def compare_providers(
                     if water_names_match(alt_name, seg_original) or water_names_match(alt_name, seg_display):
                         return "MATCH_ALT", f"alt={alt_name}, primary={engine_name}", tenant_norm_str
 
+    # Cross-state shapefile override: engine polygon is in the wrong state
+    engine_lower = engine_name.lower()
+    state_upper = state.upper()
+    for (override_name, override_state), _ in CROSS_STATE_OVERRIDES.items():
+        if override_name in engine_lower and state_upper == override_state:
+            return "MISMATCH", f"cross_state_override: engine={engine_name} wrong for {state_upper}", tenant_norm_str
+
+    # Gas-only provider in electric results: engine returned a gas company
+    if utility_type == "electric" and engine_lower in GAS_ONLY_PROVIDERS:
+        return "MISMATCH", f"gas_provider_in_electric: engine={engine_name}", tenant_norm_str
+
+    # Tenant entered electric company for gas provider
+    if utility_type == "gas":
+        tenant_lower = tenant_norm_str.lower()
+        for kw in ELECTRIC_KEYWORDS_IN_GAS:
+            if kw in tenant_lower:
+                return "MATCH", f"tenant_electric_in_gas: tenant={tenant_norm_str}", tenant_norm_str
+
     # MISMATCH
     return "MISMATCH", f"engine={engine_name} vs tenant={tenant_norm_str}", tenant_norm_str
 
@@ -527,6 +890,42 @@ def run_batch(args):
                 os.environ.setdefault(key.strip(), val.strip())
 
     logger.info("Loading lookup engine...")
+
+    def _save_geo_cache(geo_disk_cache, label=""):
+        """Persist geocode cache to disk immediately."""
+        GEOCODE_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(GEOCODE_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(geo_disk_cache, f)
+        logger.info(f"Geocode disk cache saved: {len(geo_disk_cache)} entries{' (' + label + ')' if label else ''}")
+
+    def _cache_geo_result(geo_disk_cache, addr, geo):
+        """Add a single geocode result to the disk cache dict."""
+        if geo and addr not in geo_disk_cache:
+            geo_disk_cache[addr] = {
+                "lat": geo.lat, "lon": geo.lon,
+                "confidence": geo.confidence,
+                "city": getattr(geo, 'city', ''),
+                "state": getattr(geo, 'state', ''),
+                "zip_code": getattr(geo, 'zip_code', ''),
+                "county": getattr(geo, 'county', ''),
+                "block_geoid": getattr(geo, 'block_geoid', ''),
+            }
+            return True
+        return False
+
+    def _queue_census_failures(chunk_results, chunk_addrs, nom_queue, nom_lock, geo_disk_cache):
+        """Queue Census failures for Nominatim AND save successful results to disk cache."""
+        new_cached = 0
+        for uid, addr in chunk_addrs:
+            if chunk_results.get(uid) is None:
+                with nom_lock:
+                    nom_queue.append((uid, addr))
+            else:
+                if _cache_geo_result(geo_disk_cache, addr, chunk_results[uid]):
+                    new_cached += 1
+        if new_cached:
+            _save_geo_cache(geo_disk_cache, f"after Census chunk, +{new_cached}")
+
     config = Config()
     if args.geocoder:
         config.geocoder_type = args.geocoder
@@ -567,6 +966,14 @@ def run_batch(args):
     logger.info("=" * 60)
     logger.info("PHASE 1: Geocoding")
 
+    # Disk-based geocode cache — survives across runs
+    GEOCODE_CACHE_FILE = Path("data/geocode_cache.json")
+    geo_disk_cache = {}  # address -> {lat, lon, confidence, city, state, zip_code, county, block_geoid}
+    if GEOCODE_CACHE_FILE.exists():
+        with open(GEOCODE_CACHE_FILE, encoding="utf-8") as f:
+            geo_disk_cache = json.load(f)
+        logger.info(f"Geocode disk cache: {len(geo_disk_cache)} entries loaded")
+
     geocoder = CensusGeocoder()
     # Build address list and check cache
     address_coords = {}  # address -> GeocodedAddress or None
@@ -576,11 +983,12 @@ def run_batch(args):
         address = row.get("display", "").strip()
         if not address:
             continue
-        # Check engine cache
+        # Check engine cache first, then disk geocode cache
         cached = engine.cache.get(address)
         if cached:
-            # Extract lat/lon from cached result
             address_coords[address] = "cached"
+        elif address in geo_disk_cache:
+            address_coords[address] = "geo_cached"
         else:
             uncached_addresses.append((str(start_idx + i), address))
 
@@ -588,37 +996,123 @@ def run_batch(args):
     logger.info(f"Geocoding: {total} addresses, {cached_count} cached, {len(uncached_addresses)} need geocoding")
 
     # Batch geocode uncached addresses
+    # Strategy: Census batch in 10K chunks + Nominatim runs concurrently on failures
+    # Google only handles what both miss.
     batch_geo_results = {}
+    nom_results = {}  # filled by background Nominatim thread
+    nom_total = 0
+    nom_matched_count = 0
+
     if uncached_addresses:
+        import threading
+
+        # Background Nominatim workers — process Census failures concurrently
+        NOM_WORKERS = 5
+        nom_queue = []  # (uid, addr) pairs queued by Census chunks
+        nom_queue_idx = 0  # next index to process
+        nom_done = threading.Event()  # no more items coming
+        nom_stop = threading.Event()  # stop workers now
+        nom_lock = threading.Lock()
+
+        def _nominatim_worker(worker_id):
+            nonlocal nom_matched_count, nom_queue_idx
+            from lookup_engine.geocoder import NominatimGeocoder
+            nominatim = NominatimGeocoder()
+            time.sleep(worker_id * 0.2)
+            while not nom_stop.is_set():
+                item = None
+                with nom_lock:
+                    if nom_queue_idx < len(nom_queue):
+                        item = nom_queue[nom_queue_idx]
+                        nom_queue_idx += 1
+                if item is None:
+                    if nom_done.is_set():
+                        with nom_lock:
+                            if nom_queue_idx >= len(nom_queue):
+                                break
+                    time.sleep(0.3)
+                    continue
+                uid, addr = item
+                try:
+                    result = nominatim.geocode(addr)
+                    if result:
+                        with nom_lock:
+                            nom_results[uid] = result
+                            nom_matched_count += 1
+                except Exception:
+                    pass
+
+        nom_threads = []
+        for w in range(NOM_WORKERS):
+            t = threading.Thread(target=_nominatim_worker, args=(w,), daemon=True)
+            t.start()
+            nom_threads.append(t)
+
+        # Census batch — as each chunk returns, queue failures for Nominatim
         logger.info(f"Sending {len(uncached_addresses)} addresses to Census batch endpoint...")
-        batch_geo_results = geocoder.geocode_batch(uncached_addresses)
+        logger.info("Nominatim running concurrently on Census failures...")
+        batch_geo_results = geocoder.geocode_batch(
+            uncached_addresses,
+            on_chunk_complete=lambda chunk_results, chunk_addrs: _queue_census_failures(
+                chunk_results, chunk_addrs, nom_queue, nom_lock, geo_disk_cache
+            ),
+        )
         geo_matched = sum(1 for v in batch_geo_results.values() if v is not None)
         geo_failed = len(uncached_addresses) - geo_matched
         logger.info(f"Census batch: {geo_matched} matched, {geo_failed} failed")
 
-        # Google Places API fallback for Census failures
+        # Signal Nominatim that no more items are coming, wait up to 120s then move on
+        nom_done.set()
+        deadline = time.time() + 120
+        for t in nom_threads:
+            remaining = max(deadline - time.time(), 1)
+            t.join(timeout=remaining)
+        nom_stop.set()  # force-stop any still-running workers
+        nom_total = len(nom_queue)
+        logger.info(f"Nominatim fallback: {nom_matched_count}/{nom_total} matched (ran concurrently)")
+
+        # Merge Nominatim results into batch results + save to disk cache
+        nom_new = 0
+        for uid, result in nom_results.items():
+            if uid not in batch_geo_results or batch_geo_results[uid] is None:
+                batch_geo_results[uid] = result
+        # Cache all Nominatim hits
+        uid_to_addr = {uid: addr for uid, addr in uncached_addresses}
+        for uid, result in nom_results.items():
+            if _cache_geo_result(geo_disk_cache, uid_to_addr.get(uid, ""), result):
+                nom_new += 1
+        if nom_new:
+            _save_geo_cache(geo_disk_cache, f"after Nominatim, +{nom_new}")
+
+        # Google Places API fallback for remaining failures
         google_key = os.environ.get("GOOGLE_API_KEY", "")
-        if google_key and geo_failed > 0:
+        still_failed = [
+            (uid, addr) for uid, addr in uncached_addresses
+            if batch_geo_results.get(uid) is None
+        ]
+        if google_key and still_failed:
             from lookup_engine.geocoder import GoogleGeocoder
             google_geo = GoogleGeocoder(google_key)
-            failed_ids = [
-                (uid, addr) for uid, addr in uncached_addresses
-                if batch_geo_results.get(uid) is None
-            ]
-            logger.info(f"Google fallback: geocoding {len(failed_ids)} Census failures...")
+            logger.info(f"Google fallback: geocoding {len(still_failed)} remaining failures...")
             google_matched = 0
-            for uid, addr in failed_ids:
+            google_new = 0
+            for uid, addr in still_failed:
                 try:
                     result = google_geo.geocode(addr)
                     if result:
-                        # Google doesn't return Census block — get it from TIGERweb
-                        from lookup_engine.geocoder import get_census_block_geoid
-                        result.block_geoid = get_census_block_geoid(result.lat, result.lon) or ""
+                        result.block_geoid = ""
                         batch_geo_results[uid] = result
                         google_matched += 1
+                        if _cache_geo_result(geo_disk_cache, addr, result):
+                            google_new += 1
+                        # Save every 100 Google results incrementally
+                        if google_new > 0 and google_new % 100 == 0:
+                            _save_geo_cache(geo_disk_cache, f"Google progress, +{google_new}")
                 except Exception as e:
                     logger.debug(f"Google geocode error for {addr[:50]}: {e}")
-            logger.info(f"Google fallback: {google_matched}/{len(failed_ids)} matched")
+            if google_new:
+                _save_geo_cache(geo_disk_cache, f"after Google, +{google_new}")
+            logger.info(f"Google fallback: {google_matched}/{len(still_failed)} matched")
 
     phase1_time = time.time() - t_phase1
     logger.info(f"Phase 1 complete: {phase1_time:.1f}s")
@@ -645,7 +1139,8 @@ def run_batch(args):
             "engine_id_match_score", "engine_id_confident",
             "alt_catalog_ids",
             "tenant_raw", "tenant_normalized",
-            "comparison", "match_detail",
+            "tenant_catalog_id", "tenant_catalog_title", "tenant_id_match_score",
+            "comparison", "match_detail", "id_match",
         ])
 
     # Stats tracking
@@ -656,6 +1151,7 @@ def run_batch(args):
         "geocode_fail_addresses": [],
     }
     comparison_counts = defaultdict(lambda: Counter())
+    id_match_counts = defaultdict(lambda: Counter())
     mismatch_pairs = defaultdict(lambda: Counter())
     state_mismatches = defaultdict(lambda: Counter())
     tdu_breakdown = Counter()
@@ -667,28 +1163,23 @@ def run_batch(args):
     times_per_row = []
     google_fallback_addresses = []
 
-    for i, row in enumerate(rows_to_process):
+    def _do_spatial_lookup(i, row):
+        """Run spatial lookups for a single row. Returns all data needed for comparison."""
         row_idx = start_idx + i
-        t_row = time.time()
-
         address = row.get("display", "").strip()
         if not address:
-            stats["total_processed"] += 1
-            continue
+            return {"i": i, "row": row, "row_idx": row_idx, "address": "", "skip": True}
 
         state = _extract_state(address)
-        # Extract ZIP code for gas mapping
         _zip_m = re.search(r"\b(\d{5})(?:-\d{4})?\s*$", address)
         addr_zip = _zip_m.group(1) if _zip_m else ""
-        # Extract city for FindEnergy fallback
         _city_m = re.search(r",\s*([^,]+?)\s*,\s*[A-Z]{2}", address)
         addr_city = _city_m.group(1).strip() if _city_m else ""
-        addr_county = ""  # County comes from geocoder result if available
+        addr_county = ""
         row_key = str(row_idx)
 
         _lkw = dict(zip_code=addr_zip, city=addr_city, county=addr_county, address=address)
 
-        # Try to get coordinates: cache first, then batch results
         lat, lon = 0.0, 0.0
         geocode_conf = 0.0
         block_geoid = ""
@@ -697,20 +1188,22 @@ def run_batch(args):
         water = None
         sewer = None
 
-        # Check if engine cache has this address
-        cached_result = engine.cache.get(address)
-        if cached_result:
-            lat = cached_result.lat
-            lon = cached_result.lon
-            geocode_conf = cached_result.geocode_confidence
-            # Re-run spatial queries with fresh overlap logic
+        # Note: engine.cache (SQLite) is not thread-safe, so we only use
+        # geo_disk_cache (plain dict) here. It covers 99%+ of addresses.
+        if address in geo_disk_cache:
+            gc = geo_disk_cache[address]
+            lat = gc["lat"]
+            lon = gc["lon"]
+            geocode_conf = gc.get("confidence", 0.9)
+            block_geoid = gc.get("block_geoid", "")
+            addr_county = gc.get("county", "") or addr_county
+            _lkw["county"] = addr_county
             if lat != 0.0 or lon != 0.0:
                 electric = engine._lookup_with_state_gis(lat, lon, state, "electric", **_lkw)
                 gas = engine._lookup_with_state_gis(lat, lon, state, "gas", **_lkw)
                 water = engine._lookup_with_state_gis(lat, lon, state, "water", **_lkw) if not args.skip_water else None
                 sewer = engine._lookup_sewer(lat, lon, state, _lkw.get("zip_code", ""), _lkw.get("city", ""), _lkw.get("county", ""), water)
         else:
-            # Try batch geocode result
             batch_geo = batch_geo_results.get(row_key)
             if batch_geo:
                 lat = batch_geo.lat
@@ -722,139 +1215,234 @@ def run_batch(args):
                 water = engine._lookup_with_state_gis(lat, lon, state, "water", **_lkw) if not args.skip_water else None
                 sewer = engine._lookup_sewer(lat, lon, state, _lkw.get("zip_code", ""), _lkw.get("city", ""), _lkw.get("county", ""), water)
             else:
-                # Neither cache nor batch — try single geocode via engine
+                # engine.lookup uses SQLite cache (not thread-safe).
+                # Flag for sequential fallback in the main thread.
+                return {
+                    "i": i, "row": row, "row_idx": row_idx, "address": address,
+                    "skip": False, "needs_engine_lookup": True,
+                }
+
+        return {
+            "i": i, "row": row, "row_idx": row_idx, "address": address,
+            "state": state, "lat": lat, "lon": lon, "geocode_conf": geocode_conf,
+            "block_geoid": block_geoid,
+            "electric": electric, "gas": gas, "water": water, "sewer": sewer,
+            "skip": False,
+        }
+
+    # Use thread pool to run spatial lookups across multiple rows in parallel.
+    # Each row does 3 HTTP calls to state GIS APIs — overlapping these across
+    # rows is the key speedup (from ~600 lines/min to ~6000+ lines/min).
+    BATCH_SIZE = 100
+    _lookup_pool = ThreadPoolExecutor(max_workers=32)
+
+    for batch_start in range(0, total, BATCH_SIZE):
+        batch_end = min(batch_start + BATCH_SIZE, total)
+        batch_rows = rows_to_process[batch_start:batch_end]
+
+        # Submit all rows in this batch to the thread pool
+        futures = []
+        for j, row in enumerate(batch_rows):
+            futures.append(_lookup_pool.submit(_do_spatial_lookup, batch_start + j, row))
+
+        # Collect results in order and process sequentially
+        for future in futures:
+            r = future.result()
+            i = r["i"]
+            row = r["row"]
+            row_idx = r["row_idx"]
+            t_row = time.time()
+
+            if r["skip"]:
+                stats["total_processed"] += 1
+                continue
+
+            address = r["address"]
+
+            # Handle rows that need engine.lookup (SQLite, must run on main thread)
+            if r.get("needs_engine_lookup"):
                 result = engine.lookup(address, use_cache=True)
                 lat = result.lat
                 lon = result.lon
                 geocode_conf = result.geocode_confidence
+                block_geoid = ""
                 electric = result.electric
                 gas = result.gas
                 water = result.water
                 sewer = result.sewer
-
-        if lat == 0.0 and lon == 0.0:
-            stats["geocode_fail"] += 1
-            if len(stats["geocode_fail_addresses"]) < 100:
-                stats["geocode_fail_addresses"].append(address)
-            # Save for potential Google fallback
-            google_fallback_addresses.append((row_idx, row))
-        else:
-            stats["geocode_success"] += 1
-
-        stats["total_processed"] += 1
-
-        # Compare for each utility type
-        utility_map = {
-            "electric": (electric, row.get("Electricity", "")),
-            "gas": (gas, row.get("Gas", "")),
-            "water": (water, row.get("Water", "")),
-            "sewer": (sewer, row.get("Sewer", "")),
-        }
-
-        for utype, (engine_result, tenant_raw) in utility_map.items():
-            engine_name = engine_result.provider_name if engine_result else ""
-            engine_eia = engine_result.eia_id if engine_result else ""
-            engine_conf = round(engine_result.confidence, 3) if engine_result else ""
-            engine_method = engine_result.match_method if engine_result else ""
-            engine_dereg = engine_result.is_deregulated if engine_result else False
-
-            # Handle geocode failure
-            if lat == 0.0 and lon == 0.0 and not engine_name:
-                tenant_clean = (tenant_raw or "").strip()
-                if tenant_clean and not _is_tenant_null(tenant_clean):
-                    comparison = "TENANT_ONLY"
-                    detail = "geocode_failed"
-                    tenant_norm = tenant_clean
-                else:
-                    comparison = "BOTH_EMPTY"
-                    detail = ""
-                    tenant_norm = ""
+                state = _extract_state(address)
             else:
-                alts = engine_result.alternatives if engine_result else []
-                comparison, detail, tenant_norm = compare_providers(
-                    engine_name, tenant_raw, utype, state, alternatives=alts
+                state = r["state"]
+                lat = r["lat"]
+                lon = r["lon"]
+                geocode_conf = r["geocode_conf"]
+                block_geoid = r["block_geoid"]
+                electric = r["electric"]
+                gas = r["gas"]
+                water = r["water"]
+                sewer = r["sewer"]
+
+            if lat == 0.0 and lon == 0.0:
+                stats["geocode_fail"] += 1
+                if len(stats["geocode_fail_addresses"]) < 100:
+                    stats["geocode_fail_addresses"].append(address)
+                # Save for potential Google fallback
+                google_fallback_addresses.append((row_idx, row))
+            else:
+                stats["geocode_success"] += 1
+
+            stats["total_processed"] += 1
+
+            # Compare for each utility type
+            utility_map = {
+                "electric": (electric, row.get("Electricity", "")),
+                "gas": (gas, row.get("Gas", "")),
+                "water": (water, row.get("Water", "")),
+                "sewer": (sewer, row.get("Sewer", "")),
+            }
+
+            for utype, (engine_result, tenant_raw) in utility_map.items():
+                engine_name = engine_result.provider_name if engine_result else ""
+                engine_eia = engine_result.eia_id if engine_result else ""
+                engine_conf = round(engine_result.confidence, 3) if engine_result else ""
+                engine_method = engine_result.match_method if engine_result else ""
+                engine_dereg = engine_result.is_deregulated if engine_result else False
+
+                # Handle geocode failure
+                if lat == 0.0 and lon == 0.0 and not engine_name:
+                    tenant_clean = (tenant_raw or "").strip()
+                    if tenant_clean and not _is_tenant_null(tenant_clean):
+                        comparison = "TENANT_ONLY"
+                        detail = "geocode_failed"
+                        tenant_norm = tenant_clean
+                    else:
+                        comparison = "BOTH_EMPTY"
+                        detail = ""
+                        tenant_norm = ""
+                else:
+                    alts = engine_result.alternatives if engine_result else []
+                    comparison, detail, tenant_norm = compare_providers(
+                        engine_name, tenant_raw, utype, state, alternatives=alts
+                    )
+
+                comparison_counts[utype][comparison] += 1
+
+                if comparison == "MISMATCH":
+                    mismatch_pairs[utype][(engine_name, tenant_norm)] += 1
+                    state_mismatches[utype][state] += 1
+
+                # TX deregulated tracking
+                if state.upper() == "TX" and utype == "electric":
+                    tx_total_electric += 1
+                    if comparison == "MATCH_TDU":
+                        tdu_breakdown[engine_name] += 1
+                    if engine_result and not engine_result.is_deregulated:
+                        tx_coop_muni_correct += 1
+                    if not engine_name:
+                        tx_no_result += 1
+
+                engine_source = engine_result.polygon_source if engine_result else ""
+                engine_needs_review = engine_result.needs_review if engine_result else ""
+                engine_alts = "|".join(
+                    a.get("provider", "") for a in (engine_result.alternatives if engine_result else [])
+                )
+                engine_catalog_id = engine_result.catalog_id if engine_result else ""
+                engine_catalog_title = engine_result.catalog_title if engine_result else ""
+                engine_id_score = engine_result.id_match_score if engine_result else ""
+                engine_id_confident = engine_result.id_confident if engine_result else ""
+                alt_catalog_ids = "|".join(
+                    str(a.get("catalog_id", "")) for a in (engine_result.alternatives if engine_result else []) if a.get("catalog_id")
                 )
 
-            comparison_counts[utype][comparison] += 1
+                # Tenant provider ID matching
+                tenant_catalog_id = ""
+                tenant_catalog_title = ""
+                tenant_id_match_score = ""
+                tenant_clean = (tenant_raw or "").strip()
+                if tenant_clean and not _is_tenant_null(tenant_clean) and engine.id_matcher.loaded:
+                    tenant_id_result = engine.id_matcher.match(tenant_clean, utype, state)
+                    if tenant_id_result:
+                        tenant_catalog_id = tenant_id_result["id"]
+                        tenant_catalog_title = tenant_id_result["title"]
+                        tenant_id_match_score = tenant_id_result["match_score"]
 
-            if comparison == "MISMATCH":
-                mismatch_pairs[utype][(engine_name, tenant_norm)] += 1
-                state_mismatches[utype][state] += 1
+                # ID-to-ID comparison (resolve through alias table first)
+                engine_canonical = _resolve_canonical_id(engine_catalog_id)
+                tenant_canonical = _resolve_canonical_id(tenant_catalog_id)
+                if engine_canonical and tenant_canonical:
+                    if str(engine_canonical) == str(tenant_canonical):
+                        id_match = "ID_MATCH"
+                    elif comparison == "MATCH_TDU":
+                        id_match = "ID_MATCH_TDU"
+                    elif comparison in ("MATCH", "MATCH_PARENT", "MATCH_ALT"):
+                        id_match = "NAME_MATCH_ID_MISMATCH"
+                    else:
+                        id_match = "TRUE_MISMATCH"
+                elif engine_canonical and not tenant_canonical:
+                    id_match = "TENANT_ID_MISSING"
+                elif not engine_canonical and tenant_canonical:
+                    id_match = "ENGINE_ID_MISSING"
+                else:
+                    id_match = "BOTH_ID_MISSING"
+                id_match_counts[utype][id_match] += 1
 
-            # TX deregulated tracking
-            if state.upper() == "TX" and utype == "electric":
-                tx_total_electric += 1
-                if comparison == "MATCH_TDU":
-                    tdu_breakdown[engine_name] += 1
-                if engine_result and not engine_result.is_deregulated:
-                    tx_coop_muni_correct += 1
-                if not engine_name:
-                    tx_no_result += 1
-
-            engine_source = engine_result.polygon_source if engine_result else ""
-            engine_needs_review = engine_result.needs_review if engine_result else ""
-            engine_alts = "|".join(
-                a.get("provider", "") for a in (engine_result.alternatives if engine_result else [])
-            )
-            engine_catalog_id = engine_result.catalog_id if engine_result else ""
-            engine_catalog_title = engine_result.catalog_title if engine_result else ""
-            engine_id_score = engine_result.id_match_score if engine_result else ""
-            engine_id_confident = engine_result.id_confident if engine_result else ""
-            alt_catalog_ids = "|".join(
-                str(a.get("catalog_id", "")) for a in (engine_result.alternatives if engine_result else []) if a.get("catalog_id")
-            )
-
-            writer.writerow([
-                address, state, utype, engine_name, engine_eia,
-                engine_conf, engine_method, engine_dereg, engine_source,
-                engine_needs_review, engine_alts,
-                engine_catalog_id, engine_catalog_title,
-                engine_id_score, engine_id_confident,
-                alt_catalog_ids,
-                tenant_raw.strip() if tenant_raw else "",
-                tenant_norm, comparison, detail,
-            ])
-
-        # Internet lookup (separate from utility_map — returns multiple providers)
-        if engine.internet and block_geoid and not args.skip_internet:
-            inet_result = engine.internet.lookup(block_geoid)
-            if inet_result and inet_result.get("providers"):
-                inet_providers = " | ".join(
-                    f"{p['name']} ({p['technology']}, {p['max_down']}/{p['max_up']})"
-                    for p in inet_result["providers"]
-                )
                 writer.writerow([
-                    address, state, "internet", inet_providers,
-                    "", inet_result.get("confidence", 0.95), "", False,
-                    inet_result.get("source", "fcc_bdc"), False, "",
-                    "", "", "", "", "",
-                    "", "", "ENGINE_ONLY", f"block={block_geoid} count={inet_result['provider_count']} fiber={inet_result['has_fiber']} cable={inet_result['has_cable']} max_down={inet_result['max_download_speed']}",
+                    address, state, utype, engine_name, engine_eia,
+                    engine_conf, engine_method, engine_dereg, engine_source,
+                    engine_needs_review, engine_alts,
+                    engine_catalog_id, engine_catalog_title,
+                    engine_id_score, engine_id_confident,
+                    alt_catalog_ids,
+                    tenant_raw.strip() if tenant_raw else "",
+                    tenant_norm,
+                    tenant_catalog_id, tenant_catalog_title, tenant_id_match_score,
+                    comparison, detail, id_match,
                 ])
-                comparison_counts["internet"]["ENGINE_ONLY"] += 1
 
-        row_ms = (time.time() - t_row) * 1000
-        times_per_row.append(row_ms)
+            # Internet lookup (separate from utility_map — returns multiple providers)
+            if engine.internet and block_geoid and not args.skip_internet:
+                inet_result = engine.internet.lookup(block_geoid)
+                if inet_result and inet_result.get("providers"):
+                    inet_providers = " | ".join(
+                        f"{p['name']} ({p['technology']}, {p['max_down']}/{p['max_up']})"
+                        for p in inet_result["providers"]
+                    )
+                    writer.writerow([
+                        address, state, "internet", inet_providers,
+                        "", inet_result.get("confidence", 0.95), "", False,
+                        inet_result.get("source", "fcc_bdc"), False, "",
+                        "", "", "", "", "",
+                        "", "",
+                        "", "", "",  # tenant_catalog_id, tenant_catalog_title, tenant_id_match_score
+                        "ENGINE_ONLY", f"block={block_geoid} count={inet_result['provider_count']} fiber={inet_result['has_fiber']} cable={inet_result['has_cable']} max_down={inet_result['max_download_speed']}", "",
+                    ])
+                    comparison_counts["internet"]["ENGINE_ONLY"] += 1
 
-        # Progress logging
-        processed = i + 1
-        if processed % 1000 == 0 or processed == total:
-            avg_ms = sum(times_per_row[-100:]) / min(len(times_per_row), 100)
-            remaining = (total - processed) * avg_ms / 1000
-            elapsed = time.time() - t_start
-            logger.info(
-                f"Phase 2: {processed}/{total} ({processed/total*100:.1f}%) | "
-                f"Avg: {avg_ms:.0f}ms/row | "
-                f"Elapsed: {elapsed:.0f}s | "
-                f"ETA: {remaining:.0f}s"
-            )
+            row_ms = (time.time() - t_row) * 1000
+            times_per_row.append(row_ms)
 
-        # Checkpoint every 5000 rows
-        if processed % 5000 == 0:
-            with open(CHECKPOINT_FILE, "w") as cpf:
-                json.dump({"last_processed_row": row_idx, "timestamp": datetime.utcnow().isoformat()}, cpf)
-            outfile.flush()
+            # Progress logging
+            processed = i + 1
+            if processed % 1000 == 0 or processed == total:
+                avg_ms = sum(times_per_row[-100:]) / min(len(times_per_row), 100)
+                remaining = (total - processed) * avg_ms / 1000
+                elapsed = time.time() - t_start
+                logger.info(
+                    f"Phase 2: {processed}/{total} ({processed/total*100:.1f}%) | "
+                    f"Avg: {avg_ms:.0f}ms/row | "
+                    f"Elapsed: {elapsed:.0f}s | "
+                    f"ETA: {remaining:.0f}s"
+                )
+
+            # Checkpoint every 5000 rows
+            if processed % 5000 == 0:
+                with open(CHECKPOINT_FILE, "w") as cpf:
+                    json.dump({"last_processed_row": row_idx, "timestamp": datetime.utcnow().isoformat()}, cpf)
+                outfile.flush()
 
     outfile.close()
+    _lookup_pool.shutdown(wait=False)
+    engine.state_gis.save_disk_cache()
     phase2_time = time.time() - t_phase2
     logger.info(f"Phase 2 complete: {phase2_time:.1f}s")
 
@@ -881,6 +1469,15 @@ def run_batch(args):
                 fieldnames.append(extra)
 
         # Build batch of items needing AI resolution
+        # Protected sources: authoritative data that the AI should NOT override.
+        # Analysis showed AI overriding eia_zip has 0% accuracy and HIFLD has 5.7%.
+        _PROTECTED_SOURCE_KEYWORDS = {"eia_zip", "eia_id", "hifld", "state_gis", "epa"}
+        def _is_protected_source(source_str: str) -> bool:
+            if not source_str:
+                return False
+            s = source_str.lower()
+            return any(kw in s for kw in _PROTECTED_SOURCE_KEYWORDS)
+
         ai_items = []  # (row_index, resolve_kwargs)
         for ri, row in enumerate(all_result_rows):
             comp = row.get("comparison", "")
@@ -927,11 +1524,21 @@ def run_batch(args):
 
         ai_resolved = len(batch_results)
         ai_changed = 0
+        ai_blocked_protected = 0
         for (ri, _kwargs), (_item, result) in zip(ai_items, batch_results):
             if not result:
                 continue
             row = all_result_rows[ri]
             old_provider = row["engine_provider"]
+            old_source = row.get("engine_source", "")
+
+            # Post-resolution guard: if AI wants to REPLACE the primary provider
+            # and the original came from a protected/authoritative source, reject it.
+            # AI overriding eia_zip has 0% accuracy, HIFLD 5.7%.
+            if result["provider"] != old_provider and _is_protected_source(old_source):
+                ai_blocked_protected += 1
+                continue
+
             row["engine_provider"] = result["provider"]
             row["engine_confidence"] = str(round(result["confidence"], 3))
             row["engine_source"] = result["source"]
@@ -966,7 +1573,8 @@ def run_batch(args):
         phase3_time = time.time() - t_phase3
         logger.info(
             f"Phase 3 complete: {phase3_time:.1f}s | "
-            f"Resolved {ai_resolved}, changed {ai_changed}, errors {resolver.error_count}"
+            f"Resolved {ai_resolved}, changed {ai_changed}, "
+            f"blocked {ai_blocked_protected} (protected source), errors {resolver.error_count}"
         )
 
         # Update comparison_counts for the report
@@ -993,17 +1601,57 @@ def run_batch(args):
         f"Phase 3 (fallback): {phase3_time:.1f}s"
     )
 
+    # Generate catalog dupe report
+    _generate_catalog_dupe_report()
+
     # Generate report
     generate_report(stats, comparison_counts, mismatch_pairs, state_mismatches,
                     tdu_breakdown, tx_total_electric, tx_coop_muni_correct,
                     tx_no_result, total_time, times_per_row,
-                    phase1_time, phase2_time, phase3_time)
+                    phase1_time, phase2_time, phase3_time,
+                    id_match_counts=id_match_counts)
+
+
+def _generate_catalog_dupe_report():
+    """Generate catalog_dupes_report.txt from NAME_MATCH_ID_MISMATCH rows."""
+    if not OUTPUT_CSV.exists():
+        return
+    dupes = Counter()
+    with open(OUTPUT_CSV, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("id_match") == "NAME_MATCH_ID_MISMATCH":
+                e_id = row.get("engine_catalog_id", "")
+                e_title = row.get("engine_catalog_title", "") or row.get("engine_provider", "")
+                t_id = row.get("tenant_catalog_id", "")
+                t_title = row.get("tenant_catalog_title", "") or row.get("tenant_raw", "")
+                key = (e_title, e_id, t_title, t_id)
+                dupes[key] += 1
+
+    if not dupes:
+        logger.info("No catalog dupe pairs found.")
+        return
+
+    lines = ["Catalog Duplicate Pairs", "=" * 60, ""]
+    lines.append("These rows matched by NAME but have different catalog IDs.")
+    lines.append("This usually means the catalog has duplicate entries for the same provider.")
+    lines.append("")
+    for (e_title, e_id, t_title, t_id), count in dupes.most_common():
+        lines.append(f"  {e_title} (ID {e_id}) <-> {t_title} (ID {t_id}): {count} occurrences")
+    lines.append("")
+    lines.append(f"Total pairs: {len(dupes)}")
+    lines.append(f"Total affected rows: {sum(dupes.values())}")
+
+    report_path = Path("catalog_dupes_report.txt")
+    report_path.write_text("\n".join(lines))
+    logger.info(f"Catalog dupe report: {report_path} ({len(dupes)} pairs, {sum(dupes.values())} rows)")
 
 
 def generate_report(stats, comparison_counts, mismatch_pairs, state_mismatches,
                     tdu_breakdown, tx_total_electric, tx_coop_muni_correct,
                     tx_no_result, total_time, times_per_row,
-                    phase1_time=0, phase2_time=0, phase3_time=0):
+                    phase1_time=0, phase2_time=0, phase3_time=0,
+                    id_match_counts=None):
     """Generate BATCH_VALIDATION_REPORT.md."""
 
     lines = []
@@ -1026,10 +1674,69 @@ def generate_report(stats, comparison_counts, mismatch_pairs, state_mismatches,
             lines.append(f"  - `{addr}`")
     lines.append("")
 
-    # Per utility type
+    # Provider ID Match Rate (headline metric)
+    if id_match_counts:
+        lines.append("### Provider ID Match Rate")
+        lines.append("")
+        # Catalog alias stats
+        if CATALOG_ID_ALIASES:
+            n_aliases = len(CATALOG_ID_ALIASES)
+            n_groups = len(set(CATALOG_ID_ALIASES.values()))
+            lines.append(f"- Catalog ID alias table: {n_aliases} aliases across {n_groups} canonical groups")
+        lines.append("")
+        overall_id_match = 0
+        overall_id_scoreable = 0
+        for utype in ["electric", "gas", "water"]:
+            idc = id_match_counts[utype]
+            id_scoreable = idc["ID_MATCH"] + idc.get("ID_MATCH_TDU", 0) + idc["NAME_MATCH_ID_MISMATCH"] + idc["TRUE_MISMATCH"]
+            id_correct = idc["ID_MATCH"] + idc.get("ID_MATCH_TDU", 0)
+            id_pct = id_correct / id_scoreable * 100 if id_scoreable else 0
+            overall_id_match += id_correct
+            overall_id_scoreable += id_scoreable
+            lines.append(f"- **{utype.title()}: {id_correct:,}/{id_scoreable:,} ({id_pct:.1f}%)**")
+        lines.append(f"- Sewer: N/A (no tenant data)")
+        lines.append(f"- Internet: N/A (informational)")
+        overall_pct = overall_id_match / overall_id_scoreable * 100 if overall_id_scoreable else 0
+        lines.append(f"- **Overall: {overall_id_match:,}/{overall_id_scoreable:,} ({overall_pct:.1f}%)**")
+        lines.append("")
+
+        # ID Match Breakdown
+        lines.append("### ID Match Breakdown")
+        lines.append("")
+        all_idc = Counter()
+        for utype in ["electric", "gas", "water"]:
+            for k, v in id_match_counts[utype].items():
+                all_idc[k] += v
+        total_id = sum(all_idc.values())
+        for bucket, label in [
+            ("ID_MATCH", "same catalog ID ✓"),
+            ("ID_MATCH_TDU", "TX deregulated — TDU vs REP, both correct ✓"),
+            ("NAME_MATCH_ID_MISMATCH", "catalog dupe issue, not engine error"),
+            ("TRUE_MISMATCH", "engine got it wrong ✗"),
+            ("TENANT_ID_MISSING", "couldn't ID-match tenant name"),
+            ("ENGINE_ID_MISSING", "couldn't ID-match engine name"),
+            ("BOTH_ID_MISSING", "neither side matched"),
+        ]:
+            cnt = all_idc.get(bucket, 0)
+            pct = cnt / total_id * 100 if total_id else 0
+            lines.append(f"- {bucket:30s} {cnt:>6,} ({pct:5.1f}%)  — {label}")
+        lines.append("")
+
+        # Adjusted accuracy (treating NAME_MATCH_ID_MISMATCH as correct)
+        lines.append("### Adjusted Accuracy (treating catalog dupes as correct)")
+        lines.append("")
+        for utype in ["electric", "gas", "water"]:
+            idc = id_match_counts[utype]
+            adj_scoreable = idc["ID_MATCH"] + idc.get("ID_MATCH_TDU", 0) + idc["NAME_MATCH_ID_MISMATCH"] + idc["TRUE_MISMATCH"]
+            adj_correct = idc["ID_MATCH"] + idc.get("ID_MATCH_TDU", 0) + idc["NAME_MATCH_ID_MISMATCH"]
+            adj_pct = adj_correct / adj_scoreable * 100 if adj_scoreable else 0
+            lines.append(f"- {utype.title()}: {adj_correct:,}/{adj_scoreable:,} ({adj_pct:.1f}%)")
+        lines.append("")
+
+    # Per utility type — Name-Based Accuracy
     for utype in ["electric", "gas", "water"]:
         counts = comparison_counts[utype]
-        lines.append(f"### {utype.title()} Accuracy")
+        lines.append(f"### {utype.title()} Name-Based Accuracy")
 
         scoreable = counts["MATCH"] + counts["MATCH_TDU"] + counts["MATCH_PARENT"] + counts["MISMATCH"]
         correct = counts["MATCH"] + counts["MATCH_TDU"] + counts["MATCH_PARENT"]
@@ -1191,8 +1898,16 @@ def run_recompare(args):
             else:
                 comparison, detail, tenant_norm = "TENANT_ONLY", "no_polygon_hit", tenant_clean
         else:
+            # Parse alternatives from CSV if available
+            alts_raw = row.get("engine_alternatives", "")
+            alts = []
+            if alts_raw:
+                for a in alts_raw.split("|"):
+                    a = a.strip()
+                    if a:
+                        alts.append({"provider": a})
             comparison, detail, tenant_norm = compare_providers(
-                engine_name, tenant_raw, utype, state
+                engine_name, tenant_raw, utype, state, alternatives=alts
             )
 
         comparison_counts[utype][comparison] += 1
@@ -1236,11 +1951,11 @@ def run_recompare(args):
     for utype in ["electric", "gas", "water"]:
         old_c = old_counts[utype]
         new_c = comparison_counts[utype]
-        old_scoreable = old_c["MATCH"] + old_c["MATCH_TDU"] + old_c["MATCH_PARENT"] + old_c["MISMATCH"]
-        old_correct = old_c["MATCH"] + old_c["MATCH_TDU"] + old_c["MATCH_PARENT"]
+        old_scoreable = old_c["MATCH"] + old_c["MATCH_TDU"] + old_c["MATCH_PARENT"] + old_c["MATCH_ALT"] + old_c["MISMATCH"]
+        old_correct = old_c["MATCH"] + old_c["MATCH_TDU"] + old_c["MATCH_PARENT"] + old_c["MATCH_ALT"]
         old_acc = old_correct / old_scoreable * 100 if old_scoreable else 0
-        new_scoreable = new_c["MATCH"] + new_c["MATCH_TDU"] + new_c["MATCH_PARENT"] + new_c["MISMATCH"]
-        new_correct = new_c["MATCH"] + new_c["MATCH_TDU"] + new_c["MATCH_PARENT"]
+        new_scoreable = new_c["MATCH"] + new_c["MATCH_TDU"] + new_c["MATCH_PARENT"] + new_c["MATCH_ALT"] + new_c["MISMATCH"]
+        new_correct = new_c["MATCH"] + new_c["MATCH_TDU"] + new_c["MATCH_PARENT"] + new_c["MATCH_ALT"]
         new_acc = new_correct / new_scoreable * 100 if new_scoreable else 0
         delta = new_acc - old_acc
         print(f"  {utype.title():10s}: {old_acc:.1f}% → {new_acc:.1f}% ({delta:+.1f}pp) | {new_correct:,}/{new_scoreable:,}")
