@@ -38,4 +38,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=300s --retries=3 \
     CMD python -c "import requests; r = requests.get('http://localhost:${PORT}/health'); exit(0 if r.status_code == 200 else 1)"
 
-CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port ${PORT} --workers 1 --timeout-keep-alive 120"]
+CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 120"]
