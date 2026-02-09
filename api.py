@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 
 from lookup_engine.config import Config
 from lookup_engine.engine import LookupEngine
+from lookup_engine.ai_resolver import AIResolver
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -31,9 +32,10 @@ logging.basicConfig(
 logger = logging.getLogger("api")
 
 # ---------------------------------------------------------------------------
-# Global engine (loaded once at startup)
+# Global engine + AI resolver (loaded once at startup)
 # ---------------------------------------------------------------------------
 engine: Optional[LookupEngine] = None
+ai_resolver: Optional[AIResolver] = None
 
 
 @asynccontextmanager
@@ -59,6 +61,15 @@ async def lifespan(app: FastAPI):
 
     skip_water = os.environ.get("SKIP_WATER", "").lower() in ("1", "true", "yes")
     engine = LookupEngine(config, skip_water=skip_water)
+
+    # AI resolver for low-confidence results
+    global ai_resolver
+    openrouter_key = os.environ.get("OPENROUTER_API_KEY", "")
+    if openrouter_key:
+        ai_resolver = AIResolver(openrouter_key, "openrouter", "anthropic/claude-sonnet-4-5")
+        logger.info("AI resolver: enabled (Claude Sonnet)")
+    else:
+        logger.info("AI resolver: disabled (no OPENROUTER_API_KEY)")
 
     elapsed = time.time() - t0
     logger.info(f"Engine ready in {elapsed:.1f}s")
@@ -133,6 +144,72 @@ class HealthResponse(BaseModel):
 
 _start_time = time.time()
 
+# Protected sources that the AI resolver should NOT override
+_PROTECTED_SOURCE_KEYWORDS = {"eia_zip", "eia_id", "hifld", "state_gis", "epa"}
+
+
+def _is_protected_source(source_str: str) -> bool:
+    if not source_str:
+        return False
+    s = source_str.lower()
+    return any(kw in s for kw in _PROTECTED_SOURCE_KEYWORDS)
+
+
+def _try_ai_resolve(result, address: str):
+    """Run AI resolver on utility results that need review (low confidence)."""
+    import re
+
+    state_m = re.search(r",\s*([A-Z]{2})\s+\d{5}", address)
+    state = state_m.group(1) if state_m else ""
+    zip_m = re.search(r"\b(\d{5})(?:-\d{4})?\s*$", address)
+    zip_code = zip_m.group(1) if zip_m else ""
+    city_m = re.search(r",\s*([^,]+?)\s*,\s*[A-Z]{2}", address)
+    city = city_m.group(1).strip() if city_m else ""
+
+    for utype in ("electric", "gas", "water", "sewer"):
+        pr = getattr(result, utype, None)
+        if not pr or not pr.needs_review or not pr.alternatives:
+            continue
+
+        # Build candidates: primary + alternatives
+        candidates = [
+            {"provider": pr.provider_name, "confidence": pr.confidence,
+             "source": pr.polygon_source or ""},
+        ]
+        for alt in pr.alternatives:
+            candidates.append({
+                "provider": alt.get("provider", ""),
+                "confidence": alt.get("confidence", 0.5),
+                "source": alt.get("source", "alternative"),
+            })
+
+        if len(candidates) < 2:
+            continue
+
+        try:
+            ai_result = ai_resolver.resolve(
+                address=address, state=state, utility_type=utype,
+                candidates=candidates, zip_code=zip_code, city=city,
+            )
+        except Exception as e:
+            logger.warning(f"AI resolver error for {address[:50]}/{utype}: {e}")
+            continue
+
+        if not ai_result:
+            continue
+
+        # Post-resolution guard: don't let AI replace protected-source primary
+        if ai_result["provider"] != pr.provider_name and _is_protected_source(pr.polygon_source or ""):
+            continue
+
+        # Apply AI result
+        pr.provider_name = ai_result["provider"]
+        pr.confidence = ai_result["confidence"]
+        pr.polygon_source = ai_result["source"]
+        pr.needs_review = pr.confidence < 0.70
+
+    return result
+
 
 # ---------------------------------------------------------------------------
 # Endpoints
@@ -164,6 +241,10 @@ async def lookup(
     except Exception as e:
         logger.error(f"Lookup error for '{address}': {e}")
         raise HTTPException(status_code=500, detail=f"Lookup failed: {str(e)}")
+
+    # AI resolver pass for low-confidence results
+    if ai_resolver:
+        result = _try_ai_resolve(result, address)
 
     return JSONResponse(content=result.to_dict())
 
