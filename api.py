@@ -7,6 +7,7 @@ Designed for Railway deployment as a long-lived process.
 
 import logging
 import os
+import threading
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -38,10 +39,9 @@ engine: Optional[LookupEngine] = None
 ai_resolver: Optional[AIResolver] = None
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Load the engine on startup, clean up on shutdown."""
-    global engine
+def _load_engine_background():
+    """Load engine + AI resolver in a background thread so the server starts fast."""
+    global engine, ai_resolver
     logger.info("Loading lookup engine (shapefiles)...")
     t0 = time.time()
 
@@ -63,7 +63,6 @@ async def lifespan(app: FastAPI):
     engine = LookupEngine(config, skip_water=skip_water)
 
     # AI resolver for low-confidence results
-    global ai_resolver
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
     openrouter_key = os.environ.get("OPENROUTER_API_KEY", "")
     if anthropic_key:
@@ -77,6 +76,13 @@ async def lifespan(app: FastAPI):
 
     elapsed = time.time() - t0
     logger.info(f"Engine ready in {elapsed:.1f}s")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Start engine loading in background, yield immediately so server accepts connections."""
+    loader = threading.Thread(target=_load_engine_background, daemon=True)
+    loader.start()
 
     yield
 
