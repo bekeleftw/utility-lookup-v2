@@ -307,7 +307,7 @@ class LookupEngine:
         candidates.sort(key=lambda c: c.confidence, reverse=True)
 
         primary = candidates[0]
-        primary.needs_review = primary.confidence < 0.70
+        primary.needs_review = primary.confidence < 0.80
 
         # Alternatives
         seen = {primary.provider_name.upper()}
@@ -551,7 +551,7 @@ class LookupEngine:
                 seen.add(c.provider_name.upper())
 
         primary.alternatives = alternatives
-        primary.needs_review = primary.confidence < 0.70
+        primary.needs_review = primary.confidence < 0.80
 
         # ID matching: map provider name to catalog ID
         if self.id_matcher.loaded:

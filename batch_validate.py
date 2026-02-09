@@ -1124,6 +1124,71 @@ def run_batch(args):
     logger.info("=" * 60)
     logger.info("PHASE 2: Spatial lookup + comparison")
 
+    # Spatial result disk cache — stores full ProviderResult data keyed by address.
+    # On re-runs, this skips all spatial lookups (shapefile queries + state GIS HTTP calls).
+    SPATIAL_CACHE_FILE = Path(__file__).parent / "data" / "spatial_cache.json"
+    spatial_cache = {}
+    spatial_cache_dirty = 0
+    if SPATIAL_CACHE_FILE.exists():
+        try:
+            spatial_cache = json.loads(SPATIAL_CACHE_FILE.read_text())
+            logger.info(f"Spatial cache loaded: {len(spatial_cache):,} entries")
+        except Exception as e:
+            logger.warning(f"Failed to load spatial cache: {e}")
+
+    def _pr_to_dict(pr):
+        """Serialize a ProviderResult to a dict for caching."""
+        if pr is None:
+            return None
+        return {
+            "provider_name": pr.provider_name,
+            "canonical_id": pr.canonical_id,
+            "eia_id": pr.eia_id,
+            "utility_type": pr.utility_type,
+            "confidence": round(pr.confidence, 4),
+            "match_method": pr.match_method,
+            "is_deregulated": pr.is_deregulated,
+            "deregulated_note": pr.deregulated_note,
+            "polygon_source": pr.polygon_source,
+            "needs_review": pr.needs_review,
+            "alternatives": pr.alternatives,
+            "catalog_id": pr.catalog_id,
+            "catalog_title": pr.catalog_title,
+            "id_match_score": pr.id_match_score,
+            "id_confident": pr.id_confident,
+        }
+
+    def _dict_to_pr(d):
+        """Deserialize a dict back to a ProviderResult."""
+        if d is None:
+            return None
+        from lookup_engine.models import ProviderResult
+        return ProviderResult(
+            provider_name=d["provider_name"],
+            canonical_id=d.get("canonical_id"),
+            eia_id=d.get("eia_id"),
+            utility_type=d.get("utility_type", "electric"),
+            confidence=d.get("confidence", 0.0),
+            match_method=d.get("match_method", "none"),
+            is_deregulated=d.get("is_deregulated", False),
+            deregulated_note=d.get("deregulated_note"),
+            polygon_source=d.get("polygon_source"),
+            needs_review=d.get("needs_review", False),
+            alternatives=d.get("alternatives", []),
+            catalog_id=d.get("catalog_id"),
+            catalog_title=d.get("catalog_title"),
+            id_match_score=d.get("id_match_score", 0),
+            id_confident=d.get("id_confident", False),
+        )
+
+    def _save_spatial_cache(reason=""):
+        try:
+            SPATIAL_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            SPATIAL_CACHE_FILE.write_text(json.dumps(spatial_cache))
+            logger.info(f"Spatial cache saved: {len(spatial_cache):,} entries ({reason})")
+        except Exception as e:
+            logger.warning(f"Failed to save spatial cache: {e}")
+
     # Open output CSV
     append_mode = args.resume and OUTPUT_CSV.exists()
     out_mode = "a" if append_mode else "w"
@@ -1165,6 +1230,7 @@ def run_batch(args):
 
     def _do_spatial_lookup(i, row):
         """Run spatial lookups for a single row. Returns all data needed for comparison."""
+        nonlocal spatial_cache_dirty
         row_idx = start_idx + i
         address = row.get("display", "").strip()
         if not address:
@@ -1179,6 +1245,22 @@ def run_batch(args):
         row_key = str(row_idx)
 
         _lkw = dict(zip_code=addr_zip, city=addr_city, county=addr_county, address=address)
+
+        # Check spatial result cache first — skip all spatial queries on hit
+        if address in spatial_cache:
+            sc = spatial_cache[address]
+            return {
+                "i": i, "row": row, "row_idx": row_idx, "address": address,
+                "state": state,
+                "lat": sc["lat"], "lon": sc["lon"],
+                "geocode_conf": sc.get("geocode_conf", 0.9),
+                "block_geoid": sc.get("block_geoid", ""),
+                "electric": _dict_to_pr(sc.get("electric")),
+                "gas": _dict_to_pr(sc.get("gas")),
+                "water": _dict_to_pr(sc.get("water")),
+                "sewer": _dict_to_pr(sc.get("sewer")),
+                "skip": False,
+            }
 
         lat, lon = 0.0, 0.0
         geocode_conf = 0.0
@@ -1221,6 +1303,17 @@ def run_batch(args):
                     "i": i, "row": row, "row_idx": row_idx, "address": address,
                     "skip": False, "needs_engine_lookup": True,
                 }
+
+        # Save to spatial cache
+        spatial_cache[address] = {
+            "lat": lat, "lon": lon, "geocode_conf": geocode_conf,
+            "block_geoid": block_geoid,
+            "electric": _pr_to_dict(electric),
+            "gas": _pr_to_dict(gas),
+            "water": _pr_to_dict(water),
+            "sewer": _pr_to_dict(sewer),
+        }
+        spatial_cache_dirty += 1
 
         return {
             "i": i, "row": row, "row_idx": row_idx, "address": address,
@@ -1439,10 +1532,15 @@ def run_batch(args):
                 with open(CHECKPOINT_FILE, "w") as cpf:
                     json.dump({"last_processed_row": row_idx, "timestamp": datetime.utcnow().isoformat()}, cpf)
                 outfile.flush()
+                if spatial_cache_dirty >= 1000:
+                    _save_spatial_cache(f"checkpoint at {processed}")
+                    spatial_cache_dirty = 0
 
     outfile.close()
     _lookup_pool.shutdown(wait=False)
     engine.state_gis.save_disk_cache()
+    if spatial_cache_dirty > 0:
+        _save_spatial_cache("end of Phase 2")
     phase2_time = time.time() - t_phase2
     logger.info(f"Phase 2 complete: {phase2_time:.1f}s")
 
@@ -1487,7 +1585,7 @@ def run_batch(args):
                 conf = 1.0
             needs_ai = (
                 comp in ("MATCH_ALT", "MISMATCH")
-                or (conf < 0.70 and row.get("engine_alternatives"))
+                or (conf < 0.80 and row.get("engine_alternatives"))
             )
             if not needs_ai or row.get("utility_type") == "internet":
                 continue

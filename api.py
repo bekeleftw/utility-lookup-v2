@@ -216,7 +216,7 @@ def _try_ai_resolve(result, address: str):
         pr.provider_name = ai_result["provider"]
         pr.confidence = ai_result["confidence"]
         pr.polygon_source = ai_result["source"]
-        pr.needs_review = pr.confidence < 0.70
+        pr.needs_review = pr.confidence < 0.80
 
     return result
 

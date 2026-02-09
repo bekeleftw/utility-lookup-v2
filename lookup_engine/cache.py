@@ -40,7 +40,7 @@ class LookupCache:
 
     def _init_db(self):
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._conn = sqlite3.connect(str(self.db_path))
+        self._conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
         self._conn.execute("""
             CREATE TABLE IF NOT EXISTS lookup_cache (
                 address_key TEXT PRIMARY KEY,

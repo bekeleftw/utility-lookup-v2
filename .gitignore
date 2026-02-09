@@ -26,6 +26,7 @@ addresses_with_tenant_verification_*.csv
 data/lookup_cache.db
 data/geocode_cache.json
 data/state_gis_cache.json
+data/spatial_cache.json
 __pycache__/
 *.pyc
 
