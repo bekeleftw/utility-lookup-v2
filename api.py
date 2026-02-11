@@ -304,6 +304,7 @@ async def health():
 @app.get("/lookup", response_model=LookupResponse)
 async def lookup(
     address: str = Query(..., description="Full US address to look up", min_length=5),
+    no_cache: bool = Query(False, description="Skip cache and force fresh lookup"),
     _key: str = Depends(require_api_key),
 ):
     """
@@ -315,7 +316,7 @@ async def lookup(
         raise HTTPException(status_code=503, detail="Engine is still loading. Try again in ~60 seconds.")
 
     try:
-        result = engine.lookup(address)
+        result = engine.lookup(address, use_cache=not no_cache)
     except Exception as e:
         logger.error(f"Lookup error for '{address}': {e}")
         raise HTTPException(status_code=500, detail=f"Lookup failed: {str(e)}")
