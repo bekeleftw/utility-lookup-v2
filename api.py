@@ -301,6 +301,16 @@ async def health():
     )
 
 
+@app.delete("/cache", dependencies=[Depends(require_api_key)])
+async def clear_cache():
+    """Clear the lookup cache. Use after deploying fixes to avoid stale results."""
+    if not engine:
+        raise HTTPException(status_code=503, detail="Engine is still loading.")
+    count = engine.cache.clear()
+    logger.info(f"Cache cleared: {count} entries removed")
+    return {"cleared": count}
+
+
 @app.get("/lookup", response_model=LookupResponse)
 async def lookup(
     address: str = Query(..., description="Full US address to look up", min_length=5),
@@ -316,7 +326,10 @@ async def lookup(
         raise HTTPException(status_code=503, detail="Engine is still loading. Try again in ~60 seconds.")
 
     try:
+        # First try with cache; if result is a geocode failure (lat=0), retry without cache
         result = engine.lookup(address, use_cache=not no_cache)
+        if result.lat == 0.0 and result.lon == 0.0 and not no_cache:
+            result = engine.lookup(address, use_cache=False)
     except Exception as e:
         logger.error(f"Lookup error for '{address}': {e}")
         raise HTTPException(status_code=500, detail=f"Lookup failed: {str(e)}")

@@ -91,6 +91,14 @@ class LookupCache:
         self._conn.execute("DELETE FROM lookup_cache WHERE address_key = ?", (key,))
         self._conn.commit()
 
+    def clear(self) -> int:
+        """Remove all cache entries. Returns count of entries removed."""
+        count = self.size
+        self._conn.execute("DELETE FROM lookup_cache")
+        self._conn.commit()
+        logger.info(f"Cache: cleared all {count} entries")
+        return count
+
     def clear_expired(self):
         """Remove all expired entries."""
         deleted = self._conn.execute(
