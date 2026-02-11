@@ -434,9 +434,10 @@ class LookupEngine:
                 _add_candidate(gis_result["name"], None,
                                gis_result.get("state", address_state),
                                gis_source)
-                # Gas: state GIS is higher resolution than HIFLD/ZIP — boost to 0.90
-                # so it outranks HIFLD gas (0.85) and most gas ZIP mappings
-                if utility_type == "gas" and len(candidates) > n_before:
+                # State GIS is higher resolution than HIFLD/ZIP — boost to 0.90
+                # so it outranks HIFLD (0.75-0.85), EIA ZIP (0.70), and other fallbacks.
+                # Without this, passthrough-resolved names (0.60) lose to lower-priority sources.
+                if len(candidates) > n_before:
                     gis_candidate = candidates[n_before]
                     if gis_candidate.confidence < 0.90:
                         gis_candidate.confidence = 0.90

@@ -1805,16 +1805,10 @@
   "Little Rock Pine Bluff": {
     "display_name": "Little Rock Pine Bluff",
     "aliases": [
-      "entergy",
-      "Entergy - Gulf States",
       "entergy arkansas",
-      "Entergy Gulf States - LA",
-      "entergy louisiana",
-      "Entergy Mississippi",
-      "Entergy Mississippi, Inc.",
-      "Entergy New Orleans",
-      "entergy texas",
-      "Entergy Texas, Inc."
+      "Entergy Arkansas LLC",
+      "Entergy Arkansas, Inc.",
+      "Entergy Arkansas"
     ],
     "eia_id": 814
   },
@@ -3827,5 +3821,47 @@
       "Liberty Utilities (NH)",
       "Liberty (NH)"
     ]
+  },
+  "Entergy Texas": {
+    "display_name": "Entergy Texas",
+    "aliases": [
+      "entergy texas",
+      "Entergy Texas, Inc.",
+      "Entergy Texas Inc.",
+      "Entergy Texas Inc",
+      "Entergy - Gulf States"
+    ],
+    "eia_id": 55937
+  },
+  "Entergy Louisiana": {
+    "display_name": "Entergy Louisiana",
+    "aliases": [
+      "entergy louisiana",
+      "Entergy Louisiana LLC",
+      "Entergy Louisiana, LLC",
+      "Entergy Gulf States - LA",
+      "Entergy Gulf States Louisiana"
+    ],
+    "eia_id": 11241
+  },
+  "Entergy Mississippi": {
+    "display_name": "Entergy Mississippi",
+    "aliases": [
+      "entergy mississippi",
+      "Entergy Mississippi LLC",
+      "Entergy Mississippi, Inc.",
+      "Entergy Mississippi, LLC"
+    ],
+    "eia_id": 12685
+  },
+  "Entergy New Orleans": {
+    "display_name": "Entergy New Orleans",
+    "aliases": [
+      "entergy new orleans",
+      "Entergy New Orleans, LLC",
+      "Entergy New Orleans LLC",
+      "Entergy New Orleans Inc"
+    ],
+    "eia_id": 13478
   }
 }

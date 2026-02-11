@@ -158,13 +158,10 @@ class EIAVerification:
         if not utilities:
             return None
 
-        # Prefer IOU (Investor Owned) over cooperative/municipal for fallback
-        # since IOUs cover larger territories and are more likely correct
+        # Use first entry — EIA data is ordered by relevance for the ZIP.
+        # Do NOT prefer IOU over municipal/co-op: municipals (e.g. College Station
+        # Utilities) and co-ops are the actual provider in their territory.
         best = utilities[0]
-        for u in utilities:
-            if u.get("ownership") == "Investor Owned":
-                best = u
-                break
 
         return {
             "name": best.get("name", ""),
