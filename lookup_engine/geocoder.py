@@ -278,8 +278,9 @@ class GoogleGeocoder(Geocoder):
             data = resp.json()
 
             results = data.get("results", [])
+            status = data.get("status", "UNKNOWN")
             if not results:
-                logger.debug(f"Google geocoder: no match for '{address}' ({elapsed_ms}ms)")
+                logger.warning(f"Google geocoder: no match for '{address}' (status={status}, {elapsed_ms}ms)")
                 return None
 
             best = results[0]
@@ -416,12 +417,14 @@ class ChainedGeocoder(Geocoder):
             self.primary_hits += 1
             return result
         # Primary failed, try fallback
+        logger.info(f"Census miss, trying Google fallback: '{address[:60]}'")
         result = self.fallback.geocode(address)
         if result is not None:
             self.fallback_hits += 1
-            logger.debug(f"Fallback geocoder matched: '{address}'")
+            logger.info(f"Google fallback matched: '{address[:60]}' -> ({result.lat}, {result.lon})")
             return result
         self.total_misses += 1
+        logger.info(f"Both Census and Google failed for: '{address[:60]}'")
         return None
 
     @property
