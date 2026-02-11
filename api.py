@@ -89,6 +89,8 @@ def _load_engine_background():
     google_key = os.environ.get("GOOGLE_API_KEY", "")
     if google_key:
         config.google_api_key = google_key
+        config.geocoder_type = "chained"
+        logger.info("Geocoder: Census → Google fallback (chained)")
 
     skip_water = os.environ.get("SKIP_WATER", "").lower() in ("1", "true", "yes")
     engine = LookupEngine(config, skip_water=skip_water)
