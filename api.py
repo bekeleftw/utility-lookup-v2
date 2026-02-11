@@ -5,6 +5,8 @@ Loads shapefiles on startup (60-90s), then serves lookups in <100ms.
 Designed for Railway deployment as a long-lived process.
 """
 
+import asyncio
+import json
 import logging
 import os
 import threading
@@ -15,7 +17,7 @@ from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query, Security, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.security import APIKeyHeader, APIKeyQuery
 from pydantic import BaseModel, Field
 
@@ -350,6 +352,172 @@ async def lookup_post(
     return await lookup(address=address)
 
 
+# ---------------------------------------------------------------------------
+# V1 Compatibility Layer (for Webflow utility-lookup-tool UI)
+# ---------------------------------------------------------------------------
+
+
+def _provider_to_v1(provider_dict, utility_type: str) -> list:
+    """Convert new ProviderResponse dict to old v1 format array."""
+    if not provider_dict:
+        return []
+    p = provider_dict
+
+    # Build other_providers from alternatives
+    other_providers = []
+    for alt in (p.get("alternatives") or []):
+        other_providers.append({
+            "name": alt.get("provider", ""),
+            "phone": alt.get("phone") or "NOT AVAILABLE",
+            "website": alt.get("website") or "NOT AVAILABLE",
+            "confidence": alt.get("confidence", 0.5),
+            "is_propane": False,
+        })
+
+    # Build deregulated object
+    is_dereg = p.get("is_deregulated", False)
+    dereg_note = p.get("deregulated_note", "") or ""
+    deregulated = {
+        "has_choice": is_dereg,
+        "message": dereg_note if is_dereg else "",
+        "choice_website": "",
+    }
+
+    return [{
+        "name": p.get("provider_name", ""),
+        "phone": p.get("phone") or "NOT AVAILABLE",
+        "website": p.get("website") or "NOT AVAILABLE",
+        "confidence_score": round((p.get("confidence", 0) or 0) * 100),
+        "confidence": "verified" if (p.get("confidence", 0) or 0) >= 0.85
+                      else "high" if (p.get("confidence", 0) or 0) >= 0.70
+                      else "medium" if (p.get("confidence", 0) or 0) >= 0.50
+                      else "low",
+        "source": p.get("polygon_source", ""),
+        "_source": p.get("polygon_source", ""),
+        "type": None,
+        "deregulated": deregulated,
+        "other_providers": other_providers,
+        "service_check_url": None,
+    }]
+
+
+def _internet_to_v1(internet_dict) -> dict:
+    """Convert new InternetResponse dict to old v1 format."""
+    if not internet_dict:
+        return {"providers": []}
+    return internet_dict  # Already close to old format
+
+
+def _result_to_v1(result_dict: dict) -> dict:
+    """Convert full new LookupResponse dict to old v1 format."""
+    return {
+        "address": result_dict.get("address", ""),
+        "location": {
+            "lat": result_dict.get("lat", 0),
+            "lon": result_dict.get("lon", 0),
+            "matched_address": result_dict.get("address", ""),
+        },
+        "utilities": {
+            "electric": _provider_to_v1(result_dict.get("electric"), "electric"),
+            "gas": _provider_to_v1(result_dict.get("gas"), "gas"),
+            "water": _provider_to_v1(result_dict.get("water"), "water"),
+            "sewer": _provider_to_v1(result_dict.get("sewer"), "sewer"),
+            "internet": _internet_to_v1(result_dict.get("internet")),
+        },
+    }
+
+
+@app.get("/api/lookup")
+async def v1_lookup(
+    address: str = Query(..., min_length=5),
+    utilities: str = Query("electric,gas,water,sewer,internet"),
+):
+    """V1 compatibility endpoint — returns old-format response for Webflow UI."""
+    if not engine:
+        raise HTTPException(status_code=503, detail="Engine is still loading.")
+
+    try:
+        result = engine.lookup(address)
+        if result.lat == 0.0 and result.lon == 0.0:
+            result = engine.lookup(address, use_cache=False)
+    except Exception as e:
+        logger.error(f"V1 lookup error for '{address}': {e}")
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+    result_dict = result.to_dict()
+    v1 = _result_to_v1(result_dict)
+
+    # Filter to only requested utility types
+    requested = set(u.strip().lower() for u in utilities.split(","))
+    for utype in ["electric", "gas", "water", "sewer", "internet"]:
+        if utype not in requested:
+            v1["utilities"][utype] = [] if utype != "internet" else {"providers": []}
+
+    return JSONResponse(content=v1)
+
+
+@app.get("/api/lookup/stream")
+async def v1_lookup_stream(
+    address: str = Query(..., min_length=5),
+    utilities: str = Query("electric,gas,water,sewer,internet"),
+):
+    """V1 SSE streaming endpoint — sends results progressively for Webflow UI."""
+    if not engine:
+        raise HTTPException(status_code=503, detail="Engine is still loading.")
+
+    requested = set(u.strip().lower() for u in utilities.split(","))
+
+    async def event_stream():
+        try:
+            result = engine.lookup(address)
+            if result.lat == 0.0 and result.lon == 0.0:
+                result = engine.lookup(address, use_cache=False)
+        except Exception as e:
+            yield f"data: {json.dumps({'event': 'error', 'message': str(e)})}\n\n"
+            return
+
+        result_dict = result.to_dict()
+
+        # Send geocode event
+        yield f"data: {json.dumps({'event': 'geocode', 'data': {'lat': result_dict.get('lat', 0), 'lon': result_dict.get('lon', 0), 'matched_address': result_dict.get('address', '')}})}\n\n"
+
+        # Send each utility type
+        for utype in ["electric", "gas", "water", "sewer", "internet"]:
+            if utype not in requested:
+                continue
+            await asyncio.sleep(0.05)  # Small delay for streaming feel
+
+            if utype == "internet":
+                inet = _internet_to_v1(result_dict.get("internet"))
+                yield f"data: {json.dumps({'event': 'internet', 'data': inet})}\n\n"
+            else:
+                providers = _provider_to_v1(result_dict.get(utype), utype)
+                data = providers[0] if providers else None
+                yield f"data: {json.dumps({'event': utype, 'data': data})}\n\n"
+
+        yield f"data: {json.dumps({'event': 'complete'})}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@app.post("/api/feedback")
+async def v1_feedback(request_body: dict = {}):
+    """V1 feedback endpoint — accepts feedback from Webflow UI and logs it."""
+    logger.info(f"V1 feedback received: {json.dumps(request_body)[:500]}")
+    return JSONResponse(content={"status": "ok"})
+
+
+# ---------------------------------------------------------------------------
+# Batch endpoint
+# ---------------------------------------------------------------------------
 class BatchRequest(BaseModel):
     addresses: list[str] = Field(..., description="List of addresses to look up", max_length=100)
 
