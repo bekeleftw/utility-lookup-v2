@@ -540,18 +540,13 @@ class LookupEngine:
                         "PUBLIC UTILITIES", "UTILITIES COMMISSION",
                         "PUD", "PUBLIC UTILITY DISTRICT",
                         "EMC", "CPW", "REA", "REC",
-                        "LIGHT & POWER", "LIGHT AND POWER",
-                        "ELECTRIC UTILITY", "POWER & LIGHT",
-                        "POWER AND LIGHT", "CITY POWER",
-                        "COUNTY ELECTRIC", "VILLAGE OF",
-                        "BOROUGH OF",
                     ))
                     or any(name in alt_name_upper for name in self._LOCAL_UTILITY_NAMES)
                 )
                 # Require reasonable confidence and exclude low-quality sources
                 alt_source = (alt.polygon_source or "").lower()
                 is_low_quality_source = any(s in alt_source for s in ("findenergy_city", "state_gas_default"))
-                if is_local and alt.confidence >= 0.55 and not is_low_quality_source:
+                if is_local and alt.confidence >= 0.70 and not is_low_quality_source:
                     # Swap: local utility becomes primary
                     candidates.remove(alt)
                     candidates.insert(0, alt)
@@ -691,7 +686,6 @@ class LookupEngine:
         # Entergy (AR, LA, MS, TX)
         "ENTERGY", "ENTERGY ARKANSAS", "ENTERGY LOUISIANA",
         "ENTERGY MISSISSIPPI", "ENTERGY TEXAS",
-        "LITTLE ROCK PINE BLUFF", "DEMCO",
         # NextEra / FPL (FL) — OUC, JEA, Gainesville, Lakeland inside
         "NEXTERA ENERGY", "FLORIDA POWER & LIGHT", "FPL",
         "FLORIDA POWER AND LIGHT", "GULF POWER",
@@ -703,7 +697,7 @@ class LookupEngine:
         # Consumers Energy (MI) — Lansing BWL, other municipals
         "CONSUMERS ENERGY",
         # Eversource (CT, MA, NH) — municipal light depts throughout MA
-        "EVERSOURCE", "EVERSOURCE ENERGY", "EVERSOURCE NH",
+        "EVERSOURCE", "EVERSOURCE ENERGY",
         # PPL / LG&E-KU (PA, KY) — co-ops in rural areas
         "PPL ELECTRIC", "PPL CORPORATION",
         "LOUISVILLE GAS AND ELECTRIC", "KENTUCKY UTILITIES",
@@ -711,35 +705,12 @@ class LookupEngine:
         "PACIFICORP", "ROCKY MOUNTAIN POWER", "PACIFIC POWER",
         # Ameren (IL, MO)
         "AMEREN", "AMEREN ILLINOIS", "AMEREN MISSOURI",
-        # APS / Arizona Public Service / SRP (AZ)
-        "APS", "ARIZONA PUBLIC SERVICE", "SRP", "SALT RIVER PROJECT",
+        # APS / Arizona Public Service
+        "APS", "ARIZONA PUBLIC SERVICE",
         # Idaho Power
         "IDAHO POWER",
         # Tampa Electric (TECO)
         "TAMPA ELECTRIC", "TECO ENERGY",
-        # Evergy (KS, MO) — municipals throughout
-        "EVERGY", "WESTAR ENERGY", "KANSAS CITY POWER",
-        # OG&E (OK, AR)
-        "OG&E", "OGE ENERGY", "OKLAHOMA GAS AND ELECTRIC",
-        # MidAmerican Energy (IA, IL, SD, NE)
-        "MIDAMERICAN ENERGY", "MIDAMERICAN",
-        # Portland General Electric (OR)
-        "PORTLAND GENERAL ELECTRIC", "PORTLAND GENERAL",
-        # FirstEnergy (OH, PA, NJ, WV, MD)
-        "FIRSTENERGY", "OHIO EDISON", "CLEVELAND ELECTRIC",
-        "JERSEY CENTRAL POWER", "MON POWER", "POTOMAC EDISON",
-        # Puget Sound Energy (WA)
-        "PSE", "PUGET SOUND ENERGY",
-        # Oncor (TX)
-        "ONCOR", "ONCOR ELECTRIC",
-        # JEA (FL) — large municipal that overlaps FPL territory
-        "JEA",
-        # Alliant Energy (IA, WI)
-        "ALLIANT ENERGY", "INTERSTATE POWER",
-        # Intermountain Gas / other gas utilities appearing in electric results
-        "INTERMOUNTAIN GAS",
-        # Peninsula Power & Light (WA)
-        "PENINSULA POWER", "PENINSULA LIGHT",
     }
 
     # Known local utilities that should be promoted over large IOUs.
@@ -769,28 +740,6 @@ class LookupEngine:
         "BROAD RIVER ELECTRIC",
         "MID-CAROLINA ELECTRIC", "MID CAROLINA ELECTRIC",
         "NEWBERRY ELECTRIC",
-        # Municipal utilities without standard keywords
-        "CLEVELAND PUBLIC POWER",
-        "INDEPENDENCE POWER", "INDEPENDENCE POWER & LIGHT",
-        "LAKELAND ELECTRIC",
-        "PROVO CITY POWER", "PROVO CITY",
-        "LEHI CITY", "LEHI CITY POWER",
-        "BOUNTIFUL CITY", "BOUNTIFUL CITY LIGHT",
-        "LONGMONT ELECTRIC",
-        "FORT COLLINS UTILITIES", "FORT COLLINS LIGHT",
-        "SINGING RIVER ELECTRIC",
-        "HORRY ELECTRIC",
-        "BERKELEY ELECTRIC",
-        "CLAY ELECTRIC",
-        "WITHLACOOCHEE RIVER",
-        "SAWNEE EMC", "SAWNEE ELECTRIC",
-        "JONES-ONSLOW", "JONES ONSLOW",
-        "TRI-COUNTY ELEC", "TRI COUNTY ELEC",
-        "FARMERS ELECTRIC",
-        "BLACK HILLS ENERGY", "BLACK HILLS POWER",
-        "COLLEGE STATION UTILITIES",
-        "ROCK HILL", "HIGH POINT",
-        "GASTONIA", "ALBEMARLE", "ROCKY MOUNT",
     }
 
     @classmethod
