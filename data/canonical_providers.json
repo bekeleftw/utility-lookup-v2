@@ -2597,7 +2597,7 @@
       "public service co of new mexico",
       "public service co of nm"
     ],
-    "eia_id": 15472
+    "eia_id": 15473
   },
   "Public Service Company of Oklahoma": {
     "display_name": "Public Service Company of Oklahoma",
@@ -3863,5 +3863,18 @@
       "Entergy New Orleans Inc"
     ],
     "eia_id": 13478
+  },
+  "Eversource NH": {
+    "display_name": "Eversource NH",
+    "aliases": [
+      "Public Service Co of NH",
+      "Public Service Company of New Hampshire",
+      "PSNH",
+      "public service of new hampshire",
+      "PUBLIC SERVICE CO OF NH",
+      "Eversource New Hampshire",
+      "eversource nh"
+    ],
+    "eia_id": 15472
   }
 }

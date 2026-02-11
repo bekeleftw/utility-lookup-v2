@@ -3,6 +3,7 @@
 import importlib.util
 import json
 import logging
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -69,6 +70,25 @@ class EnsembleScorer:
 
         # Build lowercase index for fallback name matching
         self._contacts_by_lower = {k.lower(): v for k, v in self._provider_contacts.items()}
+
+        # Build state-detection index for canonical entries (used to reject cross-state fuzzy matches)
+        self._canonical_states = {}  # canon_key -> set of state abbrevs detected in name/aliases
+        _STATE_ABBREVS = {
+            'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY',
+            'LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND',
+            'OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC',
+        }
+        for canon_key, entry in _PROVIDER_DATA.items():
+            if not isinstance(entry, dict):
+                continue
+            text = canon_key + ' ' + entry.get('display_name', '') + ' ' + ' '.join(entry.get('aliases', []))
+            found = set()
+            for st in _STATE_ABBREVS:
+                # Match state abbrev as a word boundary (avoid matching 'IN' inside 'INDIANA' etc.)
+                if re.search(r'(?:^|[\s,\-(])' + st + r'(?:$|[\s,\-).)])', text.upper()):
+                    found.add(st)
+            if found:
+                self._canonical_states[canon_key] = found
 
     def resolve_provider(
         self,
@@ -144,6 +164,40 @@ class EnsembleScorer:
             # (shapefile names are formal/legal, prone to false fuzzy matches)
             if match_type == "fuzzy" and similarity < 90:
                 pass  # Fall through to passthrough
+            elif match_type == "fuzzy" and similarity < 95 and state:
+                # State-aware rejection: if the polygon has a known state and the
+                # canonical entry is clearly from a different state, reject the fuzzy match.
+                # Prevents cross-state false matches like "PUBLIC SERVICE CO OF NH" → PNM (NM)
+                # or "CITY OF MONROE CITY - (MO)" → "City of Monroe - NC".
+                canon_key = result["canonical_id"]
+                canon_states = self._canonical_states.get(canon_key, set())
+                poly_state = state.upper().strip()
+                if canon_states and poly_state and poly_state not in canon_states:
+                    pass  # Cross-state mismatch — fall through to passthrough
+                elif not canon_states:
+                    pass  # No state info on canonical entry — too risky for 90-95% fuzzy
+                else:
+                    base_conf = _BASE_CONFIDENCE.get(match_type, 0.75)
+                    canon_key = result["canonical_id"]
+                    display = result["display_name"]
+                    entry = _PROVIDER_DATA.get(canon_key, {})
+                    matched_eia = entry.get("eia_id") if isinstance(entry, dict) else None
+                    if isinstance(matched_eia, float):
+                        matched_eia = int(matched_eia)
+                    is_dereg = self._is_deregulated(shapefile_name, cntrl_area, shp_type)
+                    pr = ProviderResult(
+                        provider_name=display,
+                        canonical_id=canon_key,
+                        eia_id=matched_eia,
+                        utility_type=utility_type,
+                        confidence=min(base_conf, self.config.max_confidence),
+                        match_method=match_type,
+                        is_deregulated=is_dereg,
+                        deregulated_note=self._dereg_note(shapefile_name) if is_dereg else None,
+                        polygon_source=polygon_source,
+                    )
+                    self._attach_contact_info(pr, canon_key)
+                    return pr
             else:
                 base_conf = _BASE_CONFIDENCE.get(match_type, 0.75)
                 canon_key = result["canonical_id"]
