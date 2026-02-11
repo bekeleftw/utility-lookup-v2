@@ -225,8 +225,8 @@ class LookupEngine:
             lookup_time_ms=int((time.time() - t0) * 1000),
         )
 
-        # 6. Cache
-        if use_cache:
+        # 6. Cache (skip geocode failures — they're transient and may succeed on retry)
+        if use_cache and result.lat != 0.0:
             self.cache.put(address, result)
 
         logger.info(
