@@ -429,6 +429,20 @@ class LookupEngine:
         if address_state:
             gis_result = self.state_gis.query(lat, lon, address_state, utility_type)
             if gis_result and gis_result.get("name"):
+                gis_name = gis_result["name"]
+                # Water-specific: detect subdivision/street names from TWDB data
+                # (e.g., "CROSSBOW COURT", "OAK HOLLOW ESTATES") and replace with
+                # city water utility. Real water utilities contain keywords like
+                # "water", "city of", "municipal", "utility", "district", "MUD", etc.
+                if utility_type == "water" and not self._is_water_utility_name(gis_name):
+                    if city:
+                        gis_name = f"City of {city}"
+                        gis_result = dict(gis_result, name=gis_name)
+                        logger.info(f"Water name override: '{gis_result.get('name')}' -> '{gis_name}' (subdivision name detected)")
+                    else:
+                        gis_result = None  # Drop subdivision name with no city fallback
+                        logger.info(f"Water name dropped: '{gis_name}' (subdivision name, no city)")
+            if gis_result and gis_result.get("name"):
                 gis_source = gis_result.get("source", "state_gis")
                 n_before = len(candidates)
                 _add_candidate(gis_result["name"], None,
@@ -741,6 +755,29 @@ class LookupEngine:
         "MID-CAROLINA ELECTRIC", "MID CAROLINA ELECTRIC",
         "NEWBERRY ELECTRIC",
     }
+
+    @staticmethod
+    def _is_water_utility_name(name: str) -> bool:
+        """Check if a name looks like a real water utility vs a subdivision/street.
+
+        TWDB and other state water GIS data sometimes return subdivision or
+        HOA names (e.g., "CROSSBOW COURT", "OAK HOLLOW ESTATES") instead of
+        the actual water utility. Real water utilities contain keywords like
+        "water", "city of", "utility", "district", "MUD", "WSC", etc.
+        """
+        if not name:
+            return False
+        upper = name.upper()
+        _WATER_KEYWORDS = (
+            "WATER", "CITY OF", "TOWN OF", "VILLAGE OF", "COUNTY",
+            "MUNICIPAL", "UTILITY", "UTILITIES", "DISTRICT",
+            "MUD", "WSC", "SUD", "PUD", "WCID",
+            "AUTHORITY", "COMMISSION", "DEPARTMENT", "DEPT",
+            "SERVICE", "SUPPLY", "SYSTEM", "WORKS",
+            "COOPERATIVE", "COOP", "CORP", "CORPORATION",
+            "IMPROVEMENT", "SPECIAL", "RURAL",
+        )
+        return any(kw in upper for kw in _WATER_KEYWORDS)
 
     @classmethod
     def _is_large_iou(cls, name: str) -> bool:
