@@ -86,11 +86,13 @@ def _load_engine_background():
                 os.environ.setdefault(key.strip(), val.strip())
 
     config = Config()
-    google_key = os.environ.get("GOOGLE_API_KEY", "")
+    google_key = os.environ.get("GOOGLE_API_KEY", "") or os.environ.get("GOOGLE_MAPS_API_KEY", "")
     if google_key:
         config.google_api_key = google_key
         config.geocoder_type = "chained"
         logger.info("Geocoder: Census → Google fallback (chained)")
+    else:
+        logger.info("Geocoder: Census only (no GOOGLE_API_KEY or GOOGLE_MAPS_API_KEY)")
 
     skip_water = os.environ.get("SKIP_WATER", "").lower() in ("1", "true", "yes")
     engine = LookupEngine(config, skip_water=skip_water)
