@@ -1,6 +1,7 @@
 """Ensemble confidence scoring for utility provider lookups."""
 
 import importlib.util
+import json
 import logging
 from pathlib import Path
 from typing import Optional
@@ -58,6 +59,17 @@ class EnsembleScorer:
                     self._eia_to_canonical[int(eia)] = canon_key
         logger.info(f"Scorer: {len(self._eia_to_canonical)} EIA ID mappings loaded")
 
+        # Load provider contact info (phone, website)
+        self._provider_contacts = {}
+        _contacts_path = Path(__file__).parent.parent / "data" / "provider_contacts.json"
+        if _contacts_path.exists():
+            with open(_contacts_path) as _f:
+                self._provider_contacts = json.load(_f)
+            logger.info(f"Scorer: {len(self._provider_contacts)} provider contact records loaded")
+
+        # Build lowercase index for fallback name matching
+        self._contacts_by_lower = {k.lower(): v for k, v in self._provider_contacts.items()}
+
     def resolve_provider(
         self,
         shapefile_name: str,
@@ -84,7 +96,7 @@ class EnsembleScorer:
         # but no canonical normalization means name quality varies.
         if utility_type == "water":
             clean_name = self._clean_passthrough(shapefile_name)
-            return ProviderResult(
+            pr = ProviderResult(
                 provider_name=clean_name,
                 canonical_id=None,
                 eia_id=None,
@@ -94,6 +106,8 @@ class EnsembleScorer:
                 is_deregulated=False,
                 polygon_source=polygon_source,
             )
+            self._attach_contact_info(pr)
+            return pr
 
         # 1. Try EIA ID match
         if eia_id is not None:
@@ -106,7 +120,7 @@ class EnsembleScorer:
                 canon_key = self._eia_to_canonical[eia_int]
                 display = _CANONICAL_TO_DISPLAY.get(canon_key, canon_key)
                 is_dereg = self._is_deregulated(shapefile_name, cntrl_area, shp_type)
-                return ProviderResult(
+                pr = ProviderResult(
                     provider_name=display,
                     canonical_id=canon_key,
                     eia_id=eia_int,
@@ -117,6 +131,8 @@ class EnsembleScorer:
                     deregulated_note=self._dereg_note(shapefile_name) if is_dereg else None,
                     polygon_source=polygon_source,
                 )
+                self._attach_contact_info(pr, canon_key)
+                return pr
 
         # 2. Name match via normalizer
         result = normalize_provider_verbose(shapefile_name)
@@ -140,7 +156,7 @@ class EnsembleScorer:
                     matched_eia = int(matched_eia)
 
                 is_dereg = self._is_deregulated(shapefile_name, cntrl_area, shp_type)
-                return ProviderResult(
+                pr = ProviderResult(
                     provider_name=display,
                     canonical_id=canon_key,
                     eia_id=matched_eia,
@@ -151,11 +167,13 @@ class EnsembleScorer:
                     deregulated_note=self._dereg_note(shapefile_name) if is_dereg else None,
                     polygon_source=polygon_source,
                 )
+                self._attach_contact_info(pr, canon_key)
+                return pr
 
         # 3. Passthrough — clean up the shapefile name
         clean_name = self._clean_passthrough(shapefile_name)
         is_dereg = self._is_deregulated(shapefile_name, cntrl_area, shp_type)
-        return ProviderResult(
+        pr = ProviderResult(
             provider_name=clean_name,
             canonical_id=None,
             eia_id=None,
@@ -166,6 +184,24 @@ class EnsembleScorer:
             deregulated_note=self._dereg_note(shapefile_name) if is_dereg else None,
             polygon_source=polygon_source,
         )
+        self._attach_contact_info(pr)
+        return pr
+
+    def _attach_contact_info(self, pr: ProviderResult, canon_key: str = None):
+        """Attach phone and website from provider_contacts.json."""
+        contact = None
+        # 1. Try canonical key
+        if canon_key:
+            contact = self._provider_contacts.get(canon_key)
+        # 2. Try provider display name
+        if not contact:
+            contact = self._provider_contacts.get(pr.provider_name)
+        # 3. Try lowercase fallback
+        if not contact:
+            contact = self._contacts_by_lower.get(pr.provider_name.lower())
+        if contact:
+            pr.phone = contact.get('phone') or None
+            pr.website = contact.get('url') or None
 
     def boost_with_tenant(self, result: ProviderResult) -> ProviderResult:
         """Boost confidence if tenant-verified data agrees."""

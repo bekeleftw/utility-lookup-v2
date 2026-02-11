@@ -202,7 +202,15 @@ class LookupEngine:
             geo.lat, geo.lon, addr_state, addr_zip, addr_city, addr_county, water
         )
 
-        # 5. Build result
+        # 5. Internet lookup (FCC BDC via Census block GEOID)
+        internet_data = None
+        if self.internet and geo.block_geoid:
+            try:
+                internet_data = self.internet.lookup(geo.block_geoid)
+            except Exception as e:
+                logger.debug(f"Internet lookup failed for {geo.block_geoid}: {e}")
+
+        # 6. Build result
         result = LookupResult(
             address=address,
             lat=geo.lat,
@@ -213,6 +221,7 @@ class LookupEngine:
             water=water,
             sewer=sewer,
             trash=None,   # No federal shapefile for trash
+            internet=internet_data,
             lookup_time_ms=int((time.time() - t0) * 1000),
         )
 
@@ -316,7 +325,7 @@ class LookupEngine:
         candidates.sort(key=lambda c: c.confidence, reverse=True)
 
         primary = candidates[0]
-        primary.needs_review = primary.confidence < 0.80
+        primary.needs_review = primary.confidence < 0.70
 
         # Alternatives
         seen = {primary.provider_name.upper()}
@@ -340,6 +349,9 @@ class LookupEngine:
                 primary.catalog_title = id_match["title"]
                 primary.id_match_score = id_match["match_score"]
                 primary.id_confident = id_match["confident"]
+
+        # Attach contact info (phone/website)
+        self.scorer._attach_contact_info(primary)
 
         return primary
 
@@ -560,7 +572,7 @@ class LookupEngine:
                 seen.add(c.provider_name.upper())
 
         primary.alternatives = alternatives
-        primary.needs_review = primary.confidence < 0.80
+        primary.needs_review = primary.confidence < 0.70
 
         # ID matching: map provider name to catalog ID
         if self.id_matcher.loaded:

@@ -13,9 +13,10 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Security, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader, APIKeyQuery
 from pydantic import BaseModel, Field
 
 from lookup_engine.config import Config
@@ -31,6 +32,36 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger("api")
+
+# ---------------------------------------------------------------------------
+# API Key Authentication
+# ---------------------------------------------------------------------------
+_API_KEYS: set = set()
+
+def _load_api_keys():
+    """Load valid API keys from UTILITY_API_KEYS env var (comma-separated)."""
+    raw = os.environ.get("UTILITY_API_KEYS", "")
+    keys = {k.strip() for k in raw.split(",") if k.strip()}
+    if not keys:
+        logger.warning("No UTILITY_API_KEYS set — API authentication is DISABLED")
+    else:
+        logger.info(f"Loaded {len(keys)} API key(s)")
+    return keys
+
+_api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+_api_key_query = APIKeyQuery(name="api_key", auto_error=False)
+
+async def require_api_key(
+    header_key: Optional[str] = Security(_api_key_header),
+    query_key: Optional[str] = Security(_api_key_query),
+):
+    """Validate API key from header or query param. Skip if no keys configured."""
+    if not _API_KEYS:
+        return None  # Auth disabled — no keys configured
+    key = header_key or query_key
+    if not key or key not in _API_KEYS:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key. Pass via X-API-Key header or ?api_key= query param.")
+    return key
 
 # ---------------------------------------------------------------------------
 # Global engine + AI resolver (loaded once at startup)
@@ -81,6 +112,9 @@ def _load_engine_background():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Start engine loading in background, yield immediately so server accepts connections."""
+    global _API_KEYS
+    _API_KEYS = _load_api_keys()
+
     loader = threading.Thread(target=_load_engine_background, daemon=True)
     loader.start()
 
@@ -97,8 +131,9 @@ async def lifespan(app: FastAPI):
 # ---------------------------------------------------------------------------
 app = FastAPI(
     title="Utility Provider Lookup API",
-    description="Look up electric, gas, water, and sewer providers for any US address.",
-    version="1.0.0",
+    description="Look up electric, gas, water, sewer, and internet providers for any US address.\n\n"
+                "**Authentication:** Pass your API key via `X-API-Key` header or `?api_key=` query parameter.",
+    version="2.0.0",
     lifespan=lifespan,
 )
 
@@ -130,6 +165,27 @@ class ProviderResponse(BaseModel):
     catalog_title: Optional[str] = None
     id_match_score: int = 0
     id_confident: bool = False
+    phone: Optional[str] = None
+    website: Optional[str] = None
+
+
+class InternetProviderResponse(BaseModel):
+    name: str
+    technology: str
+    tech_code: str
+    max_down: float
+    max_up: float
+    low_latency: bool
+
+
+class InternetResponse(BaseModel):
+    providers: list[InternetProviderResponse] = Field(default_factory=list)
+    provider_count: int = 0
+    has_fiber: bool = False
+    has_cable: bool = False
+    max_download_speed: float = 0
+    source: str = "fcc_bdc"
+    confidence: float = 0.95
 
 
 class LookupResponse(BaseModel):
@@ -142,6 +198,7 @@ class LookupResponse(BaseModel):
     water: Optional[ProviderResponse] = None
     sewer: Optional[ProviderResponse] = None
     trash: Optional[ProviderResponse] = None
+    internet: Optional[InternetResponse] = None
     lookup_time_ms: int
     timestamp: str
 
@@ -208,9 +265,15 @@ def _try_ai_resolve(result, address: str):
         if not ai_result:
             continue
 
-        # Post-resolution guard: don't let AI replace protected-source primary
+        # Post-resolution guard: distinguish alternative promotion from true overrides
         if ai_result["provider"] != pr.provider_name and _is_protected_source(pr.polygon_source or ""):
-            continue
+            alt_names = [a.get("provider", "") for a in pr.alternatives]
+            ai_is_alt = any(
+                ai_result["provider"].lower() in a.lower() or a.lower() in ai_result["provider"].lower()
+                for a in alt_names if len(a) >= 4 and len(ai_result["provider"]) >= 4
+            )
+            if not ai_is_alt:
+                continue  # BLOCK — true override of authoritative source
 
         # Apply AI result
         pr.provider_name = ai_result["provider"]
@@ -237,6 +300,7 @@ async def health():
 @app.get("/lookup", response_model=LookupResponse)
 async def lookup(
     address: str = Query(..., description="Full US address to look up", min_length=5),
+    _key: str = Depends(require_api_key),
 ):
     """
     Look up utility providers for a US address.
@@ -252,9 +316,9 @@ async def lookup(
         logger.error(f"Lookup error for '{address}': {e}")
         raise HTTPException(status_code=500, detail=f"Lookup failed: {str(e)}")
 
-    # AI resolver pass for low-confidence results
-    if ai_resolver:
-        result = _try_ai_resolve(result, address)
+    # AI resolver disabled — relying on spatial/data lookup only
+    # if ai_resolver:
+    #     result = _try_ai_resolve(result, address)
 
     return JSONResponse(content=result.to_dict())
 
@@ -262,6 +326,7 @@ async def lookup(
 @app.post("/lookup", response_model=LookupResponse)
 async def lookup_post(
     address: str = Query(..., description="Full US address to look up", min_length=5),
+    _key: str = Depends(require_api_key),
 ):
     """POST variant of lookup (same behavior, for clients that prefer POST)."""
     return await lookup(address=address)
@@ -278,7 +343,7 @@ class BatchResponse(BaseModel):
 
 
 @app.post("/lookup/batch", response_model=BatchResponse)
-async def lookup_batch(req: BatchRequest):
+async def lookup_batch(req: BatchRequest, _key: str = Depends(require_api_key)):
     """
     Batch lookup — up to 100 addresses at once.
 

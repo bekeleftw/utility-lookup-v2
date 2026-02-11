@@ -133,6 +133,8 @@ class LookupCache:
             pr.id_confident = d.get("id_confident")
             pr.needs_review = d.get("needs_review", False)
             pr.alternatives = d.get("alternatives", [])
+            pr.phone = d.get("phone")
+            pr.website = d.get("website")
             return pr
         return LookupResult(
             address=data.get("address", ""),
@@ -144,6 +146,7 @@ class LookupCache:
             water=_pr(data.get("water")),
             sewer=_pr(data.get("sewer")),
             trash=_pr(data.get("trash")),
+            internet=data.get("internet"),
             lookup_time_ms=data.get("lookup_time_ms", 0),
             timestamp=data.get("timestamp", ""),
         )

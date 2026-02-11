@@ -27,8 +27,38 @@ data/lookup_cache.db
 data/geocode_cache.json
 data/state_gis_cache.json
 data/spatial_cache.json
+data/ai_cache.json
 __pycache__/
 *.pyc
+
+# Analysis reports and one-off scripts (not part of the app)
+ACCURACY_CORRECTION.md
+AI_RESOLVER_GUARD_ANALYSIS.md
+BATCH_91K_REVIEW.md
+BATCH_ANALYSIS_FOR_CLAUDE.md
+CATALOG_ID_MISMATCH_ANALYSIS.md
+CHANGES_FOR_REVIEW*.md
+CONFIDENCE_THRESHOLD_ANALYSIS.md
+MATCH_ALT_ANALYSIS.md
+MATCH_RATE_ANALYSIS.md
+MISMATCH_FIXES_SUMMARY.md
+PERFORMANCE_REPORT.md
+VERIFICATION_REPORT.md
+cc_prompt_*.md
+windsurf_prompt_*.md
+catalog_dupes_report.txt
+*_aliases.json
+*_aliases_all.json
+*_dupes*.json
+*dupe_candidates.json
+*dupe_medium_review.json
+expand_*_aliases.py
+run_ai_review.py
+
+# One-off CSV files
+Addresses*.csv
+ai_review_*.csv
+List of Top Used Utility Providers*.csv
 
 # OS
 .DS_Store

@@ -81,18 +81,24 @@
   "Ameren Missouri": {
     "display_name": "Ameren Missouri",
     "aliases": [
-      "ameren",
-      "Ameren Corporation",
-      "Ameren IL",
-      "ameren illinois",
-      "Ameren Illinois Company",
       "Ameren MO",
       "Ameren MO, Spire",
-      "Spire, Ameren Illinois",
       "union electric",
       "Union Electric Co. - (mo)",
       "Union Electric Co",
       "UNION ELECTRIC CO - (MO)"
+    ],
+    "eia_id": 4113
+  },
+  "Ameren Illinois": {
+    "display_name": "Ameren Illinois",
+    "aliases": [
+      "Ameren IL",
+      "ameren illinois",
+      "Ameren Illinois Company",
+      "Ameren Corporation",
+      "ameren",
+      "Spire, Ameren Illinois"
     ],
     "eia_id": 56697
   },

@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "Utility Provider Lookup API",
+    "description": "Look up electric, gas, water, sewer, and internet providers for any US address.\n\nAuthentication: Pass your API key via `X-API-Key` header or `?api_key=` query parameter.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-API-Key", "type": "string" },
+      { "key": "value", "value": "{{api_key}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://your-app.up.railway.app",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "YOUR_API_KEY_HERE",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the API is running and the engine is loaded. No authentication required."
+      }
+    },
+    {
+      "name": "Single Address Lookup (GET)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-API-Key", "value": "{{api_key}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/lookup?address=10812 Watchful Fox Drive, Austin, TX 78748",
+          "host": ["{{base_url}}"],
+          "path": ["lookup"],
+          "query": [
+            {
+              "key": "address",
+              "value": "10812 Watchful Fox Drive, Austin, TX 78748"
+            }
+          ]
+        },
+        "description": "Look up all utility providers for a single US address."
+      }
+    },
+    {
+      "name": "Single Address Lookup (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "X-API-Key", "value": "{{api_key}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/lookup?address=1619 Cinnabar Dr, Raymore, MO 64083",
+          "host": ["{{base_url}}"],
+          "path": ["lookup"],
+          "query": [
+            {
+              "key": "address",
+              "value": "1619 Cinnabar Dr, Raymore, MO 64083"
+            }
+          ]
+        },
+        "description": "POST variant of single lookup (same behavior)."
+      }
+    },
+    {
+      "name": "Batch Lookup (up to 100)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "X-API-Key", "value": "{{api_key}}", "type": "text" },
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"addresses\": [\n    \"10812 Watchful Fox Drive, Austin, TX 78748\",\n    \"1619 Cinnabar Dr, Raymore, MO 64083\",\n    \"1902 Karen Ct, Champaign, IL 61821\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/lookup/batch",
+          "host": ["{{base_url}}"],
+          "path": ["lookup", "batch"]
+        },
+        "description": "Look up utility providers for up to 100 addresses in a single request. Addresses are processed sequentially."
+      }
+    }
+  ]
+}

@@ -35,6 +35,8 @@ class ProviderResult:
     catalog_title: Optional[str] = None
     id_match_score: int = 0
     id_confident: bool = False
+    phone: Optional[str] = None
+    website: Optional[str] = None
 
 
 @dataclass
@@ -48,6 +50,7 @@ class LookupResult:
     water: Optional[ProviderResult] = None
     sewer: Optional[ProviderResult] = None
     trash: Optional[ProviderResult] = None
+    internet: Optional[Dict] = None
     lookup_time_ms: int = 0
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
 
@@ -72,6 +75,8 @@ class LookupResult:
                 "catalog_title": pr.catalog_title,
                 "id_match_score": pr.id_match_score,
                 "id_confident": pr.id_confident,
+                "phone": pr.phone,
+                "website": pr.website,
             }
         return {
             "address": self.address,
@@ -83,6 +88,7 @@ class LookupResult:
             "water": _pr(self.water),
             "sewer": _pr(self.sewer),
             "trash": _pr(self.trash),
+            "internet": self.internet,
             "lookup_time_ms": self.lookup_time_ms,
             "timestamp": self.timestamp,
         }
