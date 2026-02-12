@@ -11,7 +11,7 @@ from .cache import LookupCache
 from .config import Config
 from .geocoder import Geocoder, create_geocoder, get_census_block_geoid
 from .models import GeocodedAddress, LookupResult, ProviderResult
-from .scorer import EnsembleScorer
+from .scorer import EnsembleScorer, get_canonical_id
 from .spatial_index import SpatialIndex
 from .postgis_spatial import PostGISSpatialIndex
 from .corrections import CorrectionsLookup
@@ -616,12 +616,19 @@ class LookupEngine:
 
     @staticmethod
     def _deduplicate_and_boost(candidates: list) -> list:
-        """If multiple sources agree on the same provider, boost confidence."""
+        """If multiple sources agree on the same provider, boost confidence.
+
+        Groups by canonical provider ID (from canonical_providers.json) so that
+        name variants like 'Duke Energy Carolinas' and 'Duke Energy' are
+        recognized as the same provider and get the multi-source boost.
+        Falls back to uppercased display name if no canonical ID exists.
+        """
         from collections import defaultdict
         groups = defaultdict(list)
 
         for c in candidates:
-            key = c.provider_name.upper().strip()
+            canon = get_canonical_id(c.provider_name)
+            key = canon.upper() if canon else c.provider_name.upper().strip()
             groups[key].append(c)
 
         deduped = []

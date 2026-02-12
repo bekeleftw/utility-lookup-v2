@@ -140,12 +140,25 @@ class StateGISLookup:
         if cache_key in self._cache:
             return self._cache[cache_key]
 
-        # Disk cache check
+        # Disk cache check (with TTL: 90 days for success, 24 hours for None)
+        _TTL_SUCCESS = 90 * 86400   # 90 days in seconds
+        _TTL_FAILURE = 24 * 3600    # 24 hours in seconds
         disk_key = f"{round(lat, 3)},{round(lon, 3)},{state},{utility_type}"
         if disk_key in self._disk_cache:
-            disk_val = self._disk_cache[disk_key]
-            self._cache[cache_key] = disk_val
-            return disk_val
+            disk_entry = self._disk_cache[disk_key]
+            # Migrate old format (raw value) to new format (dict with ts)
+            if isinstance(disk_entry, dict) and "ts" in disk_entry:
+                disk_val = disk_entry.get("result")
+                age = time.time() - disk_entry["ts"]
+                ttl = _TTL_SUCCESS if disk_val else _TTL_FAILURE
+                if age < ttl:
+                    self._cache[cache_key] = disk_val
+                    return disk_val
+                # Expired — fall through to re-query
+            else:
+                # Old format without timestamp — treat as valid (migrate on next write)
+                self._cache[cache_key] = disk_entry
+                return disk_entry
 
         result = None
         try:
@@ -157,7 +170,7 @@ class StateGISLookup:
 
         # Cache the result (even None, to avoid re-querying)
         self._cache[cache_key] = result
-        self._disk_cache[disk_key] = result
+        self._disk_cache[disk_key] = {"result": result, "ts": time.time()}
         self._disk_cache_dirty += 1
         if self._disk_cache_dirty >= 1000:
             self.save_disk_cache()

@@ -242,17 +242,69 @@ class EnsembleScorer:
         return pr
 
     def _attach_contact_info(self, pr: ProviderResult, canon_key: str = None):
-        """Attach phone and website from provider_contacts.json."""
+        """Attach phone and website from provider_contacts.json.
+
+        Uses the 'label' field in contact entries to prefer type-matching
+        contacts (e.g., electric contact for electric lookups) and avoid
+        cross-contamination (e.g., water phone on an electric provider).
+        """
+        utype = (pr.utility_type or "").lower()
+
+        def _is_type_match(entry):
+            label = (entry.get("label") or "").lower()
+            return not label or label == utype
+
+        def _find_contact(key):
+            """Find best contact for key, preferring type-matched entries."""
+            entry = self._provider_contacts.get(key)
+            if entry and _is_type_match(entry):
+                return entry
+            return None
+
         contact = None
         # 1. Try canonical key
         if canon_key:
-            contact = self._provider_contacts.get(canon_key)
+            contact = _find_contact(canon_key)
         # 2. Try provider display name
         if not contact:
-            contact = self._provider_contacts.get(pr.provider_name)
+            contact = _find_contact(pr.provider_name)
         # 3. Try lowercase fallback
         if not contact:
-            contact = self._contacts_by_lower.get(pr.provider_name.lower())
+            entry = self._contacts_by_lower.get(pr.provider_name.lower())
+            if entry and _is_type_match(entry):
+                contact = entry
+        # 4. Try type-suffixed variants (e.g., "Oncor Electric-TX" for electric)
+        if not contact and utype:
+            _TYPE_SUFFIXES = {
+                "electric": ["Electric", "Electric-", "Power"],
+                "gas": ["Gas", "Energy"],
+                "water": ["Water", "Water Utility", "Water Utilities"],
+                "sewer": ["Sewer", "Wastewater"],
+            }
+            for suffix in _TYPE_SUFFIXES.get(utype, []):
+                for variant in [f"{pr.provider_name} {suffix}", f"{pr.provider_name}-{suffix}"]:
+                    entry = self._provider_contacts.get(variant)
+                    if not entry:
+                        entry = self._contacts_by_lower.get(variant.lower())
+                    if entry:
+                        contact = entry
+                        break
+                if contact:
+                    break
+        # 5. Last resort: accept any entry even if type doesn't match (better than nothing)
+        if not contact:
+            if canon_key:
+                contact = self._provider_contacts.get(canon_key)
+            if not contact:
+                contact = self._provider_contacts.get(pr.provider_name)
+            if not contact:
+                contact = self._contacts_by_lower.get(pr.provider_name.lower())
+            # But reject entries matched via substring that are clearly wrong type
+            if contact and contact.get("match_method") == "substring":
+                label = (contact.get("label") or "").lower()
+                if label and label != utype:
+                    contact = None  # Reject cross-type substring match
+
         if contact:
             pr.phone = contact.get('phone') or None
             pr.website = contact.get('url') or None

@@ -298,7 +298,8 @@ class ProviderIDMatcher:
             state_matches = []
             for norm, entry in candidates:
                 title_upper = entry["title"].upper()
-                if state.upper() in title_upper:
+                title_words = re.findall(r'[A-Z]+', title_upper)
+                if state.upper() in title_words:
                     score = fuzz.token_sort_ratio(normalized_input, norm)
                     if score >= 70:
                         state_matches.append((score, entry))

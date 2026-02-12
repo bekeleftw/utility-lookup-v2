@@ -93,16 +93,18 @@ class EIAVerification:
                 "eia_id": primary.get("eiaid"),
             }
 
-        # Check for match
-        provider_words = set(provider_upper.replace(",", "").replace(".", "").split())
-        significant_words = {
-            "DUKE", "ENERGY", "EDISON", "ELECTRIC", "POWER", "PECO",
-            "DOMINION", "ENTERGY", "XCEL", "AMEREN", "CONSUMERS",
-            "PACIFIC", "SOUTHERN", "CONSOLIDATED", "COMMONWEALTH",
-            "CENTERPOINT", "ONCOR", "AEP", "NATIONAL", "GRID",
-            "EVERSOURCE", "PSEG", "DTE", "FIRSTENERGY", "ALLIANT",
-            "AVISTA", "IDAHO", "PUGET", "ROCKY", "MOUNTAIN",
+        # Check for match — use stop-word filtering to avoid false positives
+        # from generic utility words like "ELECTRIC", "POWER", "ENERGY"
+        _EIA_STOP_WORDS = {
+            "ELECTRIC", "POWER", "ENERGY", "COMPANY", "CORPORATION", "CORP",
+            "INC", "LLC", "CO", "OF", "THE", "AND", "UTILITY", "UTILITIES",
+            "SERVICE", "SERVICES", "LIGHT", "GAS", "COOPERATIVE", "COOP",
+            "ASSOCIATION", "AUTHORITY", "DEPARTMENT", "DEPT", "COMMISSION",
+            "BOARD", "DISTRICT", "MUNICIPAL", "CITY", "COUNTY", "STATE",
+            "PUBLIC", "RURAL",
         }
+        provider_words = set(provider_upper.replace(",", "").replace(".", "").split())
+        provider_meaningful = provider_words - _EIA_STOP_WORDS
 
         for eia_util in utilities:
             eia_name = (eia_util.get("name") or "").upper().strip()
@@ -117,9 +119,11 @@ class EIAVerification:
                     "eia_id": eia_util.get("eiaid"),
                 }
 
-            # Significant word overlap
-            common = provider_words & eia_words & significant_words
-            if common:
+            # Meaningful word overlap (after removing stop words)
+            eia_meaningful = eia_words - _EIA_STOP_WORDS
+            common = provider_meaningful & eia_meaningful
+            shorter_len = min(len(provider_meaningful), len(eia_meaningful)) or 1
+            if common and len(common) / shorter_len >= 0.50:
                 return {
                     "verified": True,
                     "eia_name": eia_util.get("name"),
