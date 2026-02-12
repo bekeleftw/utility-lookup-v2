@@ -18,6 +18,7 @@ COPY data/ data/
 
 # Copy application code
 COPY lookup_engine/ lookup_engine/
+COPY public/ public/
 COPY api.py .
 COPY run_engine.py .
 COPY provider_normalizer.py .
