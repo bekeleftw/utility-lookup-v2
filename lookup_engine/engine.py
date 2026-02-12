@@ -539,18 +539,28 @@ class LookupEngine:
         # IOU demotion: if primary is a large IOU and a co-op/municipal exists, prefer the local utility.
         # Large IOUs (Duke, Dominion, etc.) have overgeneralized HIFLD polygons that overlap
         # smaller co-ops and municipals. The local utility is almost always correct.
-        # Validated against 91K batch: 2,400+ cases where IOU is wrong primary and co-op/municipal
-        # is correct in alternatives. Only ~1 false positive (Marion, IA) out of 2,400+.
+        # Validated against 91K batch: 763 real IOU-vs-coop cases across SC, FL, GA, MS, NC.
+        # Graduated threshold: lower for weak IOU sources (eia_zip), higher for strong (State GIS).
         primary = candidates[0]
         if (utility_type == "electric" and len(candidates) > 1
                 and self._is_large_iou(primary.provider_name)):
+            # Graduated confidence threshold based on IOU source quality
+            iou_source = (primary.polygon_source or "").lower()
+            if "eia_zip" in iou_source:
+                min_alt_conf = 0.55  # EIA ZIP is lowest priority — trust co-op from any real source
+            elif "state_gis" in iou_source:
+                min_alt_conf = 0.70  # State GIS is authoritative — require strong co-op evidence
+            else:
+                min_alt_conf = 0.60  # HIFLD, remaining_states, etc. — moderate threshold
+
             for alt in candidates[1:]:
                 alt_name_upper = alt.provider_name.upper()
                 # Check if alternative looks like a co-op, municipal, or local utility
                 is_local = (
                     any(kw in alt_name_upper for kw in (
                         "COOPERATIVE", "COOP", "ELECTRIC MEMBERSHIP",
-                        "MUNICIPAL", "CITY OF", "TOWN OF",
+                        "ELECTRIC MEMBER",
+                        "MUNICIPAL", "CITY OF", "TOWN OF", "VILLAGE OF",
                         "PUBLIC UTILITIES", "UTILITIES COMMISSION",
                         "PUD", "PUBLIC UTILITY DISTRICT",
                         "EMC", "CPW", "REA", "REC",
@@ -560,7 +570,7 @@ class LookupEngine:
                 # Require reasonable confidence and exclude low-quality sources
                 alt_source = (alt.polygon_source or "").lower()
                 is_low_quality_source = any(s in alt_source for s in ("findenergy_city", "state_gas_default"))
-                if is_local and alt.confidence >= 0.70 and not is_low_quality_source:
+                if is_local and alt.confidence >= min_alt_conf and not is_low_quality_source:
                     # Swap: local utility becomes primary
                     candidates.remove(alt)
                     candidates.insert(0, alt)
