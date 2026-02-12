@@ -24,6 +24,7 @@ from .remaining_states import RemainingStatesLookup
 from .provider_id_matcher import ProviderIDMatcher
 from .special_districts import SpecialDistrictsLookup
 from .state_gis import StateGISLookup
+from .hifld_api import HIFLDApiLookup
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,9 @@ class LookupEngine:
         self.county_gas = CountyGasLookup()
 
         # Priority 3: HIFLD shapefile (handled by self.spatial)
+
+        # Priority 3.2: HIFLD live API (electric only — supplements local shapefiles)
+        self.hifld_api = HIFLDApiLookup()
 
         # Priority 3.5: Remaining states ZIP data
         self.remaining_states = RemainingStatesLookup()
@@ -389,12 +393,14 @@ class LookupEngine:
           2. Gas ZIP mapping (gas only, 0.85-0.93)
           2.5 Georgia EMC (GA electric only, 0.72-0.87)
           3. HIFLD shapefile (0.75-0.85)
+          3.2 HIFLD live API (electric only, 0.78)
           3.5 Remaining states ZIP (0.65-0.85)
           4. EIA ZIP fallback (electric only, 0.70)
           5. FindEnergy city cache (electric + gas, 0.65)
           6. State default LDC (gas only, 0.40-0.65)
         """
         candidates = []  # list of ProviderResult
+        _hifld_api_raw = []  # HIFLD API raw results (electric only, used for contact enrichment)
 
         def _add_candidate(name, eia_id, state, source, max_conf=None, set_conf=None):
             """Resolve a raw name through the scorer and add as candidate."""
@@ -484,6 +490,15 @@ class LookupEngine:
         hifld_result = self._lookup_type(lat, lon, utility_type, address_state=address_state)
         if hifld_result:
             candidates.append(hifld_result)
+
+        # Priority 3.2: HIFLD live API (electric only)
+        _hifld_api_raw = []  # Save raw results for contact info enrichment
+        if utility_type == "electric" and self.hifld_api.available:
+            _hifld_api_raw = self.hifld_api.query(lat, lon)
+            for hr in _hifld_api_raw:
+                _add_candidate(hr["name"], None,
+                               hr.get("state", address_state),
+                               "hifld_api", 0.78)
 
         # Priority 3.5: Remaining states ZIP data
         if zip_code and address_state:
@@ -621,6 +636,20 @@ class LookupEngine:
                 if alt_match:
                     alt["catalog_id"] = alt_match["id"]
                     alt["catalog_title"] = alt_match["title"]
+
+        # HIFLD API contact enrichment: fill missing phone/website from live API data
+        if _hifld_api_raw and (not primary.phone or not primary.website):
+            primary_upper = primary.provider_name.upper()
+            for hr in _hifld_api_raw:
+                hr_upper = hr["name"].upper()
+                # Match if names share significant overlap
+                if (hr_upper in primary_upper or primary_upper in hr_upper
+                        or hr_upper.split()[0] == primary_upper.split()[0]):
+                    if not primary.phone and hr.get("telephone"):
+                        primary.phone = hr["telephone"]
+                    if not primary.website and hr.get("website"):
+                        primary.website = hr["website"]
+                    break
 
         return primary
 
