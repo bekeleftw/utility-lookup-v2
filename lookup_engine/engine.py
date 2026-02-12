@@ -471,7 +471,11 @@ class LookupEngine:
                                gas_result.get("source", "gas_zip_mapping"))
 
         # Priority 2.5: Georgia EMC (GA electric only)
-        if utility_type == "electric" and address_state == "GA" and county:
+        # Skip if state GIS GA endpoint exists — polygon boundaries are more accurate
+        # than county-level mapping. County lookup produces false positives (e.g.,
+        # Cobb EMC for Atlanta, which is actually Georgia Power territory).
+        _ga_has_state_gis = self.state_gis.has_state_source("GA", "electric")
+        if utility_type == "electric" and address_state == "GA" and county and not _ga_has_state_gis:
             ga_results = self.georgia_emc.get_all_for_county(county)
             for ga in ga_results:
                 _add_candidate(ga["name"], None, "GA", ga["source"],
