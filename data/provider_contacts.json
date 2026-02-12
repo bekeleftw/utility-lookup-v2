@@ -2205,11 +2205,12 @@
     "match_method": "exact"
   },
   "Oncor": {
-    "phone": "9256888000",
-    "url": "https://www.ccwater.com/916/New-Water-Service",
-    "source_title": "Contra Costa Water District (Concord, CA)",
-    "source_id": "2558",
-    "match_method": "substring"
+    "phone": "8883136862",
+    "url": "https://www.oncor.com/content/oncorwww/us/en/home.html",
+    "source_title": "Oncor Electric-TX",
+    "source_id": "16065",
+    "match_method": "direct_csv",
+    "label": "electric"
   },
   "Oregon Trail Electric Cooperative": {
     "phone": "5415233616",

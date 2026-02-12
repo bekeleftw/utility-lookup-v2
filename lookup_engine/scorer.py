@@ -262,13 +262,13 @@ class EnsembleScorer:
             return None
 
         contact = None
-        # 1. Try canonical key
+        # 1. Try canonical key (type-matched)
         if canon_key:
             contact = _find_contact(canon_key)
-        # 2. Try provider display name
+        # 2. Try provider display name (type-matched)
         if not contact:
             contact = _find_contact(pr.provider_name)
-        # 3. Try lowercase fallback
+        # 3. Try lowercase fallback (type-matched)
         if not contact:
             entry = self._contacts_by_lower.get(pr.provider_name.lower())
             if entry and _is_type_match(entry):
@@ -291,19 +291,28 @@ class EnsembleScorer:
                         break
                 if contact:
                     break
-        # 5. Last resort: accept any entry even if type doesn't match (better than nothing)
+        # 5. Last resort: accept any entry but reject substring matches with wrong label
         if not contact:
-            if canon_key:
-                contact = self._provider_contacts.get(canon_key)
+            for key in [canon_key, pr.provider_name]:
+                if key:
+                    entry = self._provider_contacts.get(key)
+                    if entry:
+                        # Reject substring-matched entries with a mismatched label
+                        if entry.get("match_method") == "substring":
+                            label = (entry.get("label") or "").lower()
+                            if label and label != utype:
+                                continue
+                        contact = entry
+                        break
             if not contact:
-                contact = self._provider_contacts.get(pr.provider_name)
-            if not contact:
-                contact = self._contacts_by_lower.get(pr.provider_name.lower())
-            # But reject entries matched via substring that are clearly wrong type
-            if contact and contact.get("match_method") == "substring":
-                label = (contact.get("label") or "").lower()
-                if label and label != utype:
-                    contact = None  # Reject cross-type substring match
+                entry = self._contacts_by_lower.get(pr.provider_name.lower())
+                if entry:
+                    if entry.get("match_method") == "substring":
+                        label = (entry.get("label") or "").lower()
+                        if not (label and label != utype):
+                            contact = entry
+                    else:
+                        contact = entry
 
         if contact:
             pr.phone = contact.get('phone') or None
