@@ -209,6 +209,8 @@ class StateGISLookup:
         if not url:
             return None
 
+        exclude_names = config.get("exclude_names", [])
+
         name = self._query_arcgis(
             url=url,
             lat=lat,
@@ -220,7 +222,7 @@ class StateGISLookup:
             timeout=timeout,
         )
 
-        if name:
+        if name and name not in exclude_names:
             return {
                 "name": name,
                 "source": f"state_gis_{state.lower()}",
@@ -228,7 +230,7 @@ class StateGISLookup:
                 "state": state,
             }
 
-        # Try fallback URL if primary returned nothing
+        # Try fallback URL if primary returned nothing (or was excluded)
         fallback_url = config.get("fallback_url")
         if fallback_url:
             fallback_name_field = config.get("fallback_name_field", config["name_field"])
@@ -240,7 +242,7 @@ class StateGISLookup:
                 out_fields=config.get("out_fields", "*"),
                 timeout=timeout,
             )
-            if name:
+            if name and name not in exclude_names:
                 return {
                     "name": name,
                     "source": f"state_gis_{state.lower()}_fallback",

@@ -1,5 +1,17 @@
 {
   "electric": {
+    "GA": {
+      "url": "https://services3.arcgis.com/TT92hc92M7cmve5i/arcgis/rest/services/EMCterritories_WFL/FeatureServer/0/query",
+      "source": "Georgia EMC Territories Map",
+      "name_field": "EMC_NAME",
+      "out_fields": "EMC_NAME,CLASSIFICA",
+      "confidence": 0.93,
+      "exclude_names": ["Other Provider"],
+      "fallback_url": "https://services3.arcgis.com/TT92hc92M7cmve5i/arcgis/rest/services/EMC_General_Territories/FeatureServer/0/query",
+      "fallback_name_field": "EMC",
+      "fallback_confidence": 0.90,
+      "notes": "Georgia EMC polygon boundaries (48 EMCs). Non-EMC areas labeled 'Other Provider' (GP=Georgia Power, City Limits). HIFLD covers Georgia Power."
+    },
     "NJ": {
       "url": "https://mapsdep.nj.gov/arcgis/rest/services/Features/Utilities/MapServer/10/query",
       "source": "NJ DEP",
